@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#234e42">
+    <meta name="description" content="Retrouvez un code secret de quatre couleurs en dix essais. Un jeu solo de déduction, inspiré du Mastermind.">
+    <title>Code secret — Le jeu de déduction</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./style.css">
+    <script type="module" src="./interface.js"></script>
+  </head>
+  <body>
+    <a class="lien-evitement" href="#proposition">Aller à la proposition</a>
+    <div class="page">
+      <header class="entete">
+        <div class="identite">
+          <span class="embleme" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>Le jeu de déduction</span>
+        </div>
+        <h1>Code secret<span aria-hidden="true">.</span></h1>
+        <p>Quatre couleurs à retrouver.<br>Dix essais pour percer le secret.</p>
+      </header>
+
+      <main>
+        <noscript><p class="sans-script">Activez JavaScript dans votre navigateur pour jouer à Code secret.</p></noscript>
+        <div class="plateau">
+          <section class="panneau jeu" aria-labelledby="titre-jeu">
+            <div class="titre-panneau">
+              <div>
+                <p class="surtitre">À vous de jouer</p>
+                <h2 id="titre-jeu">Trouvez la combinaison</h2>
+              </div>
+              <span class="etat" id="etat">En cours</span>
+            </div>
+
+            <div class="secret" aria-label="Le code secret comporte quatre couleurs cachées">
+              <div class="code-cache" aria-hidden="true"><span>?</span><span>?</span><span>?</span><span>?</span></div>
+              <p>Le code reste caché.<br><strong>Les indices vous guident.</strong></p>
+            </div>
+
+            <div class="palette">
+              <p class="surtitre" id="titre-palette">Les six couleurs</p>
+              <ul id="couleurs" aria-labelledby="titre-palette"></ul>
+            </div>
+
+            <form id="proposition" novalidate>
+              <fieldset id="champs-proposition" disabled>
+                <legend>Votre proposition</legend>
+                <p class="aide" id="aide-proposition">Choisissez une couleur par position. Les répétitions sont possibles.</p>
+                <div class="emplacements">
+                  <div class="emplacement">
+                    <label for="position-1">Position 1</label>
+                    <span class="apercu" aria-hidden="true">?</span>
+                    <select id="position-1" name="position-1" required aria-describedby="aide-proposition"><option value="">Choisir…</option></select>
+                  </div>
+                  <div class="emplacement">
+                    <label for="position-2">Position 2</label>
+                    <span class="apercu" aria-hidden="true">?</span>
+                    <select id="position-2" name="position-2" required aria-describedby="aide-proposition"><option value="">Choisir…</option></select>
+                  </div>
+                  <div class="emplacement">
+                    <label for="position-3">Position 3</label>
+                    <span class="apercu" aria-hidden="true">?</span>
+                    <select id="position-3" name="position-3" required aria-describedby="aide-proposition"><option value="">Choisir…</option></select>
+                  </div>
+                  <div class="emplacement">
+                    <label for="position-4">Position 4</label>
+                    <span class="apercu" aria-hidden="true">?</span>
+                    <select id="position-4" name="position-4" required aria-describedby="aide-proposition"><option value="">Choisir…</option></select>
+                  </div>
+                </div>
+              </fieldset>
+              <div class="actions">
+                <button class="bouton-principal" id="valider" type="submit" disabled>Valider la proposition <span aria-hidden="true">→</span></button>
+                <p class="compteur">Essais utilisés <strong><span id="compteur">0</span> / 10</strong></p>
+              </div>
+              <p class="message" id="message" role="status" aria-live="polite" aria-atomic="true">Chargement du jeu…</p>
+            </form>
+
+            <div class="bas-jeu">
+              <button class="bouton-secondaire" id="nouvelle-partie" type="button" disabled>Nouvelle partie</button>
+              <span>Un nouveau code, un nouveau défi.</span>
+            </div>
+          </section>
+
+          <section class="panneau historique" aria-labelledby="titre-historique">
+            <p class="surtitre">Un indice à la fois</p>
+            <h2 id="titre-historique">Vos essais</h2>
+            <p class="aide">Les deux nombres indiquent des quantités, jamais les positions concernées.</p>
+            <div class="historique-vide" id="historique-vide">
+              <span class="motif-vide" aria-hidden="true">○ ○ ○ ○</span>
+              <p>Tout commence par un essai.</p>
+              <span>Vos propositions et leurs indices apparaîtront ici.</span>
+            </div>
+            <ol id="historique" aria-label="Historique des propositions"></ol>
+          </section>
+        </div>
+
+        <details class="regles" id="regles">
+          <summary>Comment jouer ? <span aria-hidden="true">+</span></summary>
+          <div>
+            <p>Retrouvez les <strong>quatre couleurs du code secret, dans le bon ordre</strong>. Il est tiré au hasard parmi les six couleurs de la palette et reste fixe pendant la partie.</p>
+            <ol>
+              <li>Composez votre proposition de la position 1 à la position 4. Une couleur peut apparaître plusieurs fois.</li>
+              <li>Modifiez vos choix autant que vous le souhaitez, puis validez. Une proposition incomplète est refusée sans consommer d’essai.</li>
+              <li>Lisez les indices : <strong>bien placée</strong> signifie bonne couleur à la bonne position ; <strong>mal placée</strong> signifie couleur présente ailleurs dans le code.</li>
+              <li>Chaque occurrence compte une seule fois : les bien placées d’abord, puis les mal placées parmi les couleurs restantes. Les indices ne disent pas quelles positions sont concernées.</li>
+              <li>Vous gagnez avec quatre couleurs bien placées, même au dixième essai. Après dix propositions incorrectes, la partie est perdue.</li>
+            </ol>
+            <p>Après la fin, vos essais restent consultables. « Nouvelle partie » tire un code et efface essais, historique et indices.</p>
+          </div>
+        </details>
+      </main>
+      <footer>Inspiré du Mastermind. À vous de trouver la bonne piste.</footer>
+    </div>
+  </body>
+</html>

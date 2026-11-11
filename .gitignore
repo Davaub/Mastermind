@@ -1,0 +1,18 @@
+# Dépendances et fichiers temporaires locaux
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets et configuration personnelle
+.env
+.env.*
+.codex/
+.agents/
+.aws/
+
+# La capsule du cours ne doit pas être publiée sur GitHub
+*.mp4
+*.mov
+*.webm
