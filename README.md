@@ -4,18 +4,24 @@ Projet individuel de cours à la HEG Genève : créer un jeu Web solo inspiré d
 
 ## État actuel
 
-Version initiale sauvegardée `v0.1.0` : première interface jouable du 11 novembre 2026. Le correctif de lancement et le premier retour de test sont conservés dans le commit `641a89c` du 12 novembre 2026. Les adaptations clavier validées et vérifiées sont regroupées dans le commit « Améliorer la navigation clavier et documenter les essais », sur `main`. Le site n’est pas encore publié sur GitHub Pages.
+Version initiale sauvegardée `v0.1.0` : première interface jouable du 11 novembre 2026. Le correctif de lancement et le premier retour de test sont conservés dans le commit `641a89c` du 12 novembre 2026. Les adaptations clavier validées et vérifiées sont regroupées dans le commit `a128ef3`, « Améliorer la navigation clavier et documenter les essais », sur `main`. Le jeu est publié sur GitHub Pages depuis le 12 novembre 2026 : [jouer à Code secret](https://davaub.github.io/Mastermind/).
 
 - Disponible : première interface française avec palette nommée, quatre sélecteurs, aperçus de couleurs, validation, compteur, historique, règles dépliables, messages de fin et nouvelle partie ; moteur avec les règles du jeu et 27 tests automatisés.
 - Lancement Windows : `lancer-jeu.cmd` cherche Node.js dans Windows, puis utilise le chemin local préparé pour cet ordinateur si nécessaire.
 - Retour de prise en main du 12 novembre : l’étudiant confirme le lancement, les propositions incomplètes et valides, la nouvelle partie et la clarté des informations, sans difficulté signalée.
-- Retour clavier : les deux adaptations validées sont disponibles localement : « Revenir à la proposition », masqué au repos et révélé quand Tabulation l’atteint après les règles, et défilement circulaire des six couleurs avec les flèches, lorsque la liste est fermée. Tabulation reste libre de quitter la page.
-- Prévu : publication sur GitHub Pages, essai sur smartphone réel et intégration de l’API commune de test 0.2 après réception du contrat.
+- Retour clavier : les deux adaptations validées sont disponibles en ligne : « Revenir à la proposition », masqué au repos et révélé quand Tabulation l’atteint après les règles, et défilement circulaire des six couleurs avec les flèches, lorsque la liste est fermée. Tabulation reste libre de quitter la page.
+- Prévu : essai sur smartphone réel et intégration de l’API commune de test 0.2 après réception du contrat.
 - Versions : Git initialisé sur la branche `main`, avec le repère `v0.1.0` pour cette première sauvegarde. Dépôt associé : [Davaub/Mastermind sur GitHub](https://github.com/Davaub/Mastermind).
-- Limites : contrôles dans le navigateur intégré à Codex, sans essai tactile sur appareil réel ni lecteur d’écran. Le site n’est pas encore publié sur GitHub Pages.
+- Limites : contrôles locaux et sur le site publié dans le navigateur intégré à Codex, sans essai tactile sur appareil réel ni lecteur d’écran. L’API commune 0.2 reste à intégrer.
 - Hors périmètre : compte utilisateur, serveur applicatif, paiement, classement en ligne, données personnelles, service d’IA et clé API. PWA et fonctionnement hors ligne restent facultatifs et non prioritaires.
 
 ## Utilisation
+
+### Jouer en ligne
+
+Ouvrir [Code secret sur GitHub Pages](https://davaub.github.io/Mastermind/) dans un navigateur, sur ordinateur ou smartphone. Aucun terminal, Node.js ou lanceur local n’est nécessaire pour cette adresse ; une connexion Internet est requise pour charger le jeu. Le fonctionnement tactile sur smartphone réel reste à vérifier.
+
+Publication depuis la branche `main`, dossier principal du dépôt, avec HTTPS imposé. Les prochains envois sur cette branche déclencheront une nouvelle publication ; ils restent soumis à l’accord de l’étudiant. Ce choix utilise directement les fichiers statiques existants, sans ajouter de dépendance ni de procédure de compilation. La prévisualisation locale ci-dessous reste utile pour développer avant d’envoyer une modification.
 
 ### Lancer le jeu sur son ordinateur
 
@@ -32,7 +38,7 @@ Le contenu du lanceur a été exécuté avec succès par `cmd.exe` avec le chemi
 
 Le lanceur utilise en priorité Node.js trouvé par Windows. Sinon, il lit `.node-local`, qui indique le chemin de la copie fournie avec Codex sur cet ordinateur. Ce fichier est exclu de Git : il n’est pas fourni lors d’un téléchargement du dépôt. Si une mise à jour de Codex supprime cette copie, demander à Codex d’actualiser le chemin, ou installer séparément Node.js pour un lancement indépendant de Codex. L’installation de Node.js reste non effectuée.
 
-L’adresse locale désigne uniquement cet ordinateur, pas un site public. Elle ne fonctionne que pendant l’exécution de la prévisualisation. Le dépôt GitHub sauvegarde les fichiers ; il ne maintient pas cette prévisualisation en marche. L’outil sert seulement les fichiers statiques, sans exécuter les règles du jeu. GitHub Pages pourra servir les mêmes fichiers sans cet outil.
+L’adresse locale désigne uniquement cet ordinateur, pas un site public. Elle ne fonctionne que pendant l’exécution de la prévisualisation. Le dépôt GitHub sauvegarde les fichiers ; il ne maintient pas cette prévisualisation en marche. L’outil sert seulement les fichiers statiques, sans exécuter les règles du jeu. GitHub Pages sert les mêmes fichiers sans cet outil.
 
 ### Jouer et vérifier
 
@@ -80,8 +86,8 @@ Le tirage normal utilise `Math.random`, le générateur fourni par JavaScript. L
 
 - Contrat API 0.2 et indications du cours, attendus ultérieurement selon l’étudiant : noms et accès aux fonctions, paramètres, réponses, erreurs, démarrage et éventuel moyen officiel d’obtenir une partie reproductible pour les tests. Attendre ces sources avant toute implémentation de l’API.
 - Modèle de départ mentionné page 1 du sujet : absent du dossier ; les informations seront communiquées en temps voulu. L’organisation proposée reste provisoire jusqu’à leur réception.
-- Retours de l’étudiant reçus : prise en main claire et parcours clavier fonctionnel ; les deux améliorations demandées sont mises en œuvre et restent à essayer par l’étudiant. Essai tactile sur smartphone réel et vérification avec un lecteur d’écran à effectuer.
-- Publication du site sur GitHub Pages à préparer après validation ; heure exacte des rendus à consulter sur Cyberlearn.
+- Retours de l’étudiant reçus : prise en main claire, parcours clavier fonctionnel et adaptations approuvées, y compris le lien masqué hors sélection. Essai tactile sur smartphone réel et vérification avec un lecteur d’écran à effectuer.
+- Heure exacte des rendus à consulter sur Cyberlearn ; préparer la version J1 après l’essai mobile.
 
 ## Reprise du projet et structure proposée
 
@@ -246,9 +252,24 @@ Action reproduite à 320 pixels : choisir rouge, bleu, vert et jaune. Attendu : 
 - **Cause et changement :** dans `style.css`, le fond neutre des aperçus était défini après les couleurs et les remplaçait. Les règles des couleurs ont été déplacées après ce fond neutre.
 - **Après correction : réussi.** Même action après rechargement : rouge `rgb(200, 79, 79)`, bleu `rgb(71, 124, 184)`, vert `rgb(82, 132, 91)`, jaune `rgb(233, 194, 76)`, identiques à la palette. Un contrôle supplémentaire confirme la correspondance pour les six couleurs et le retour à « ? » après réinitialisation.
 
-**Limites :** aucune publication, conformité API, utilisation tactile sur smartphone réel ou lecture par lecteur d’écran vérifiée ; aucune mesure statistique du hasard. Les dimensions simulées ne remplacent pas un essai sur appareil. L’exemple officiel à secret imposé reste vérifié au niveau du moteur, sans secret forcé dans l’interface. Les contrôles navigateur ne constituent pas un audit complet d’accessibilité.
+**Limites de ces contrôles locaux :** publication non vérifiée dans cette série (voir le contrôle distinct ci-dessous), conformité API, utilisation tactile sur smartphone réel et lecture par lecteur d’écran non vérifiées ; aucune mesure statistique du hasard. Les dimensions simulées ne remplacent pas un essai sur appareil. L’exemple officiel à secret imposé reste vérifié au niveau du moteur, sans secret forcé dans l’interface. Les contrôles navigateur ne constituent pas un audit complet d’accessibilité.
 
-Pour chaque vérification future, conserver comportement, attendu, observé, statut (réussi, échoué ou non effectué), date, version, environnement et limites. Pour une correction, garder si possible la preuve du défaut avant et le résultat du même test après. Les contrôles d’API et de l’application publiée seront ajoutés lorsqu’ils seront réalisables.
+### Première publication GitHub Pages
+
+**12 novembre 2026 — version `a128ef3` sur `main`.** Publication autorisée par l’étudiant depuis le dossier principal. GitHub indique une construction réussie pour ce commit, sans erreur, et HTTPS imposé. Environnement : Windows, navigateur intégré à Codex, [adresse publique du jeu](https://davaub.github.io/Mastermind/). Les contrôles suivants portent sur l’application publiée, sans accès au secret.
+
+| Contrôle | Attendu | Observé et statut |
+| --- | --- | --- |
+| Chargement public | Page et trois fichiers CSS/JavaScript accessibles avec leurs types corrects. | Quatre réponses HTTP 200 ; contenus identiques aux fichiers locaux du commit `a128ef3`, page française et commandes actives : réussi. |
+| Proposition incomplète | Refus expliqué, zéro essai et historique vide. | Trois couleurs sélectionnées : explication affichée, compteur à 0, historique vide et sélection sur la position 4 : réussi. |
+| Proposition valide | Un essai et une ligne d’historique avec les deux indices. | Rouge, Bleu, Vert, Jaune validés par Entrée : compteur à 1, une ligne avec les deux indices et retour à la position 1 : réussi. Le calcul n’a pas été contrôlé contre un secret imposé dans cette série. |
+| Adaptations clavier | Boucle des couleurs et lien visible seulement lorsqu’il devient actif, sans changer l’historique. | Violet → Rouge avec Bas, Rouge → Violet avec Haut ; lien de 1 × 1 pixel découpé au repos, puis 48 pixels de haut après Tab depuis les règles ; Entrée revient à la position 1, historique à une ligne : réussi. |
+| Affichage étroit | Noms, indices et commandes lisibles sans débordement horizontal. | Largeur de fenêtre simulée de 320 pixels avec un essai : contenu de 305 pixels, égal à la largeur disponible hors barre de défilement ; sélecteurs de 44 pixels de haut, noms et indices visibles : réussi pour cette dimension. |
+| Nouvelle partie | Compteur à zéro, historique et choix vides. | Ces trois réinitialisations constatées, commandes actives : réussi. |
+
+Aucune erreur ni alerte JavaScript observée pendant ce parcours. Les 27 tests du moteur n’ont pas été relancés pour cette publication sans changement du jeu. Victoire, défaite et répétitions restent couvertes par les essais locaux décrits plus haut ; elles n’ont pas été rejouées dans cette série publique. Smartphone tactile réel, lecteur d’écran, autres navigateurs et API 0.2 : **non effectués**.
+
+Pour chaque vérification future, conserver comportement, attendu, observé, statut (réussi, échoué ou non effectué), date, version, environnement et limites. Pour une correction, garder si possible la preuve du défaut avant et le résultat du même test après. Les contrôles d’API seront ajoutés après réception du contrat officiel.
 
 ## Plan de développement proposé
 
@@ -271,4 +292,6 @@ L’API 0.2 fonctionnelle est obligatoire pour J2. Les remises ont lieu sur Cybe
 
 **Sauvegarde des adaptations clavier, 12 novembre :** commit « Améliorer la navigation clavier et documenter les essais », comprenant `index.html`, `interface.js`, `style.css` et ce README. La sauvegarde et l’envoi sur GitHub de ce commit et du correctif de lancement `641a89c` sont autorisés par l’étudiant. Le chemin `.node-local` reste exclu de Git ; le repère `v0.1.0` conserve sa position d’origine. Les contrôles et limites rapportés ci-dessus correspondent aux essais réalisés avant cette sauvegarde ; aucun nouveau test de jeu n’est annoncé pour la seule opération Git.
 
-**Prochaine étape proposée :** préparer l’activation de GitHub Pages avec l’accord distinct de l’étudiant, puis vérifier le jeu sur son adresse publique et sur smartphone réel.
+**Publication du 12 novembre :** GitHub Pages activé avec l’accord de l’étudiant, depuis `main` et le dossier principal ; première version publique `a128ef3` vérifiée ci-dessus. Seul le README est actualisé dans le dépôt pour documenter cette publication ; les fichiers du jeu et le repère `v0.1.0` sont conservés.
+
+**Prochaine étape proposée :** essayer l’adresse publique sur un smartphone réel et noter l’appareil, le navigateur et les résultats, puis préparer J1. Aucun repère `jalon-1` ou `final` n’a encore été créé.
