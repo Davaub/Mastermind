@@ -1,333 +1,233 @@
 # Code secret
 
-Projet individuel de cours à la HEG Genève : créer un jeu Web solo inspiré du Mastermind, avec l’aide de Codex. Le joueur doit retrouver une combinaison de quatre couleurs en dix essais maximum.
+Code secret est un jeu de déduction pour une personne, inspiré du Mastermind. Le joueur doit retrouver une combinaison de quatre couleurs en dix essais maximum.
 
-## État actuel
+Ce projet individuel est réalisé à la HEG Genève avec l’aide de Codex pour le développement, les vérifications et la documentation.
 
-Version initiale sauvegardée `v0.1.0` : première interface jouable du 11 novembre 2026. Le correctif de lancement et le premier retour de test sont conservés dans le commit `641a89c` du 12 novembre 2026. Les adaptations clavier validées et vérifiées sont regroupées dans le commit `a128ef3`, « Améliorer la navigation clavier et documenter les essais », sur `main`. Le jeu est publié sur GitHub Pages depuis le 12 novembre 2026 : [jouer à Code secret](https://davaub.github.io/Mastermind/).
+**[Jouer à Code secret](https://davaub.github.io/Mastermind/)** · **[Consulter le dépôt GitHub](https://github.com/Davaub/Mastermind)**
 
-- Disponible : première interface française avec palette nommée, quatre sélecteurs, aperçus de couleurs, validation, compteur, historique, règles dépliables, messages de fin et nouvelle partie ; moteur avec les règles du jeu et 27 tests automatisés.
-- Lancement Windows : `lancer-jeu.cmd` cherche Node.js dans Windows, puis utilise le chemin local préparé pour cet ordinateur si nécessaire.
-- Retour de prise en main du 12 novembre : l’étudiant confirme le lancement, les propositions incomplètes et valides, la nouvelle partie et la clarté des informations, sans difficulté signalée.
-- Retour clavier : les deux adaptations validées sont disponibles en ligne : « Revenir à la proposition », masqué au repos et révélé quand Tabulation l’atteint après les règles, et défilement circulaire des six couleurs avec les flèches, lorsque la liste est fermée. Tabulation reste libre de quitter la page.
-- Retour mobile du 12 novembre : les cinq points du parcours fonctionnent sur iPhone 16 avec Safari selon l’étudiant ; ouverture non souhaitée d’une liste après validation ou nouvelle partie signalée. Correctif publié sous `a299db8`, vérifié localement puis sur le site public ; confirmation sur l’iPhone à effectuer.
-- Prévu : confirmation du correctif sur iPhone et intégration de l’API commune de test 0.2 après réception du contrat.
-- Versions : Git initialisé sur la branche `main`, avec le repère `v0.1.0` pour cette première sauvegarde. Dépôt associé : [Davaub/Mastermind sur GitHub](https://github.com/Davaub/Mastermind).
-- Limites : contrôles de Codex dans le navigateur intégré, complétés par le retour de l’étudiant sur iPhone 16/Safari. Correctif mobile publié mais non encore vérifié sur cet appareil ; lecteur d’écran et API commune 0.2 non vérifiés.
-- Hors périmètre : compte utilisateur, serveur applicatif, paiement, classement en ligne, données personnelles, service d’IA et clé API. PWA et fonctionnement hors ligne restent facultatifs et non prioritaires.
+## Découvrir le jeu
 
-## Utilisation
+Le jeu est publié depuis le 12 novembre 2026. L’interface est entièrement en français : elle permet de composer une proposition, de consulter les essais précédents et leurs indices, de lire les règles et de commencer une nouvelle partie.
+
+Les couleurs portent un nom pour rester identifiables autrement que par leur apparence. Des essais ont été réalisés au clavier sur ordinateur, puis par l’étudiant sur un iPhone 16 avec Safari. Ces vérifications et leurs limites sont présentées plus bas.
+
+Le jeu ne demande aucun compte et ne collecte aucune donnée personnelle. Il n’intègre ni paiement, ni classement en ligne, ni service d’intelligence artificielle, ni clé API. Le fonctionnement hors ligne, l’installation comme application Web et les mises à jour automatiques restent facultatifs et ne sont pas prioritaires.
+
+## Jouer et lancer le projet
 
 ### Jouer en ligne
 
-Ouvrir [Code secret sur GitHub Pages](https://davaub.github.io/Mastermind/) dans un navigateur, sur ordinateur ou smartphone. Aucun terminal, Node.js ou lanceur local n’est nécessaire pour cette adresse ; une connexion Internet est requise pour charger le jeu. Le parcours tactile initial est confirmé sur iPhone 16/Safari, avec une réserve sur l’ouverture automatique des listes (voir les vérifications ci-dessous).
+Ouvrir [le jeu publié](https://davaub.github.io/Mastermind/) dans un navigateur. Une connexion Internet est nécessaire pour charger la page, mais aucun logiciel supplémentaire ni terminal n’est nécessaire.
 
-Publication depuis la branche `main`, dossier principal du dépôt, avec HTTPS imposé. Les prochains envois sur cette branche déclencheront une nouvelle publication ; ils restent soumis à l’accord de l’étudiant. Ce choix utilise directement les fichiers statiques existants, sans ajouter de dépendance ni de procédure de compilation. La prévisualisation locale ci-dessous reste utile pour développer avant d’envoyer une modification.
+Choisir une couleur pour chacun des quatre emplacements, puis appuyer sur **« Valider la proposition »**. Les choix restent modifiables avant la validation. L’historique affiche ensuite la proposition et les deux indices obtenus. Le bouton **« Nouvelle partie »** permet de recommencer.
 
-### Lancer le jeu sur son ordinateur
+Au clavier, Tabulation avance entre les commandes et Maj+Tab revient en arrière. Entrée active un bouton ou un lien. Lorsqu’une liste de couleurs est fermée, les flèches Bas et Droite passent à la couleur suivante ; Haut et Gauche reviennent à la précédente. Le parcours boucle entre Violet et Rouge. Depuis un emplacement vide, Bas et Droite commencent par Rouge, tandis que Haut et Gauche commencent par Violet.
 
-**Sur cet ordinateur Windows :**
+Tant que la partie continue, valider au clavier ramène automatiquement au premier emplacement pour faciliter l’essai suivant. Une proposition incomplète validée au clavier conduit plutôt au premier emplacement vide. Après une nouvelle partie lancée au clavier, le premier emplacement est également sélectionné. Avec la souris ou l’écran tactile, le joueur choisit lui-même l’emplacement à modifier.
 
-1. Dans l’Explorateur de fichiers, ouvrir le dossier du projet et double-cliquer sur `lancer-jeu.cmd`.
-2. Attendre le message `Code secret : http://127.0.0.1:8000`, puis garder la fenêtre ouverte pendant le jeu.
-3. Ouvrir [le jeu local](http://127.0.0.1:8000/) dans un navigateur.
-4. Pour arrêter, appuyer sur `Ctrl+C` dans cette fenêtre ou la fermer. Au prochain essai, relancer le fichier avant d’ouvrir le lien.
+Le lien « Revenir à la proposition », placé après les règles, apparaît lorsqu’il est atteint avec Tabulation. Il permet de revenir au premier emplacement ou, si la partie est terminée, au bouton « Nouvelle partie ». La navigation reste libre de quitter la page.
 
-Le contenu du lanceur a été exécuté avec succès par `cmd.exe` avec le chemin de recherche habituel de Windows, depuis un autre dossier. Le 12 novembre, l’étudiant confirme aussi le lancement et l’accès au jeu ; la méthode exacte de lancement n’est pas précisée, donc le double-clic n’est pas confirmé séparément. Aucun logiciel ni réglage Windows n’a été installé ou modifié pour cette correction.
+### Lancer une version locale sous Windows
 
-**Si Node.js est déjà accessible dans le terminal :** ouvrir un terminal dans le dossier du projet et exécuter `node serveur.mjs`. Vérifier d’abord avec `node --version` : si la commande n’est pas reconnue, utiliser le lanceur ci-dessus. La version essayée est Node.js 24.22.1 ; aucune bibliothèque supplémentaire n’est nécessaire.
+La version locale permet d’essayer les fichiers présents sur l’ordinateur avant de les envoyer sur GitHub. Elle sert au développement ; pour simplement jouer, le lien public suffit.
 
-Le lanceur utilise en priorité Node.js trouvé par Windows. Sinon, il lit `.node-local`, qui indique le chemin de la copie fournie avec Codex sur cet ordinateur. Ce fichier est exclu de Git : il n’est pas fourni lors d’un téléchargement du dépôt. Si une mise à jour de Codex supprime cette copie, demander à Codex d’actualiser le chemin, ou installer séparément Node.js pour un lancement indépendant de Codex. L’installation de Node.js reste non effectuée.
+1. Ouvrir le dossier du projet et double-cliquer sur `lancer-jeu.cmd`.
+2. Garder la fenêtre ouverte et ouvrir [le jeu local](http://127.0.0.1:8000/).
+3. Pour arrêter, fermer cette fenêtre ou appuyer sur Ctrl+C. Il faudra relancer le fichier pour rejouer à cette adresse.
 
-L’adresse locale désigne uniquement cet ordinateur, pas un site public. Elle ne fonctionne que pendant l’exécution de la prévisualisation. Le dépôt GitHub sauvegarde les fichiers ; il ne maintient pas cette prévisualisation en marche. L’outil sert seulement les fichiers statiques, sans exécuter les règles du jeu. GitHub Pages sert les mêmes fichiers sans cet outil.
+L’adresse locale désigne cet ordinateur. Elle fonctionne seulement tant que la fenêtre de lancement reste ouverte. Le lien GitHub Pages, lui, reste accessible sans lancer quoi que ce soit sur l’ordinateur.
 
-### Jouer et vérifier
+**Si Node.js est disponible dans le terminal.** Node.js est l’outil qui exécute JavaScript en dehors du navigateur. Pour démarrer la prévisualisation autrement, ouvrir un terminal dans le dossier principal du projet. Vérifier d’abord que `node --version` affiche une version, puis exécuter `node serveur.mjs`. La version essayée est Node.js 24.22.1 ; aucune bibliothèque supplémentaire n’est nécessaire.
 
-Choisir une couleur à chacune des quatre positions numérotées, modifier si nécessaire, puis appuyer sur « Valider la proposition ». Consulter les bien placées et les mal placées dans l’historique pour préparer l’essai suivant. Les choix restent modifiables tant que la proposition n’est pas validée.
+**Si la commande Node.js n’est pas reconnue.** Sur cet ordinateur, `lancer-jeu.cmd` peut utiliser la copie de Node.js fournie avec Codex. Le fichier `.node-local` indique où la trouver. Ce chemin dépend de la machine : il n’est pas envoyé sur GitHub et n’accompagne pas un téléchargement du dépôt.
 
-Au clavier, utiliser Tabulation pour avancer, Maj+Tab pour revenir et Entrée pour activer une commande. Liste fermée, Bas/Droite passent à la couleur suivante et Haut/Gauche à la précédente, en boucle entre Violet et Rouge. Depuis « Choisir… », Bas/Droite commencent par Rouge, Haut/Gauche par Violet ; ces flèches ne vident pas une position. Les autres commandes du sélecteur, dont Début pour retrouver « Choisir… » dans le navigateur testé, restent disponibles.
+Si le lanceur ne trouve plus Node.js après une mise à jour de Codex, ce chemin devra être actualisé. L’installation de Node.js comme logiciel indépendant n’a pas été effectuée.
 
-**Retour après une action :** après une validation ou une nouvelle partie au clavier, la sélection active revient automatiquement à la première position (ou à la première position manquante lors d’un refus). Après un clic ou un toucher, aucun déplacement automatique vers une liste n’est demandé. Il reste possible de toucher volontairement une couleur pour la modifier. Cette adaptation est publiée ; son effet dans Safari sur iPhone reste à confirmer.
+## Comprendre les règles
 
-« Comment jouer ? » détaille les règles ; « Nouvelle partie » recommence le jeu. Le lien « Revenir à la proposition » est masqué au repos et apparaît lorsque Tabulation l’atteint, après les règles. Entrée place la sélection active sur la position 1 ; si la partie est terminée, le lien mène à « Nouvelle partie ». Une nouvelle Tabulation permet de poursuivre hors du jeu ; le lien se masque dès qu’il n’est plus actif. Recharger la page permet de charger une nouvelle version locale de l’interface et démarre une nouvelle partie.
+Le programme tire quatre couleurs parmi `rouge`, `bleu`, `vert`, `jaune`, `orange` et `violet`. Une couleur peut être répétée. La combinaison reste fixe et cachée pendant toute la partie.
 
-Pour relancer les tests du moteur dans un terminal où `node --version` fonctionne, exécuter `node --test jeu.test.mjs` depuis le dossier du projet. Commande vérifiée le 11 novembre : 27 tests réussis ; ils n’ont pas été réexécutés pour le correctif de lancement du 12 novembre, qui ne modifie pas le jeu. Node.js exécute ici JavaScript sans navigateur. Pour reprendre le développement, lire ce README, `AGENTS.md`, puis les sources utiles dans `doc/`.
+Chaque proposition doit contenir exactement quatre couleurs autorisées, dans l’ordre choisi. Une proposition invalide est refusée avec une explication. Elle ne consomme aucun essai et ne modifie ni l’historique ni les indices précédents. Une proposition valide consomme un seul essai.
 
-## Règles et sources
+Les indices donnent deux nombres. Le premier indique combien de couleurs sont **bien placées**, c’est-à-dire de la bonne couleur et au bon emplacement. Le second indique combien de couleurs sont **mal placées** : elles sont présentes dans le secret, mais ailleurs.
 
-Documents locaux lus lors du cadrage :
+Une même couleur peut apparaître plusieurs fois, mais chaque exemplaire ne doit servir qu’une seule fois au calcul. Le programme commence par compter les couleurs bien placées. Il cherche ensuite les mal placées parmi les couleurs qui n’ont pas encore été comptées.
 
-- [Sujet officiel, édition 2.1](<doc/Projet — Code secret en couleurs, inspiré du Mastermind.pdf>), mis à jour le 28 octobre 2026. Son annexe **Règles communes**, référence `code-couleurs-1.0` (page 4), fait foi.
-- [Guide README, version 1.0](<doc/Rédiger un bon README.md — Guide général.pdf>), du 3 novembre 2026.
-- [Guide AGENTS, version 1.0](<doc/Créer un bon fichier AGENTS.md — Guide général.pdf>), du 3 novembre 2026.
+Par exemple, avec le secret **rouge, rouge, bleu, vert**, proposer **rouge, rouge, rouge, rouge** donne **deux bien placées et aucune mal placée**. Les deux rouges du secret correspondent déjà aux deux premiers emplacements. Il n’en reste donc aucun pour compter les deux autres rouges comme mal placés.
 
-Le secret comporte quatre couleurs tirées au hasard avec répétitions autorisées ; il reste fixe et caché pendant la partie. Les identifiants exacts, dans l’ordre officiel, sont `rouge`, `bleu`, `vert`, `jaune`, `orange`, `violet`.
+Le jeu affiche uniquement ces deux nombres ; il ne désigne pas les emplacements auxquels ils correspondent.
 
-Chaque proposition contient exactement quatre couleurs ordonnées, modifiables avant validation. Une proposition invalide est expliquée et refusée sans modifier essais, historique ou indices. Une proposition valide consomme un essai et conserve sa proposition et ses indices dans l’historique. Les bien placées sont comptées d’abord, puis les mal placées parmi les occurrences restantes, sans double comptage ni indication des positions.
+Le joueur gagne avec quatre couleurs bien placées, y compris au dixième essai. Sinon, dix propositions incorrectes terminent la partie. Les propositions suivantes sont sans effet et les résultats restent consultables. Une nouvelle partie efface les choix, le compteur, l’historique et les indices. Le nouveau tirage peut, par hasard, produire le même code.
 
-Quatre bien placées donnent la victoire, y compris au dixième essai ; dix essais incorrects donnent la défaite. Après la fin, une proposition ne change plus la partie et les résultats restent consultables. « Nouvelle partie » tire un code et réinitialise essais, historique et indices. Un nouveau tirage peut, par hasard, donner la même combinaison : une différence systématique n’est pas une règle officielle.
+Les documents de référence sont conservés dans `doc/` :
 
-## Choix de conception et points à confirmer
+- [Sujet officiel, édition 2.1](<doc/Projet — Code secret en couleurs, inspiré du Mastermind.pdf>) : l’annexe `code-couleurs-1.0`, page 4, fait foi pour les règles. La page 2 présente les jalons.
+- [Guide README, version 1.0](<doc/Rédiger un bon README.md — Guide général.pdf>).
+- [Guide AGENTS, version 1.0](<doc/Créer un bon fichier AGENTS.md — Guide général.pdf>).
 
-**Décisions de cadrage :** garder les documents existants, centraliser le suivi dans ce README et réserver `AGENTS.md` aux consignes durables. Cette séparation permet au lecteur de comprendre le projet sans mélanger son état et les instructions de travail de Codex.
+## Comprendre les choix de conception
 
-**Choix retenu :** HTML pour la structure, CSS pour l’apparence et JavaScript natif pour le comportement, sans dépendance ajoutée. Une application statique contient des fichiers servis au navigateur sans serveur applicatif ; ce choix vise un code simple et un hébergement sur GitHub Pages.
+HTML structure la page, CSS définit son apparence et JavaScript gère son comportement. Ces technologies fonctionnent directement dans le navigateur, sans dépendance ajoutée, et conviennent à GitHub Pages.
 
-L’interface conserve quatre sélecteurs HTML standard avec les noms des couleurs visibles. Après le retour de l’étudiant, seules les flèches sans touche modificatrice sont personnalisées pour faire boucler les six couleurs quand la liste est fermée. Les autres touches restent gérées par le navigateur. Une palette unique est partagée avec le moteur. À petite largeur, les positions numérotées passent sur deux lignes ; les propositions de l’historique restent ordonnées. Les messages sont annoncés par une zone de statut ; leur lecture par un lecteur d’écran reste à vérifier.
+Le **moteur du jeu** est la partie du programme qui choisit le secret, conserve les propositions, compte les essais et calcule les indices. L’**interface** correspond à ce que le joueur voit et utilise : les quatre emplacements, les boutons et les résultats affichés. Séparer ces deux rôles permet de vérifier les règles sans devoir cliquer dans la page.
 
-Séparer la logique du jeu des interactions permet de vérifier les règles indépendamment de l’affichage. L’interface et la future API utiliseront le même moteur et la même partie. Une API est ici un ensemble de fonctions permettant au professeur de piloter le jeu pour le tester ; aucun nom, paramètre ou format du contrat 0.2 n’est supposé.
+L’API commune 0.2 sera un moyen pour le professeur de démarrer une partie, d’envoyer des propositions et de consulter les résultats depuis des fonctions de test. Ces fonctions devront agir sur la partie utilisée par l’interface, avec le même secret, le même compteur et le même historique. Le professeur pourra ainsi tester le jeu réellement utilisé à l’écran.
 
-Le calcul retire d’abord les couleurs bien placées, puis cherche les mal placées dans les occurrences restantes, sans modifier les combinaisons originales. L’interface utilise le moteur pour valider les propositions et affiche une explication adaptée lorsqu’une position est vide. Aucune fonction interne du jeu ne constitue l’API officielle 0.2.
+Cette API n’est pas encore développée. Le contrat officiel, qui précisera les fonctions à fournir et leur utilisation, reste attendu.
 
-`creerPartie` construit un objet interne contenant le secret, le compteur à zéro, un historique vide, aucun indice (`null`) et le statut `en-cours`. `reinitialiserPartie` remplace ces valeurs dans le même objet, afin de conserver une référence commune pour les futurs composants. Le secret de cet objet est réservé au moteur et ne devra pas être transmis à l’affichage du joueur.
+Deux remarques de l’étudiant ont conduit à améliorer l’utilisation du jeu au clavier.
 
-Le tirage normal utilise `Math.random`, le générateur fourni par JavaScript. La palette entière reste disponible pour chacune des quatre positions. Les tests peuvent fournir une fonction de tirage contrôlée pour vérifier les cas précis ; ce paramètre interne ne préjuge pas du contrat API 0.2.
+La première concernait le choix des couleurs. Au départ, lorsque Violet, la dernière couleur de la liste, était sélectionné, appuyer encore sur la flèche Bas ne changeait plus rien. Il fallait utiliser la flèche Haut pour revenir aux autres couleurs. Le parcours a été modifié pour former une boucle : depuis Violet, la flèche Bas passe à Rouge ; depuis Rouge, la flèche Haut passe à Violet. Le joueur peut ainsi continuer dans le même sens.
 
-`soumettreProposition` calcule les indices avant de modifier la partie. Une entrée invalide déclenche une erreur expliquée ; une entrée valide consomme un essai et conserve une copie de la proposition et des indices. Les copies empêchent une nouvelle saisie de réécrire l’historique. La victoire est vérifiée avant la défaite au dixième essai ; après la fin, toute proposition est refusée sans modifier la partie. Cette fonction est interne et ne constitue pas l’API 0.2.
+La deuxième remarque concernait Tabulation, qui permet de passer d’une commande à la suivante. Après la dernière commande du jeu, appuyer encore sur cette touche faisait sortir de la zone du jeu. Pour faciliter le retour à la saisie, un lien « Revenir à la proposition » a été ajouté après les règles. Il apparaît lorsqu’on l’atteint au clavier. Appuyer sur Entrée conduit au premier emplacement ou, si la partie est terminée, au bouton « Nouvelle partie ».
 
-**Éléments manquants ou ouverts :**
+La possibilité de quitter le jeu avec Tabulation a été conservée. Cela permet à une personne utilisant uniquement le clavier d’accéder aussi aux éléments extérieurs au jeu. C’est le sens du [principe d’absence de piège au clavier du W3C](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) : une personne doit pouvoir sortir d’un élément au clavier, sans y rester bloquée.
 
-- Contrat API 0.2 et indications du cours, attendus ultérieurement selon l’étudiant : noms et accès aux fonctions, paramètres, réponses, erreurs, démarrage et éventuel moyen officiel d’obtenir une partie reproductible pour les tests. Attendre ces sources avant toute implémentation de l’API.
-- Modèle de départ mentionné page 1 du sujet : absent du dossier ; les informations seront communiquées en temps voulu. L’organisation proposée reste provisoire jusqu’à leur réception.
-- Retours de l’étudiant reçus : prise en main claire, parcours clavier fonctionnel et adaptations approuvées, y compris le lien masqué hors sélection. Parcours mobile confirmé sur iPhone 16/Safari ; correctif d’ouverture des listes publié et à confirmer sur cet appareil. Lecteur d’écran à vérifier.
-- Heure exacte des rendus à consulter sur Cyberlearn ; préparer la version J1 après confirmation du correctif mobile.
+Le retour automatique vers le premier emplacement facilite la préparation de l’essai suivant au clavier : le joueur peut directement changer une couleur avec les flèches. Ce déplacement est réservé aux actions au clavier. Avec la souris ou l’écran tactile, le joueur choisit lui-même la liste de couleurs à ouvrir.
 
-## Reprise du projet et structure proposée
+## Consulter les vérifications
 
-**Fichiers présents :**
+Les résultats suivants proviennent des tests et des essais déjà réalisés. La présente réécriture ne constitue pas une nouvelle exécution du jeu.
 
-| Fichier | Rôle |
-| --- | --- |
-| `index.html` | Structure de la page, règles, commandes et zones de résultats. |
-| `style.css` | Apparence, lisibilité, adaptation aux petits écrans et repère de sélection au clavier. |
-| `interface.js` | Saisie du joueur et affichage à partir du moteur de jeu. |
-| `jeu.js` | Règles, palette et état de la partie, sans dépendre de la page. |
-| `jeu.test.mjs` | Tests du moteur avec les outils intégrés de Node.js. |
-| `serveur.mjs` | Prévisualisation locale limitée aux fichiers du jeu, liée à l’adresse locale de cet ordinateur. Inutile pour l’application publiée. |
-| `lancer-jeu.cmd` | Lance la prévisualisation sous Windows depuis le dossier du projet, même si le fichier est exécuté depuis un autre dossier. |
-| `.node-local` | Configuration locale du chemin vers Node.js, exclue de Git et à actualiser si ce chemin change. |
-| `.gitignore` | Exclusions des secrets, configurations locales, fichiers temporaires et vidéos de capsule de l’historique Git. |
-| `README.md`, `AGENTS.md`, `doc/` | Suivi du projet, consignes de collaboration et trois PDF de référence. |
+### Tests des règles du jeu
 
-L’interface utilise les fonctions existantes de `jeu.js` et conserve la partie dans son module, sans variable globale ni accès d’API de test ajouté. Un fichier d’adaptation pourra être proposé après réception du contrat 0.2.
+Le 12 novembre 2026, les tests ont été relancés sous Windows avec Node.js 24.22.1 sur `c43d997`. Les **27 tests ont réussi, sans échec** : neuf sur les indices, sept sur le démarrage et la réinitialisation, onze sur les propositions et le déroulement de la partie.
 
-## Vérifications
+Pour les relancer depuis la racine du projet, utiliser `node --test --test-reporter=spec jeu.test.mjs`. Les cas détaillés sont conservés dans [jeu.test.mjs](jeu.test.mjs).
 
-Version testée : première interface jouable du 11 novembre 2026, conservée sous le repère Git `v0.1.0`. Environnement : Windows, Node.js 24.22.1. Commande : `node --test jeu.test.mjs`, depuis la racine du projet. **27 tests réussis, 0 échec : 9 sur le calcul, 7 sur le démarrage et la réinitialisation, 11 sur les propositions et le cycle de partie.** Les tests du moteur ont été relancés avec succès avant la sauvegarde Git. Les cas exacts et leurs attentes sont conservés dans `jeu.test.mjs` ; les tableaux regroupent leurs résultats pour garder le README court.
-
-### Scénarios prioritaires
-
-Les résultats de cette table concernent le moteur, sur la version indiquée ci-dessus. Les contrôles distincts dans le navigateur sont documentés ensuite.
-
-| Test et action | Attendu | Observé | Statut |
-| --- | --- | --- | --- |
-| 1. Soumettre trois couleurs, avant ou après un essai valide. | Refus expliqué ; compteur, historique et indices précédents inchangés. | Refus et état inchangé dans les deux cas. | Réussi |
-| 2. Soumettre quatre couleurs autorisées. | Un seul essai consommé ; proposition et deux indices ajoutés à l’historique. | Compteur à 1, une ligne conservée et indices corrects. | Réussi |
-| 3. Secret rouge, rouge, bleu, vert ; proposer quatre rouges. | 2 bien placées, 0 mal placée. | 2 et 0, au calcul et lors de la soumission. | Réussi |
-| 4. Neuf propositions incorrectes, puis une incomplète et enfin le secret. | Refus sans effet de l’incomplète ; victoire au dixième essai valide. | État inchangé après refus, puis victoire avec compteur et historique à 10. | Réussi |
-| 5. Dix propositions valides incorrectes. | Défaite au dixième essai ; résultats conservés. | Statut perdu, compteur et historique à 10 ; indices conservés. | Réussi |
-| 6. Proposer après une victoire et après une défaite. | Aucun changement de l’état, du compteur, de l’historique ou des indices. | Refus expliqué et état inchangé pour des propositions correctes, incorrectes et incomplètes. | Réussi |
-| 7. Recommencer en cours de partie, après victoire et après défaite obtenues par soumissions. | Nouveau tirage, zéro essai, historique vide, aucun indice ; possibilité de rejouer. | État réinitialisé dans les trois cas, puis nouvel essai accepté. | Réussi |
-| 8. Parcourir le jeu au clavier, à la souris et sur smartphone tactile. | Couleurs nommées ou symbolisées, repère clavier visible, commandes utilisables, indices et historique lisibles sur petit écran. | Contrôles navigateur décrits ci-dessous ; smartphone tactile réel non essayé. | Non effectué sur appareil réel |
-
-### Contrôles complémentaires exécutés
-
-Même version et même environnement ; tous ces groupes ont réussi.
-
-| Comportement | Attendu et observé |
-| --- | --- |
-| Calcul des indices | Autre exemple officiel : secret rouge, bleu, vert, jaune ; proposition rouge, vert, bleu, orange → 1 bien placée et 2 mal placées. Cas complémentaires conformes : quatre violets exacts → 4/0, aucune couleur commune → 0/0, quatre mal placées avec répétition → 0/4, répétitions excédentaires → 0/2, bien placées exclues du reste → 2/1. |
-| Entrées invalides | Huit entrées invalides (type, longueur, couleur inconnue, majuscule, emplacements vides) refusées avec une explication dans le calcul et la soumission ; la soumission conserve l’état précédent. |
-| Protection des saisies et de l’historique | Le calcul et la soumission acceptent des listes protégées contre la modification. Modifier la saisie ou les indices retournés ne réécrit pas les résultats conservés ; deux essais restent dans leur ordre avec leurs propres indices. |
-| Secret fixe et victoire immédiate | Trois propositions ne modifient pas le secret et ne déclenchent aucun nouveau tirage. Le secret exact donne aussi la victoire au premier essai. |
-| Tirage initial | Quatre couleurs autorisées et état initial vide avec le générateur normal. Tirages contrôlés : chacune des six couleurs peut se répéter quatre fois ; ordre rouge, bleu, orange, violet vérifié, y compris aux bornes 0 et juste sous 1. |
-| Réinitialisation et indépendance | Même objet conservé ; anciennes listes remplacées sans être modifiées, vérifié aussi sur états simulés. Deux parties ne partagent pas leur secret ni leur historique. Un nouveau code peut être identique au précédent : huit appels de tirage confirmés pour deux codes, dans des listes distinctes. |
-| Générateur de test invalide | Quatre valeurs invalides refusées au quatrième tirage ; état précédent conservé sans réinitialisation partielle. |
-
-### Contrôles dans le navigateur
-
-Même version du projet et même date ; navigateur intégré à Codex sous Windows, site local `http://127.0.0.1:8000/`. Ces contrôles ont été réalisés par les commandes visibles de la page ; aucun accès au secret ni dispositif de test ajouté à l’application. Pour préparer la victoire au dixième essai, le code a été déduit des indices affichés, puis des propositions incorrectes ont été faites jusqu’au neuvième essai.
-
-| Contrôle | Attendu | Observé et statut |
+| Comportement vérifié | Résultat attendu | Résultat observé et statut |
 | --- | --- | --- |
-| Chargement | Interface française utilisable et six couleurs disponibles. | Page chargée, commandes actives, aucune erreur ou alerte JavaScript observée : réussi. |
-| Proposition incomplète avant/après un essai valide | Explication, compteur et historique inchangés. | Refus, compteurs à 0 puis 1, historique conservé et focus sur la position vide : réussi. |
-| Modification avant validation et essai valide | Derniers choix conservés, un seul essai ajouté, indices visibles. | Modification vert → orange enregistrée, compteur à 1 et une ligne d’historique : réussi. |
-| Victoire au dixième | Victoire, dix lignes conservées, saisie bloquée. | Message de victoire en 10 essais, compteur à 10, sélecteurs et bouton désactivés : réussi. Une proposition incomplète au neuvième essai n’a consommé aucun essai. |
-| Défaite | Dix propositions incorrectes terminent la partie. | Statut et message de défaite, dix lignes conservées, saisie bloquée : réussi. |
-| Nouvelle partie en cours, après victoire et après défaite | Saisie vide, compteur et historique réinitialisés, jeu utilisable. | Compteur à 0, historique vide, quatre choix vides, aperçus « ? » et commandes actives : réussi. |
-| Clavier et règles | Sélection, navigation et activation sans souris. | Quatre rouges choisis avec les flèches, navigation avec Tabulation jusqu’à « Valider », validation par Entrée ; contour de focus visible. Règles ouvertes à la souris et refermées par Entrée : réussi. |
-| Petits écrans et couleurs nommées | Aucun débordement horizontal, noms et indices lisibles. | Largeurs 320 et 390 pixels contrôlées, avec historique à 390 ; aucun débordement détecté. Sélecteurs et boutons de 44 pixels de haut à 320 pixels : réussi pour ces dimensions simulées. |
-| Secret dans l’affichage | Le code ne doit pas être révélé pendant la partie. | Les quatre « ? » restent affichés, y compris en fin de partie : réussi pour l’affichage contrôlé. |
-| Prévisualisation locale | Les fichiers du jeu se chargent correctement. | Page, CSS et modules : réponse 200 avec leur type correct ; fichiers non servis comme le README : 404 ; requête d’en-têtes sans contenu : réussie. |
+| 1. Proposer seulement trois couleurs, avant ou après un essai valide. | Le refus est expliqué et la partie reste inchangée. | L’état a été conservé dans les deux cas. **Réussi.** |
+| 2. Proposer quatre couleurs autorisées. | Un essai est consommé ; la proposition et ses indices sont conservés. | Le compteur est passé à 1 et une entrée correcte a été ajoutée. **Réussi.** |
+| 3. Proposer quatre rouges pour le secret rouge, rouge, bleu, vert. | Obtenir deux bien placées et aucune mal placée. | Les deux nombres obtenus sont 2 et 0. **Réussi.** |
+| 4. Trouver le secret au dixième essai, après un refus intermédiaire. | Le refus ne consomme rien et le dixième essai donne la victoire. | Le compteur est resté inchangé après le refus, puis la victoire a été obtenue à 10. **Réussi.** |
+| 5. Faire dix propositions incorrectes. | La partie est perdue et les résultats sont conservés. | La défaite et dix entrées d’historique ont été constatées. **Réussi.** |
+| 6. Proposer après une victoire ou une défaite. | La partie ne change plus. | Les propositions ont été refusées sans changer compteur, historique ou indices. **Réussi.** |
+| 7. Recommencer en cours de partie, après victoire et après défaite. | Un nouveau tirage est effectué ; la partie est réinitialisée et rejouable. | La réinitialisation et l’essai suivant ont fonctionné dans les trois cas. **Réussi.** |
+| 8. Jouer au clavier et au toucher, avec des indices lisibles. | Les commandes et les résultats restent utilisables. | Les essais sur ordinateur et iPhone sont décrits ci-dessous. Ils ne font pas partie des tests du moteur. |
 
-### Premier essai de l’étudiant
+L’autre exemple officiel a également réussi : pour le secret rouge, bleu, vert, jaune et la proposition rouge, vert, bleu, orange, le résultat obtenu est une bien placée et deux mal placées.
 
-**Retour reçu le 12 novembre 2026**, sur la base `v0.1.0` avec le correctif local de lancement, non commité au moment de cet essai. Résultats déclarés par l’étudiant après le parcours proposé, distincts des contrôles exécutés par Codex. Le navigateur, la méthode exacte de lancement et le mode de saisie ne sont pas précisés.
+Le fichier contient aussi des tests complémentaires. Ils vérifient notamment que :
 
-| Comportement | Attendu | Observé selon l’étudiant | Statut |
-| --- | --- | --- | --- |
-| Lancement et accès au jeu | La prévisualisation démarre et le jeu s’ouvre dans le navigateur. | Fonctionnement confirmé. | Réussi |
-| Proposition de trois couleurs | Refus expliqué, sans consommer d’essai. | Fonctionnement conforme au parcours confirmé. | Réussi |
-| Proposition de quatre couleurs | Un essai consommé ; proposition et indices affichés dans l’historique. | Fonctionnement conforme au parcours confirmé. | Réussi |
-| Nouvelle partie | Compteur, choix et historique réinitialisés. | Fonctionnement conforme au parcours confirmé. | Réussi |
+- Une proposition contenant une couleur interdite ou trop peu de couleurs est refusée, et une couleur répétée trop souvent ne donne pas d’indice supplémentaire.
+- Modifier les couleurs préparées pour un prochain essai ne réécrit pas les résultats déjà conservés dans l’historique.
+- Le secret reste identique pendant la partie, et une proposition correcte dès le premier essai donne la victoire.
+- Chacune des six couleurs peut être tirée, y compris la première et la dernière de la liste. Une nouvelle partie effectue un nouveau tirage, même si le code obtenu est identique.
+- Deux parties conservent chacune leur secret et leur historique : modifier l’une ne change pas l’autre.
 
-Les informations sont jugées claires et aucune difficulté supplémentaire n’est signalée. Ce retour ne valide pas les autres scénarios, le smartphone réel ou le lecteur d’écran ; aucune nouvelle exécution des 27 tests automatisés n’a été réalisée pour cette mise à jour documentaire.
+Pour contrôler certains cas, les tests remplacent le tirage au hasard par une fonction dont le résultat est connu à l’avance. Un test lui fait produire une valeur impossible. Il vérifie alors que la nouvelle partie est refusée et que l’ancienne reste entièrement intacte. Cela évite qu’un problème de tirage efface seulement une partie des données.
 
-### Essai au clavier de l’étudiant et analyse
+### Essais dans le navigateur et contrôle de la publication
 
-**12 novembre 2026 — version locale `641a89c`.** L’étudiant confirme les quatre points du parcours clavier proposé. Les résultats ci-dessous proviennent de son retour ; le navigateur et le système utilisés pour cet essai ne sont pas précisés. Deux réserves de confort sont conservées, sans les présenter comme des erreurs des règles du jeu.
+Sur la première version, le 11 novembre, Codex a contrôlé les propositions invalides et valides, la modification d’un choix avant validation, la victoire au dixième essai, la défaite, le blocage des commandes et les réinitialisations. Ces essais ont réussi dans le navigateur intégré sous Windows. Le secret avait été déduit des indices pour préparer la victoire, sans accès interne à la combinaison cachée.
 
-| Comportement | Attendu | Observé selon l’étudiant | Statut |
-| --- | --- | --- | --- |
-| Navigation par Tabulation | Atteindre les commandes avec un repère visible. | Navigation appréciée, retour à la position 1 après un essai et lien d’évitement utiles. Sortir de la page après les dernières commandes est toutefois jugé gênant. | Réussi pour la navigation ; réserve ergonomique signalée. |
-| Choix des couleurs avec les flèches | Pouvoir choisir les couleurs disponibles. | Les quatre directions fonctionnent. À la dernière couleur, il faut inverser le sens pour revenir, ce qui est jugé peu pratique. | Réussi pour le choix ; réserve ergonomique signalée. |
-| Validation avec Entrée | Enregistrer une proposition et afficher son résultat. | Fonctionnement confirmé. | Réussi |
-| Nouvelle partie au clavier | Pouvoir réinitialiser la partie avec le clavier. | Fonctionnement confirmé. | Réussi |
+**Lisibilité et utilisation au clavier.** Codex a vérifié que les règles pouvaient être ouvertes, que les commandes étaient utilisables et que le secret restait masqué, même après la fin de la partie.
 
-**Contrôles complémentaires de Codex, même date et même version**, dans une partie séparée du navigateur intégré sous Windows :
+Pour imiter un petit écran, la fenêtre du navigateur a été réduite à des largeurs de 320 et 390 pixels. Le pixel est une unité de mesure de l’affichage. Le contenu ne dépassait pas sur les côtés : aucun défilement horizontal n’était nécessaire. Les listes de couleurs et les boutons mesuraient 44 pixels de haut. Ces mesures décrivent les essais effectués sur ordinateur ; elles ne constituent pas à elles seules une vérification sur téléphone.
 
-- Depuis la position 1, Tabulation atteint la position 2 ; Maj+Tab revient à la position 1. Après « Nouvelle partie », Tabulation atteint « Comment jouer ? », puis aucun élément interactif de la page ne reste actif. La destination exacte dans les commandes extérieures du navigateur n’a pas été contrôlée.
-- Sur la dernière option Violet, les flèches Bas et Droite conservent Violet ; Haut sélectionne Orange. La lettre R sélectionne directement Rouge dans ce navigateur. Le compteur reste à zéro pendant ces changements.
-- Le lien « Aller à la proposition » atteint l’ancre `#proposition`. Une proposition de quatre rouges validée avec Entrée consomme un essai, ajoute une ligne d’historique et ramène la sélection active à la position 1.
+**Adaptations de la navigation.** Le 12 novembre, les quatre emplacements ont été essayés avec les flèches dans les deux sens. Le passage de Violet à Rouge et de Rouge à Violet a fonctionné. Tabulation et Maj+Tab permettaient de changer de commande ; la lettre R sélectionnait Rouge, tandis que Maj+Bas sur Violet conservait Violet.
 
-Ces contrôles, réalisés avant les adaptations, avaient reproduit les comportements et confirmé le parcours décrit. Le code ne redéfinissait alors ni Tabulation ni les flèches des listes standard. Les résultats après adaptation sont documentés dans la section suivante.
+Le lien de retour était masqué au repos, puis visible lorsqu’il était atteint au clavier. Il mesurait finalement 48 pixels de haut, y compris dans une fenêtre de 320 pixels de large. Il permettait de revenir à la proposition ou de rejoindre « Nouvelle partie » après une défaite. Ces essais ont réussi.
 
-**Analyse initiale et choix ensuite validés par l’étudiant :**
+**Fonctionnement sur le site public.** Après publication, Codex a vérifié les propositions incomplètes, les propositions valides et les nouvelles parties directement sur le site. Les refus n’ajoutaient pas d’essai ; les propositions valides étaient enregistrées ; une nouvelle partie remettait les choix, le compteur et l’historique à zéro.
 
-1. Conserver la possibilité de quitter le jeu avec le clavier. Une boucle forcée de Tabulation sur toute la page compliquerait l’accès aux commandes extérieures. Le [W3C explique le principe d’absence de piège au clavier](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) : l’utilisateur doit pouvoir quitter un composant au clavier. Cela ne constitue pas un audit complet de conformité du jeu. La commande « Revenir à la proposition » après les règles a été proposée puis validée pour faciliter le retour volontaire à la position 1.
-2. L’arrêt sur Violet était le comportement de la liste standard observé pendant le contrôle, pas une erreur de calcul. Les [sélecteurs HTML sont des contrôles fournis par le navigateur](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/select). Une navigation circulaire Violet → Rouge et Rouge → Violet a été proposée puis validée comme personnalisation. Les vérifications restent nécessaires au clavier, au toucher et avec les aides techniques.
+Après la correction pour le toucher, un clic sur un bouton n’activait plus une liste de couleurs. Au clavier, le retour automatique restait utilisable, même après avoir alterné entre clavier et souris. Codex n’a relevé aucun message d’erreur ou d’avertissement provenant du code du jeu pendant ces parcours.
 
-Sources d’accessibilité consultées le 12 novembre 2026. Aucun test automatisé du moteur n’avait été réexécuté pour l’analyse documentaire seule. Ils ont été relancés lors du développement décrit ci-dessous.
+**Chargement des fichiers publiés.** Lors de la préparation de J1, Codex a comparé les quatre fichiers nécessaires au jeu en ligne avec ceux du projet local : la page HTML, la feuille de style CSS et les deux fichiers JavaScript. Leurs contenus étaient identiques. Chaque fichier se chargeait avec une réponse HTTP 200, qui signifie que la demande avait réussi. Le navigateur recevait aussi chaque fichier avec le type de contenu attendu.
 
-### Adaptations clavier réalisées et vérifiées
+Le dépôt GitHub était public et la publication avait réussi. GitHub Pages utilisait les fichiers du dossier principal dans la branche `main`. L’accès au jeu imposait HTTPS, c’est-à-dire une connexion chiffrée entre le navigateur et le site.
 
-**12 novembre 2026 — base locale `641a89c`, modifications non commitées au moment des vérifications, puis regroupées dans le commit « Améliorer la navigation clavier et documenter les essais ».** Après validation des deux propositions, ajout du lien après les règles, de son style et de son traitement dans `interface.js`. Les flèches bouclent entre les six couleurs, actualisent l’aperçu et ne consomment aucun essai. Les règles et le moteur du jeu sont inchangés.
+**Versions concernées :** premiers essais sur `v0.1.0` ; adaptations testées sur `641a89c`, puis sauvegardées dans `a128ef3` ; parcours publics sur `a128ef3` puis `a299db8`. La version `c43d997` conserve le même jeu avec une documentation actualisée.
 
-Environnement : Windows, navigateur intégré à Codex, prévisualisation locale. **27 tests du moteur réexécutés avec Node.js 24.22.1 : 27 réussis, 0 échec.** Syntaxe de `interface.js` contrôlée avec Node.js. Les contrôles suivants ont été effectués dans une partie de vérification séparée :
+### Essais réalisés par l’étudiant
 
-| Contrôle | Attendu | Observé et statut |
-| --- | --- | --- |
-| Boucle sur les quatre positions | Depuis une position vide, Bas sélectionne Rouge ; aux limites, Bas/Droite : Violet → Rouge, Haut/Gauche : Rouge → Violet. | Six passages contrôlés sur chacune des quatre positions, aperçus correspondants ; compteur et historique à zéro : réussi. |
-| Parcours complet des couleurs | Respecter l’ordre Rouge, Bleu, Vert, Jaune, Orange, Violet et son inverse, sans passer par « Choisir… ». | Un cycle complet dans chaque sens conforme à l’ordre attendu : réussi. |
-| Autres touches | Conserver la sélection par initiale, les touches modificatrices et la navigation entre commandes. | R sélectionne Rouge ; Maj+Bas sur Violet reste sur Violet ; Tab va de la position 1 à 2 et Maj+Tab revient à 1 : réussi pour ces cas. |
-| Retour depuis les règles | Le lien est accessible après les règles et ramène à la position 1 sans changer la partie. | Tab depuis les règles atteint le lien ; clic et Entrée ramènent à la position 1, compteur inchangé : réussi. |
-| Sortie du jeu | Tabulation après le dernier lien ne doit pas être forcée vers la position 1. | Aucun élément interactif de la page ne reste actif après cette Tabulation : réussi ; destination extérieure non contrôlée. |
-| Proposition incomplète | Refus expliqué sans consommer d’essai ni ajouter d’historique. | Position vidée avec Début puis validation : refus, compteur et historique à zéro, sélection active sur la position vide : réussi. |
-| Proposition composée avec les flèches | Enregistrer une proposition valide et ses indices une seule fois. | Rouge, Violet, Rouge, Violet enregistré avec compteur à 1, historique ajouté et retour à la position 1 : réussi. |
-| Retour après la fin et nouvelle partie | Proposer une commande utilisable après la fin et permettre de recommencer. | Après dix essais incorrects : lien dirigé vers « Nouvelle partie », dix résultats conservés ; après redémarrage, compteur à zéro, historique et choix vides : réussi. |
-| Affichage étroit | Le nouveau lien et l’aide doivent rester lisibles sans débordement. | À 320 pixels : aucun débordement horizontal détecté, lien de 44 pixels de haut et retour à la position 1 fonctionnel : réussi pour cette dimension simulée. |
+Les observations ci-dessous proviennent des essais réalisés par l’étudiant le 12 novembre 2026. Elles sont distinguées des contrôles effectués par Codex.
 
-Aucune erreur ou alerte JavaScript observée lors de ces contrôles. **Limites :** la boucle concerne les listes fermées ; lorsque le navigateur expose l’état ouvert, le code laisse le menu natif gérer ses touches. L’ouverture effective de ce menu n’a pas pu être confirmée par les commandes de l’outil de vérification et reste à essayer manuellement. Le smartphone réel, les autres navigateurs et les lecteurs d’écran restent non vérifiés. Le retour par le lien après une défaite a été testé ; après une victoire, il est prévu par le même traitement mais n’a pas été contrôlé séparément dans cette série.
+#### Première prise en main du jeu
 
-**Harmonisation visuelle du lien, 12 novembre 2026 :** à la demande de l’étudiant, « Revenir à la proposition » reprend l’apparence du lien du haut. Une règle CSS commune définit le fond vert foncé `#234e42`, le texte blanc et les espacements. La taille et la graisse du texte sont également identiques.
+Le premier parcours servait à vérifier que le jeu pouvait être ouvert et que ses commandes principales étaient compréhensibles. L’étudiant a confirmé les quatre points proposés :
 
-Attendu : présentation cohérente, repère clavier visible et retour toujours fonctionnel. Observé dans le navigateur intégré : styles des deux liens identiques pour les couleurs, les espacements, la taille et la graisse du texte ; contour visible après Tabulation ; Entrée ramène à la position 1, compteur et historique inchangés. À 320 pixels de large, le lien mesure 48 pixels de haut et aucun débordement horizontal n’est détecté. **Statut : réussi pour ces contrôles, sur la base `641a89c` avec les adaptations locales non commitées.** Seuls le CSS et cette documentation ont été modifiés pour l’harmonisation ; aucun nouveau test du moteur n’a été exécuté à cette étape visuelle.
+- Le jeu s’ouvrait dans le navigateur après le lancement de la prévisualisation.
+- Avec seulement trois couleurs choisies, la validation affichait une explication et ne consommait aucun essai.
+- Avec quatre couleurs choisies, la validation ajoutait un essai au compteur et enregistrait la proposition avec ses indices dans l’historique.
+- Le bouton « Nouvelle partie » remettait le compteur à zéro et effaçait les choix et l’historique.
 
-**Visibilité à la navigation clavier, 12 novembre 2026 :** après précision de l’étudiant, le lien est masqué visuellement au repos tout en restant dans le parcours de Tabulation. Il reprend son apparence verte et blanche lorsqu’il devient actif. Le changement est limité au CSS et au README ; son action en JavaScript est inchangée.
+L’étudiant a jugé les informations claires et n’a pas signalé de difficulté lors de ce premier parcours. Le navigateur utilisé et la manière exacte de lancer le jeu n’ont pas été précisés.
 
-Attendu : le lien apparaît lorsque Tabulation l’atteint après « Comment jouer ? », puis disparaît quand on le quitte. Observé dans une partie séparée du navigateur intégré sous Windows : découpe visuelle et dimensions de 1 × 1 pixel au repos ; lien visible de 48 pixels de haut avec repère clavier après Tabulation. Entrée ramène à la position 1, avec compteur et historique à zéro ; le lien se masque à nouveau. Tabulation suivante quitte les commandes de la page, tandis que Maj+Tab revient aux règles, sans maintien forcé dans le jeu. Même apparition contrôlée à 320 pixels, sans débordement horizontal détecté. **Statut : réussi pour ces contrôles, base `641a89c` avec modifications locales non commitées.** Les lecteurs d’écran et un appareil tactile réel restent non vérifiés ; aucun nouveau test du moteur n’a été exécuté pour ce changement d’affichage.
+#### Utilisation au clavier
 
-### Correction documentée : lancement à la reprise du projet
+Un deuxième parcours portait sur la possibilité de jouer sans souris : atteindre les commandes avec Tabulation, choisir les couleurs avec les flèches, valider avec Entrée et recommencer une partie. L’étudiant a confirmé le fonctionnement de ces actions.
 
-**12 novembre 2026 — base `v0.1.0`, correctif local non commité au moment du diagnostic.** L’étudiant signale un lien local inaccessible et une commande `node serveur.mjs` non reconnue. Attendu : pouvoir reprendre le jeu avec la procédure du README.
+Il a aussi signalé deux gênes. En poursuivant avec Tabulation après la dernière commande, il quittait la zone du jeu. Par ailleurs, lorsqu’il arrivait à la dernière couleur d’une liste, il devait inverser le sens des flèches pour revenir aux autres couleurs.
 
-- **Avant : échec reproduit.** Avec le chemin de recherche enregistré dans Windows, `node --version` répond « 'node' n’est pas reconnu ». Aucun service n’écoute sur le port 8000. Le lien inaccessible a été signalé par l’étudiant ; l’absence de prévisualisation en cours a été constatée pendant le diagnostic.
-- **Cause :** la copie de Node.js disponible dans l’environnement de Codex n’est pas accessible par son nom dans un terminal Windows ordinaire. Le README du 11 novembre généralisait une vérification faite dans Codex. Par ailleurs, une adresse locale cesse de répondre quand sa prévisualisation est arrêtée.
-- **Correction :** ajout de `lancer-jeu.cmd`, préparation du chemin local `.node-local` et exclusion de ce fichier dans `.gitignore`. Le lanceur se place dans le dossier du projet et emploie Node.js de Windows ou le chemin local préparé. Les fichiers du jeu et `serveur.mjs` sont inchangés.
+Ces remarques ont conduit à ajouter le lien « Revenir à la proposition » et à faire suivre Violet par Rouge lorsque le joueur continue avec la flèche Bas. Les choix retenus sont expliqués dans la section sur la conception ; les contrôles des adaptations figurent dans les essais de Codex.
 
-| Contrôle | Attendu | Observé et statut |
-| --- | --- | --- |
-| Lanceur sans `node` dans le chemin habituel de Windows | La prévisualisation démarre grâce au chemin local, même depuis un autre dossier. | Message de démarrage obtenu depuis le dossier Documents avec le chemin de recherche Windows : réussi. |
-| Page et fichiers nécessaires | Chargement de la page, du CSS et des deux modules JavaScript. | Quatre réponses HTTP 200 avec les types attendus ; page française, sélecteurs actifs et compteur à 0 constatés dans le navigateur intégré à Codex : réussi. |
-| Second lancement avec Node.js accessible | Message explicite si une prévisualisation utilise déjà le port 8000. | « Le port 8000 est déjà utilisé », code de sortie 1 ; première prévisualisation conservée : réussi. |
-| Configuration locale | Le chemin propre à cet ordinateur reste hors de Git. | Exclusion de `.node-local` confirmée par Git : réussi. |
-| Reprise par l’étudiant | L’étudiant peut lancer le jeu et y accéder. | Fonctionnement confirmé dans son retour du 12 novembre : réussi selon l’étudiant. Méthode exacte non précisée. |
-| Double-clic vérifié séparément et autre ordinateur | Vérifier ces conditions précises de lancement. | Non effectué ; le retour de l’étudiant ne précise pas ces conditions. |
+#### Utilisation sur iPhone avec Safari
 
-**Limite :** ce correctif permet le lancement sur cet ordinateur avec sa configuration locale. Il ne rend pas la commande `node` disponible dans tous les terminaux et ne transforme pas l’adresse locale en site public. Une mise à jour de Codex peut nécessiter d’actualiser `.node-local`.
+L’étudiant a ensuite ouvert le site public sur un **iPhone 16 avec Safari**. Il a confirmé que l’accès au jeu, le refus d’une proposition de trois couleurs, la validation d’une proposition complète et la nouvelle partie fonctionnaient. Il a aussi confirmé que les règles, les couleurs et les commandes étaient lisibles et utilisables sur le téléphone.
 
-### Correction documentée : aperçus gris
+Une gêne supplémentaire est apparue : après un toucher sur « Valider la proposition » ou « Nouvelle partie », une liste de couleurs s’ouvrait automatiquement, alors qu’il n’avait pas touché un emplacement de couleur.
 
-Action reproduite à 320 pixels : choisir rouge, bleu, vert et jaune. Attendu : chaque disque doit avoir la même couleur que la pastille correspondante de la palette.
+Après la correction décrite dans « Safari ouvrait une liste après un bouton », l’étudiant a refait l’essai sur son iPhone. Il a confirmé que le problème était résolu dans Safari. Les versions exactes d’iOS et de Safari ne sont pas connues.
 
-- **Avant correction : échec observé.** Les quatre disques restaient gris, couleur calculée `rgb(233, 236, 227)`, malgré les noms sélectionnés. La pastille rouge était bien `rgb(200, 79, 79)`.
-- **Cause et changement :** dans `style.css`, le fond neutre des aperçus était défini après les couleurs et les remplaçait. Les règles des couleurs ont été déplacées après ce fond neutre.
-- **Après correction : réussi.** Même action après rechargement : rouge `rgb(200, 79, 79)`, bleu `rgb(71, 124, 184)`, vert `rgb(82, 132, 91)`, jaune `rgb(233, 194, 76)`, identiques à la palette. Un contrôle supplémentaire confirme la correspondance pour les six couleurs et le retour à « ? » après réinitialisation.
+**Repères des versions testées :** la première prise en main concernait `v0.1.0` avec le correctif de lancement ; le parcours clavier concernait `641a89c`. L’ouverture involontaire sur iPhone a été signalée sur `6f39809`, puis le fonctionnement du correctif a été confirmé sur `c43d997`.
 
-**Limites de ces contrôles locaux :** publication non vérifiée dans cette série (voir le contrôle distinct ci-dessous), conformité API, utilisation tactile sur smartphone réel et lecture par lecteur d’écran non vérifiées ; aucune mesure statistique du hasard. Les dimensions simulées ne remplacent pas un essai sur appareil. L’exemple officiel à secret imposé reste vérifié au niveau du moteur, sans secret forcé dans l’interface. Les contrôles navigateur ne constituent pas un audit complet d’accessibilité.
+## Comprendre les corrections
 
-### Première publication GitHub Pages
+### Le jeu ne redémarrait pas dans Windows
 
-**12 novembre 2026 — version `a128ef3` sur `main`.** Publication autorisée par l’étudiant depuis le dossier principal. GitHub indique une construction réussie pour ce commit, sans erreur, et HTTPS imposé. Environnement : Windows, navigateur intégré à Codex, [adresse publique du jeu](https://davaub.github.io/Mastermind/). Les contrôles suivants portent sur l’application publiée, sans accès au secret.
+**Problème constaté.** Le 12 novembre, la commande `node --version` n’était pas reconnue dans un terminal Windows ordinaire et la prévisualisation était arrêtée. Le README avait généralisé un lancement testé dans l’environnement de Codex.
 
-| Contrôle | Attendu | Observé et statut |
-| --- | --- | --- |
-| Chargement public | Page et trois fichiers CSS/JavaScript accessibles avec leurs types corrects. | Quatre réponses HTTP 200 ; contenus identiques aux fichiers locaux du commit `a128ef3`, page française et commandes actives : réussi. |
-| Proposition incomplète | Refus expliqué, zéro essai et historique vide. | Trois couleurs sélectionnées : explication affichée, compteur à 0, historique vide et sélection sur la position 4 : réussi. |
-| Proposition valide | Un essai et une ligne d’historique avec les deux indices. | Rouge, Bleu, Vert, Jaune validés par Entrée : compteur à 1, une ligne avec les deux indices et retour à la position 1 : réussi. Le calcul n’a pas été contrôlé contre un secret imposé dans cette série. |
-| Adaptations clavier | Boucle des couleurs et lien visible seulement lorsqu’il devient actif, sans changer l’historique. | Violet → Rouge avec Bas, Rouge → Violet avec Haut ; lien de 1 × 1 pixel découpé au repos, puis 48 pixels de haut après Tab depuis les règles ; Entrée revient à la position 1, historique à une ligne : réussi. |
-| Affichage étroit | Noms, indices et commandes lisibles sans débordement horizontal. | Largeur de fenêtre simulée de 320 pixels avec un essai : contenu de 305 pixels, égal à la largeur disponible hors barre de défilement ; sélecteurs de 44 pixels de haut, noms et indices visibles : réussi pour cette dimension. |
-| Nouvelle partie | Compteur à zéro, historique et choix vides. | Ces trois réinitialisations constatées, commandes actives : réussi. |
+**Modification réalisée.** Le fichier `lancer-jeu.cmd` a été ajouté pour trouver Node.js dans Windows ou grâce au chemin local exclu de Git.
 
-Aucune erreur ni alerte JavaScript observée pendant ce parcours. Les 27 tests du moteur n’ont pas été relancés pour cette publication sans changement du jeu. Victoire, défaite et répétitions restent couvertes par les essais locaux décrits plus haut ; elles n’ont pas été rejouées dans cette série publique. Smartphone tactile réel, lecteur d’écran, autres navigateurs et API 0.2 : **non effectués**.
+**Résultat.** Le lancement a réussi depuis un autre dossier avec le chemin de recherche habituel de Windows ; les quatre fichiers du jeu se chargeaient. Un second lancement sur le port occupé a affiché « port 8000 déjà utilisé » et s’est terminé avec le code 1, sans arrêter le premier. L’étudiant a confirmé la reprise. Le double-clic n’a pas été vérifié isolément, ni le lancement sur un autre ordinateur. Le correctif est conservé dans `641a89c`, après `v0.1.0`.
 
-### Essai sur iPhone et correction du retour automatique
+### Les aperçus des couleurs restaient gris
 
-**12 novembre 2026 — retour de l’étudiant sur le site public**, version publiée `6f39809` (jeu identique à `a128ef3`), iPhone 16, Safari. Versions d’iOS et de Safari non précisées. Résultats déclarés par l’étudiant, distincts des contrôles de Codex :
+**Problème constaté.** Sur un écran simulé de 320 pixels, choisir rouge, bleu, vert et jaune laissait les quatre disques gris. Leur couleur mesurée était `rgb(233,236,227)`, alors que la pastille rouge de la palette était `rgb(200,79,79)`.
 
-| Comportement | Attendu | Observé selon l’étudiant et statut |
-| --- | --- | --- |
-| Accès public | Ouvrir le jeu sans lancer la prévisualisation locale. | Fonctionnement confirmé : réussi. |
-| Trois couleurs | Refus expliqué, aucun essai consommé. | Fonctionnement conforme au parcours confirmé : réussi. |
-| Quatre couleurs | Compteur à 1/10, proposition et deux indices visibles. | Fonctionnement conforme au parcours confirmé : réussi. |
-| Nouvelle partie | Choix, compteur et historique réinitialisés. | Fonctionnement conforme au parcours confirmé : réussi. |
-| Règles et lisibilité tactile | Règles accessibles, textes et commandes lisibles et utilisables, sans défilement horizontal nécessaire. | Fonctionnement confirmé sans difficulté : réussi. |
-| Après validation ou nouvelle partie | Ne pas ouvrir une liste de couleurs sans action volontaire sur celle-ci. | Ouverture automatique signalée sur les deux boutons : échec ergonomique. |
+**Modification réalisée.** Dans le CSS, les règles des couleurs ont été placées après celle du fond neutre, qui les remplaçait auparavant.
 
-**Diagnostic :** `interface.js` demandait systématiquement l’activation d’un sélecteur avec `focus()`. Avant modification, Codex a confirmé que le clic sur « Nouvelle partie » et celui sur « Valider la proposition » déplaçaient bien la sélection active vers la position 1. L’ouverture du menu propre à Safari/iPhone n’a pas été reproduite dans le navigateur de Codex ; elle est attestée par le retour de l’étudiant, et le lien avec ce déplacement reste une hypothèse à confirmer sur l’appareil.
+**Résultat.** Le même essai a produit des disques correspondant à la palette. Les valeurs relevées étaient `200,79,79` pour le rouge, `71,124,184` pour le bleu, `82,132,91` pour le vert et `233,194,76` pour le jaune. Les six couleurs et le retour au point d’interrogation après réinitialisation ont été vérifiés. Le contrôle a réussi ; le correctif est inclus dans `v0.1.0`, du 11 novembre.
 
-**Modification autorisée — base `6f39809`, changements locaux non commités au moment des contrôles :** mémoriser la dernière action au clavier (`keydown`) ou au pointeur (`pointerdown`, qui couvre souris et toucher), puis réserver les déplacements automatiques vers un sélecteur aux actions au clavier. Cela couvre les propositions valides, incomplètes et la nouvelle partie. Le lien volontaire de retour et le passage au bouton « Nouvelle partie » en fin de partie restent inchangés. Aucun changement du moteur, de la présentation ou de l’API. Références techniques consultées : [focus()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus), [pointerdown](https://developer.mozilla.org/en-US/docs/Web/API/Element/pointerdown_event) et [keydown](https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event), documentation MDN.
+### Safari ouvrait une liste après un bouton
 
-Contrôles de Codex : même date, Windows, navigateur intégré, adresse locale, sans accès au secret. Syntaxe de `interface.js` vérifiée avec Node.js 24.22.1 : réussie.
+**Problème constaté.** Sur iPhone, appuyer sur « Valider la proposition » ou « Nouvelle partie » ouvrait une liste sans choix volontaire. Codex a constaté le retour systématique vers le premier emplacement, sans reproduire le menu propre à iOS. Ce déplacement a été retenu comme explication probable.
 
-| Contrôle après modification | Attendu | Observé et statut |
-| --- | --- | --- |
-| Nouvelle partie au clic | Réinitialiser sans activer une liste. | Bouton « Nouvelle partie » actif, compteur à 0, historique et choix vides : réussi. |
-| Validation au clic | Enregistrer un essai sans activer une liste. | Bouton « Valider » actif, compteur à 1 et une ligne d’historique : réussi. |
-| Proposition incomplète au clic, avant et après un essai valide | Message et positions manquantes signalés, état conservé, aucune liste activée. | Bouton « Valider » actif, compteur/historique à 0 puis 1 ; message explicite et position vide marquée invalide : réussi. |
-| Même parcours au clavier | Garder les retours utiles vers les sélecteurs. | Entrée sur « Nouvelle partie » → position 1 ; proposition de trois rouges refusée → position 4 ; quatre rouges validés → position 1 avec un essai et une ligne : réussi. |
-| Alternance clavier puis souris | Suivre la dernière action, sans conserver le retour clavier après un clic. | Après emploi du clavier, clic sur chacun des deux boutons : le bouton reste actif ; la boucle Violet → Rouge et le lien volontaire de retour fonctionnent : réussi. |
-| Affichage à 390 pixels simulés | Conserver les commandes et l’absence de débordement après validation. | Compteur et historique à 1 ; aucune liste ouverte exposée par le navigateur, bouton « Valider » actif, contenu de 375 pixels égal à la largeur disponible : réussi pour cette simulation. |
-| Confirmation sur iPhone 16/Safari | Les deux boutons ne doivent plus ouvrir les listes ; choix volontaire toujours possible. | Non effectué sur le correctif ; nouvel essai de l’étudiant à réaliser sur le site mis à jour. |
+**Modification réalisée.** Le jeu distingue désormais une action au clavier d’une action avec la souris ou le toucher. Le retour automatique vers une couleur est réservé au clavier.
 
-Aucune erreur ni alerte JavaScript observée. Les 27 tests du moteur n’ont pas été relancés : il est inchangé ; cette correction porte sur les interactions, contrôlées dans le navigateur. Safari iOS, le toucher réel et les aides techniques n’ont pas été testés par Codex.
+**Résultat.** Les contrôles locaux et publics ont confirmé le maintien sur le bouton après un clic, le retour utile au clavier et le refus sans essai consommé d’une proposition incomplète. L’étudiant a ensuite confirmé la correction sur iPhone avec Safari. Le problème avait été signalé sur `6f39809`, corrigé dans `a299db8` et confirmé sur `c43d997`, le 12 novembre.
 
-**Publication du correctif, 12 novembre 2026 — commit `a299db8`, « Réserver le retour automatique aux actions au clavier » :** sauvegarde et envoi sur GitHub autorisés par l’étudiant ; publication GitHub Pages terminée avec succès. Nouveau contrôle dans une partie séparée sur l’adresse publique, navigateur intégré sous Windows : au clic, « Nouvelle partie » conserve le bouton actif et réinitialise les quatre choix, le compteur et l’historique ; une proposition incomplète affiche l’explication sans consommer d’essai ; une proposition valide ajoute un essai et une ligne en conservant « Valider » actif. Au clavier, les mêmes actions ramènent respectivement aux positions 1, 4 manquante et 1. Un clic sur « Nouvelle partie » après ce parcours clavier conserve à nouveau le bouton actif. **Tous ces contrôles ont réussi**, sans erreur ni alerte JavaScript observée. La confirmation sur iPhone 16/Safari reste non effectuée sur cette version.
+## Reprendre le développement
 
-Pour chaque vérification future, conserver comportement, attendu, observé, statut (réussi, échoué ou non effectué), date, version, environnement et limites. Pour une correction, garder si possible la preuve du défaut avant et le résultat du même test après. Les contrôles d’API seront ajoutés après réception du contrat officiel.
+Les fichiers restent séparés selon leur rôle :
 
-## Plan de développement proposé
+- `index.html` structure la page et `style.css` définit son apparence.
+- `jeu.js` contient les règles et l’état de la partie. `interface.js` gère les interactions et l’affichage.
+- `jeu.test.mjs` conserve les tests du moteur.
+- `serveur.mjs` et `lancer-jeu.cmd` servent uniquement à la prévisualisation locale. Celle-ci limite les fichiers accessibles ; le refus du README avec une réponse 404 a été vérifié, ainsi que les requêtes HEAD, qui demandent les informations du fichier sans son contenu.
+- `AGENTS.md` contient les consignes de travail. `doc/` conserve les trois sources. `.gitignore` exclut notamment `.node-local` et les fichiers privés.
 
-Appliquer à chaque étape : **Cadrer → Confier → Examiner → Vérifier → Documenter**. Les choix importants restent soumis à l’étudiant. Un commit est un point de sauvegarde dans l’historique Git ; un tag est un nom attaché à une version. Proposer des commits aux étapes utiles, sans commit, tag, push ou publication sans accord.
+Pour reprendre, lire README, AGENTS et les sources pertinentes. La méthode est **Cadrer → Confier → Examiner → Vérifier → Documenter**. L’accord de l’étudiant est nécessaire avant toute sauvegarde Git, création de tag, envoi ou publication. Les versions sauvegardées sont dans l’[historique Git](https://github.com/Davaub/Mastermind/commits/main/).
 
-| Étape | Objectif et résultat attendu | Vérifications prévues |
-| --- | --- | --- |
-| 1. Valider le départ | Obtenir ou clarifier le modèle du cours, valider l’architecture et proposer une première sauvegarde Git. | Comparer le modèle au sujet, examiner les fichiers à conserver et les changements proposés avant toute opération Git. |
-| 2. Construire le moteur par petits changements | Commencer par le calcul des indices, puis ajouter tirage, validation et cycle complet de partie. | Exemple officiel des répétitions, exemple des mal placées, puis tests 1 à 7 au niveau du moteur et refus d’une couleur non autorisée. |
-| 3. Obtenir une première version jouable | Ajouter composition modifiable, validation, compteur, historique, messages, règles et nouvelle partie. | Reprendre les tests 1 à 7 depuis l’interface, puis le test 8 ; comparer attendu et observé dans le README. |
-| 4. Préparer et publier une première version | Relire les fichiers, vérifier l’absence de secrets, conversations et données privées, obtenir l’accord puis publier sur GitHub Pages. | Refaire un parcours sur l’adresse publiée, vérifier les fichiers chargés et un essai sur smartphone ; documenter les liens réels et les limites. |
-| 5. Préparer J1 : 20 novembre 2026 au soir | Première version vérifiée, éventuellement incomplète ; liens du dépôt et de l’application, tag `jalon-1` après accord, README avec décision expliquée, premiers attendus, tests, correction réelle avant/après et limites. | Examiner les preuves et la version remise ; confirmer l’heure sur Cyberlearn. Si aucune correction n’est documentée, signaler le manque sans inventer de défaut. Aucune capsule à J1. |
-| 6. Aller vers J2 : 18 décembre 2026 au soir | Intégrer le contrat 0.2 reçu, compléter le jeu et la documentation, préparer le tag `final` après accord et la capsule de 4 à 5 minutes avec voix et écran. | Tester les règles et la conformité API sur le site publié, son partage de logique et d’état avec l’interface, noter appareil et résultat mobile ; essayer le jeu d’un camarade et en faire un bref retour. Vérifier liens, preuves de correction et lisibilité de la capsule. |
+### Limites et informations attendues
 
-L’API 0.2 fonctionnelle est obligatoire pour J2. Les remises ont lieu sur Cyberlearn aux heures annoncées sur la plateforme. La capsule J2 reste sur Cyberlearn, jamais dans GitHub public. Les conversations ne font pas partie du dépôt public.
+**Les documents manquants du cours.** Le contrat API 0.2, les indications associées et le modèle de départ ne sont pas encore disponibles. Le contrat devra préciser les fonctions attendues, les informations à leur transmettre, les résultats qu’elles doivent renvoyer et le traitement des erreurs. Il reste aussi à préciser s’il prévoit un moyen de refaire plusieurs fois un essai avec un secret connu. Aucun format n’est supposé avant réception de ce document.
 
-**Sauvegarde de cette étape :** premier commit « Première version jouable de Code secret », repéré par `v0.1.0`, sur `main` dans le dépôt public [Davaub/Mastermind](https://github.com/Davaub/Mastermind), avec l’accord de l’étudiant. L’auteur Git utilise le pseudonyme GitHub et une adresse GitHub masquée. Les fichiers du jeu, les tests, la documentation et les trois PDF de référence ont été examinés avant l’envoi ; les contrôles n’ont détecté ni secret ni adresse personnelle dans ces fichiers. Cette vérification ne remplace pas les contrôles à réaliser pour chaque ajout futur.
+**Les appareils et les aides à la lecture.** Les essais sur téléphone concernent uniquement l’iPhone 16 avec Safari de l’étudiant. Les autres appareils mobiles n’ont pas été essayés. Le jeu n’a pas non plus été contrôlé avec un lecteur d’écran, un logiciel qui restitue oralement le contenu de la page. Aucun examen complet de son accessibilité n’a été réalisé.
 
-**Sauvegarde du 12 novembre :** commit local « Corriger le lancement Windows et documenter les premiers essais », sur `main`, avec l’accord de l’étudiant. Il conserve `lancer-jeu.cmd`, l’exclusion de `.node-local` et le README actualisé. Le chemin local reste exclu de Git ; le repère `v0.1.0` reste attaché à la première version. Aucun nouvel envoi sur GitHub ni nouvelle publication n’est effectué à cette étape.
+**Les actions qui restent à vérifier.** Dans le navigateur utilisé par Codex, l’outil de contrôle n’a pas permis de confirmer l’ouverture de la liste de couleurs affichée par le navigateur. Le lien de retour a été essayé après une défaite, mais pas séparément après une victoire. Ces points ne sont donc pas présentés comme vérifiés.
 
-**Sauvegarde des adaptations clavier, 12 novembre :** commit « Améliorer la navigation clavier et documenter les essais », comprenant `index.html`, `interface.js`, `style.css` et ce README. La sauvegarde et l’envoi sur GitHub de ce commit et du correctif de lancement `641a89c` sont autorisés par l’étudiant. Le chemin `.node-local` reste exclu de Git ; le repère `v0.1.0` conserve sa position d’origine. Les contrôles et limites rapportés ci-dessus correspondent aux essais réalisés avant cette sauvegarde ; aucun nouveau test de jeu n’est annoncé pour la seule opération Git.
+**Les limites des essais sur le hasard.** Les tests montrent que les couleurs autorisées peuvent être tirées. Ils ne mesurent pas la fréquence de chaque combinaison sur un grand nombre de parties ; aucune étude statistique du hasard n’a été réalisée.
 
-**Publication du 12 novembre :** GitHub Pages activé avec l’accord de l’étudiant, depuis `main` et le dossier principal ; première version publique `a128ef3` vérifiée ci-dessus. Seul le README est actualisé dans le dépôt pour documenter cette publication ; les fichiers du jeu et le repère `v0.1.0` sont conservés.
+**Les essais avec un secret connu.** Pour vérifier certains résultats précis, les tests utilisent une combinaison secrète choisie à l’avance. Ils comparent ainsi les indices calculés avec ceux attendus. Ces essais sont réalisés directement sur les fonctions du moteur, sans passer par les boutons de la page.
 
-**Prochaine étape proposée :** recharger le site sur iPhone 16/Safari et confirmer que « Valider la proposition » et « Nouvelle partie » n’ouvrent plus une liste, tandis qu’un toucher volontaire sur une couleur permet toujours de la modifier. Préparer ensuite J1. Aucun repère `jalon-1` ou `final` n’a encore été créé.
+### Prochaines échéances
+
+**J1 est prévu le 20 novembre 2026 au soir.** Les liens, les règles, les choix, les tests, les corrections avant/après et les limites sont documentés. La version retenue pour ce rendu est désignée par le tag `jalon-1`, un repère qui permet de retrouver exactement les fichiers remis. La sauvegarde et l’envoi de cette version sur GitHub sont autorisés par l’étudiant. La remise sur Cyberlearn reste à effectuer ; aucune vidéo n’est demandée pour J1.
+
+**J2 est prévu le 18 décembre 2026 au soir.** Il faudra intégrer et vérifier l’API 0.2 obligatoire sur le même jeu publié, actualiser la documentation, essayer le jeu d’un camarade et en faire un bref retour. Le tag `final` sera préparé après accord. Une capsule de quatre à cinq minutes montrera l’écran avec les explications orales de l’étudiant ; elle sera déposée sur Cyberlearn, jamais dans GitHub public. Les conversations et les données confidentielles restent hors du dépôt.
+
+L’heure exacte et les modalités de remise sur Cyberlearn n’ont pas été vérifiées ici. Le repère `jalon-1` conserve la documentation validée et le code du jeu déjà publié sous `c43d997`. Seul le README a été modifié pour cette sauvegarde ; aucun test supplémentaire du jeu n’a été exécuté à cette occasion. Le repère `final` reste à créer après validation pour J2.
