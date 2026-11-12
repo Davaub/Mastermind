@@ -4,9 +4,11 @@ Projet individuel de cours à la HEG Genève : créer un jeu Web solo inspiré d
 
 ## État actuel
 
-Version `v0.1.0` : première interface jouable du 11 novembre 2026.
+Version sauvegardée `v0.1.0` : première interface jouable du 11 novembre 2026. Le correctif de lancement et le premier retour de test sont conservés dans un nouveau commit local du 12 novembre 2026, sans nouvel envoi sur GitHub.
 
 - Disponible : première interface française avec palette nommée, quatre sélecteurs, aperçus de couleurs, validation, compteur, historique, règles dépliables, messages de fin et nouvelle partie ; moteur avec les règles du jeu et 27 tests automatisés.
+- Lancement Windows : `lancer-jeu.cmd` cherche Node.js dans Windows, puis utilise le chemin local préparé pour cet ordinateur si nécessaire.
+- Retour de prise en main du 12 novembre : l’étudiant confirme le lancement, les propositions incomplètes et valides, la nouvelle partie et la clarté des informations, sans difficulté signalée.
 - Prévu : publication sur GitHub Pages, essai sur smartphone réel et intégration de l’API commune de test 0.2 après réception du contrat.
 - Versions : Git initialisé sur la branche `main`, avec le repère `v0.1.0` pour cette première sauvegarde. Dépôt associé : [Davaub/Mastermind sur GitHub](https://github.com/Davaub/Mastermind).
 - Limites : contrôles dans le navigateur intégré à Codex, sans essai tactile sur appareil réel ni lecteur d’écran. Le site n’est pas encore publié sur GitHub Pages.
@@ -16,20 +18,26 @@ Version `v0.1.0` : première interface jouable du 11 novembre 2026.
 
 ### Lancer le jeu sur son ordinateur
 
-Prérequis : Node.js disponible ; version 24.22.1 utilisée sous Windows pour les vérifications. Aucune bibliothèque supplémentaire à installer. L’installation de Node.js sur une autre machine n’a pas été vérifiée.
+**Sur cet ordinateur Windows :**
 
-1. Ouvrir un terminal dans le dossier du projet.
-2. Exécuter `node serveur.mjs` et garder le terminal ouvert.
+1. Dans l’Explorateur de fichiers, ouvrir le dossier du projet et double-cliquer sur `lancer-jeu.cmd`.
+2. Attendre le message `Code secret : http://127.0.0.1:8000`, puis garder la fenêtre ouverte pendant le jeu.
 3. Ouvrir [le jeu local](http://127.0.0.1:8000/) dans un navigateur.
-4. Pour arrêter la prévisualisation, appuyer sur `Ctrl+C` dans le terminal.
+4. Pour arrêter, appuyer sur `Ctrl+C` dans cette fenêtre ou la fermer. Au prochain essai, relancer le fichier avant d’ouvrir le lien.
 
-Cette procédure a été essayée : la page et ses fichiers se chargent correctement. L’adresse désigne uniquement cet ordinateur, pas un site public. L’outil de prévisualisation sert les fichiers statiques ; aucune règle du jeu ne s’exécute sur ce serveur. GitHub Pages pourra servir les mêmes fichiers sans cet outil.
+Le contenu du lanceur a été exécuté avec succès par `cmd.exe` avec le chemin de recherche habituel de Windows, depuis un autre dossier. Le 12 novembre, l’étudiant confirme aussi le lancement et l’accès au jeu ; la méthode exacte de lancement n’est pas précisée, donc le double-clic n’est pas confirmé séparément. Aucun logiciel ni réglage Windows n’a été installé ou modifié pour cette correction.
+
+**Si Node.js est déjà accessible dans le terminal :** ouvrir un terminal dans le dossier du projet et exécuter `node serveur.mjs`. Vérifier d’abord avec `node --version` : si la commande n’est pas reconnue, utiliser le lanceur ci-dessus. La version essayée est Node.js 24.22.1 ; aucune bibliothèque supplémentaire n’est nécessaire.
+
+Le lanceur utilise en priorité Node.js trouvé par Windows. Sinon, il lit `.node-local`, qui indique le chemin de la copie fournie avec Codex sur cet ordinateur. Ce fichier est exclu de Git : il n’est pas fourni lors d’un téléchargement du dépôt. Si une mise à jour de Codex supprime cette copie, demander à Codex d’actualiser le chemin, ou installer séparément Node.js pour un lancement indépendant de Codex. L’installation de Node.js reste non effectuée.
+
+L’adresse locale désigne uniquement cet ordinateur, pas un site public. Elle ne fonctionne que pendant l’exécution de la prévisualisation. Le dépôt GitHub sauvegarde les fichiers ; il ne maintient pas cette prévisualisation en marche. L’outil sert seulement les fichiers statiques, sans exécuter les règles du jeu. GitHub Pages pourra servir les mêmes fichiers sans cet outil.
 
 ### Jouer et vérifier
 
 Choisir une couleur à chacune des quatre positions numérotées, modifier si nécessaire, puis appuyer sur « Valider la proposition ». Consulter les bien placées et les mal placées dans l’historique pour préparer l’essai suivant. Les choix restent modifiables tant que la proposition n’est pas validée. Au clavier, utiliser Tabulation pour se déplacer, les flèches dans les sélecteurs et Entrée pour activer un bouton. « Comment jouer ? » détaille les règles ; « Nouvelle partie » recommence le jeu.
 
-Pour relancer les tests du moteur, exécuter `node --test jeu.test.mjs` depuis le dossier du projet. Commande vérifiée : 27 tests réussis. Node.js exécute ici JavaScript sans navigateur. Pour reprendre le développement, lire ce README, `AGENTS.md`, puis les sources utiles dans `doc/`.
+Pour relancer les tests du moteur dans un terminal où `node --version` fonctionne, exécuter `node --test jeu.test.mjs` depuis le dossier du projet. Commande vérifiée le 11 novembre : 27 tests réussis ; ils n’ont pas été réexécutés pour le correctif de lancement du 12 novembre, qui ne modifie pas le jeu. Node.js exécute ici JavaScript sans navigateur. Pour reprendre le développement, lire ce README, `AGENTS.md`, puis les sources utiles dans `doc/`.
 
 ## Règles et sources
 
@@ -67,7 +75,7 @@ Le tirage normal utilise `Math.random`, le générateur fourni par JavaScript. L
 
 - Contrat API 0.2 et indications du cours, attendus ultérieurement selon l’étudiant : noms et accès aux fonctions, paramètres, réponses, erreurs, démarrage et éventuel moyen officiel d’obtenir une partie reproductible pour les tests. Attendre ces sources avant toute implémentation de l’API.
 - Modèle de départ mentionné page 1 du sujet : absent du dossier ; les informations seront communiquées en temps voulu. L’organisation proposée reste provisoire jusqu’à leur réception.
-- Retour de l’étudiant sur cette première interface ; essai tactile sur smartphone réel et vérification avec un lecteur d’écran à effectuer.
+- Premier retour de l’étudiant reçu : informations jugées claires, sans commentaire supplémentaire. Essai tactile sur smartphone réel et vérification avec un lecteur d’écran à effectuer.
 - Publication du site sur GitHub Pages à préparer après validation ; heure exacte des rendus à consulter sur Cyberlearn.
 
 ## Reprise du projet et structure proposée
@@ -82,6 +90,8 @@ Le tirage normal utilise `Math.random`, le générateur fourni par JavaScript. L
 | `jeu.js` | Règles, palette et état de la partie, sans dépendre de la page. |
 | `jeu.test.mjs` | Tests du moteur avec les outils intégrés de Node.js. |
 | `serveur.mjs` | Prévisualisation locale limitée aux fichiers du jeu, liée à l’adresse locale de cet ordinateur. Inutile pour l’application publiée. |
+| `lancer-jeu.cmd` | Lance la prévisualisation sous Windows depuis le dossier du projet, même si le fichier est exécuté depuis un autre dossier. |
+| `.node-local` | Configuration locale du chemin vers Node.js, exclue de Git et à actualiser si ce chemin change. |
 | `.gitignore` | Exclusions des secrets, configurations locales, fichiers temporaires et vidéos de capsule de l’historique Git. |
 | `README.md`, `AGENTS.md`, `doc/` | Suivi du projet, consignes de collaboration et trois PDF de référence. |
 
@@ -137,6 +147,38 @@ Même version du projet et même date ; navigateur intégré à Codex sous Windo
 | Secret dans l’affichage | Le code ne doit pas être révélé pendant la partie. | Les quatre « ? » restent affichés, y compris en fin de partie : réussi pour l’affichage contrôlé. |
 | Prévisualisation locale | Les fichiers du jeu se chargent correctement. | Page, CSS et modules : réponse 200 avec leur type correct ; fichiers non servis comme le README : 404 ; requête d’en-têtes sans contenu : réussie. |
 
+### Premier essai de l’étudiant
+
+**Retour reçu le 12 novembre 2026**, sur la base `v0.1.0` avec le correctif local de lancement, non commité au moment de cet essai. Résultats déclarés par l’étudiant après le parcours proposé, distincts des contrôles exécutés par Codex. Le navigateur, la méthode exacte de lancement et le mode de saisie ne sont pas précisés.
+
+| Comportement | Attendu | Observé selon l’étudiant | Statut |
+| --- | --- | --- | --- |
+| Lancement et accès au jeu | La prévisualisation démarre et le jeu s’ouvre dans le navigateur. | Fonctionnement confirmé. | Réussi |
+| Proposition de trois couleurs | Refus expliqué, sans consommer d’essai. | Fonctionnement conforme au parcours confirmé. | Réussi |
+| Proposition de quatre couleurs | Un essai consommé ; proposition et indices affichés dans l’historique. | Fonctionnement conforme au parcours confirmé. | Réussi |
+| Nouvelle partie | Compteur, choix et historique réinitialisés. | Fonctionnement conforme au parcours confirmé. | Réussi |
+
+Les informations sont jugées claires et aucune difficulté supplémentaire n’est signalée. Ce retour ne valide pas les autres scénarios, le smartphone réel ou le lecteur d’écran ; aucune nouvelle exécution des 27 tests automatisés n’a été réalisée pour cette mise à jour documentaire.
+
+### Correction documentée : lancement à la reprise du projet
+
+**12 novembre 2026 — base `v0.1.0`, correctif local non commité au moment du diagnostic.** L’étudiant signale un lien local inaccessible et une commande `node serveur.mjs` non reconnue. Attendu : pouvoir reprendre le jeu avec la procédure du README.
+
+- **Avant : échec reproduit.** Avec le chemin de recherche enregistré dans Windows, `node --version` répond « 'node' n’est pas reconnu ». Aucun service n’écoute sur le port 8000. Le lien inaccessible a été signalé par l’étudiant ; l’absence de prévisualisation en cours a été constatée pendant le diagnostic.
+- **Cause :** la copie de Node.js disponible dans l’environnement de Codex n’est pas accessible par son nom dans un terminal Windows ordinaire. Le README du 11 novembre généralisait une vérification faite dans Codex. Par ailleurs, une adresse locale cesse de répondre quand sa prévisualisation est arrêtée.
+- **Correction :** ajout de `lancer-jeu.cmd`, préparation du chemin local `.node-local` et exclusion de ce fichier dans `.gitignore`. Le lanceur se place dans le dossier du projet et emploie Node.js de Windows ou le chemin local préparé. Les fichiers du jeu et `serveur.mjs` sont inchangés.
+
+| Contrôle | Attendu | Observé et statut |
+| --- | --- | --- |
+| Lanceur sans `node` dans le chemin habituel de Windows | La prévisualisation démarre grâce au chemin local, même depuis un autre dossier. | Message de démarrage obtenu depuis le dossier Documents avec le chemin de recherche Windows : réussi. |
+| Page et fichiers nécessaires | Chargement de la page, du CSS et des deux modules JavaScript. | Quatre réponses HTTP 200 avec les types attendus ; page française, sélecteurs actifs et compteur à 0 constatés dans le navigateur intégré à Codex : réussi. |
+| Second lancement avec Node.js accessible | Message explicite si une prévisualisation utilise déjà le port 8000. | « Le port 8000 est déjà utilisé », code de sortie 1 ; première prévisualisation conservée : réussi. |
+| Configuration locale | Le chemin propre à cet ordinateur reste hors de Git. | Exclusion de `.node-local` confirmée par Git : réussi. |
+| Reprise par l’étudiant | L’étudiant peut lancer le jeu et y accéder. | Fonctionnement confirmé dans son retour du 12 novembre : réussi selon l’étudiant. Méthode exacte non précisée. |
+| Double-clic vérifié séparément et autre ordinateur | Vérifier ces conditions précises de lancement. | Non effectué ; le retour de l’étudiant ne précise pas ces conditions. |
+
+**Limite :** ce correctif permet le lancement sur cet ordinateur avec sa configuration locale. Il ne rend pas la commande `node` disponible dans tous les terminaux et ne transforme pas l’adresse locale en site public. Une mise à jour de Codex peut nécessiter d’actualiser `.node-local`.
+
 ### Correction documentée : aperçus gris
 
 Action reproduite à 320 pixels : choisir rouge, bleu, vert et jaune. Attendu : chaque disque doit avoir la même couleur que la pastille correspondante de la palette.
@@ -166,4 +208,6 @@ L’API 0.2 fonctionnelle est obligatoire pour J2. Les remises ont lieu sur Cybe
 
 **Sauvegarde de cette étape :** premier commit « Première version jouable de Code secret », repéré par `v0.1.0`, sur `main` dans le dépôt public [Davaub/Mastermind](https://github.com/Davaub/Mastermind), avec l’accord de l’étudiant. L’auteur Git utilise le pseudonyme GitHub et une adresse GitHub masquée. Les fichiers du jeu, les tests, la documentation et les trois PDF de référence ont été examinés avant l’envoi ; les contrôles n’ont détecté ni secret ni adresse personnelle dans ces fichiers. Cette vérification ne remplace pas les contrôles à réaliser pour chaque ajout futur.
 
-**Prochaine étape :** l’étudiant essaie le jeu et relève ses observations. La mise en ligne du site avec GitHub Pages nécessitera une validation distincte ; elle n’est pas incluse dans cette sauvegarde du code.
+**Sauvegarde du 12 novembre :** commit local « Corriger le lancement Windows et documenter les premiers essais », sur `main`, avec l’accord de l’étudiant. Il conserve `lancer-jeu.cmd`, l’exclusion de `.node-local` et le README actualisé. Le chemin local reste exclu de Git ; le repère `v0.1.0` reste attaché à la première version. Aucun nouvel envoi sur GitHub ni nouvelle publication n’est effectué à cette étape.
+
+**Prochaine étape proposée :** compléter les essais utiles, notamment le parcours au clavier, puis préparer la mise en ligne du jeu. L’envoi du nouveau commit sur GitHub et l’activation de GitHub Pages nécessiteront l’accord de l’étudiant.
