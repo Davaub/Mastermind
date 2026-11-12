@@ -13,6 +13,16 @@ const message = document.querySelector('#message');
 const historique = document.querySelector('#historique');
 const historiqueVide = document.querySelector('#historique-vide');
 const revenirProposition = document.querySelector('#revenir-proposition');
+let navigationClavier = false;
+
+// Suivre l’action réelle plutôt que le type d’appareil : un téléphone peut avoir un clavier.
+document.addEventListener('keydown', () => { navigationClavier = true; });
+document.addEventListener('pointerdown', () => { navigationClavier = false; });
+
+function focaliserAuClavier(selecteur) {
+  // Sur écran tactile, activer une liste peut ouvrir son menu sans choix volontaire.
+  if (navigationClavier) selecteur?.focus();
+}
 
 function nomCouleur(couleur) {
   return couleur[0].toUpperCase() + couleur.slice(1);
@@ -144,7 +154,7 @@ formulaire.addEventListener('submit', (evenement) => {
       'erreur',
     );
     for (const selecteur of incomplets) selecteur.setAttribute('aria-invalid', 'true');
-    incomplets[0]?.focus();
+    focaliserAuClavier(incomplets[0]);
     return;
   }
 
@@ -157,7 +167,7 @@ formulaire.addEventListener('submit', (evenement) => {
     nouvellePartie.focus();
   } else {
     afficherMessage(`Essai ${partie.essais} enregistré. Consultez les indices et ajustez votre proposition.`);
-    selecteurs[0].focus();
+    focaliserAuClavier(selecteurs[0]);
   }
 });
 
@@ -167,7 +177,7 @@ nouvellePartie.addEventListener('click', () => {
   afficherApercus();
   afficherPartie();
   afficherMessage('Nouvelle partie : à vous de trouver le code !');
-  selecteurs[0].focus();
+  focaliserAuClavier(selecteurs[0]);
 });
 
 afficherPartie();

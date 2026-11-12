@@ -10,16 +10,17 @@ Version initiale sauvegardée `v0.1.0` : première interface jouable du 11 novem
 - Lancement Windows : `lancer-jeu.cmd` cherche Node.js dans Windows, puis utilise le chemin local préparé pour cet ordinateur si nécessaire.
 - Retour de prise en main du 12 novembre : l’étudiant confirme le lancement, les propositions incomplètes et valides, la nouvelle partie et la clarté des informations, sans difficulté signalée.
 - Retour clavier : les deux adaptations validées sont disponibles en ligne : « Revenir à la proposition », masqué au repos et révélé quand Tabulation l’atteint après les règles, et défilement circulaire des six couleurs avec les flèches, lorsque la liste est fermée. Tabulation reste libre de quitter la page.
-- Prévu : essai sur smartphone réel et intégration de l’API commune de test 0.2 après réception du contrat.
+- Retour mobile du 12 novembre : les cinq points du parcours fonctionnent sur iPhone 16 avec Safari selon l’étudiant ; ouverture non souhaitée d’une liste après validation ou nouvelle partie signalée. Adaptation vérifiée localement, publication autorisée par l’étudiant ; confirmation sur l’iPhone à effectuer après mise en ligne.
+- Prévu : confirmation du correctif sur iPhone et intégration de l’API commune de test 0.2 après réception du contrat.
 - Versions : Git initialisé sur la branche `main`, avec le repère `v0.1.0` pour cette première sauvegarde. Dépôt associé : [Davaub/Mastermind sur GitHub](https://github.com/Davaub/Mastermind).
-- Limites : contrôles locaux et sur le site publié dans le navigateur intégré à Codex, sans essai tactile sur appareil réel ni lecteur d’écran. L’API commune 0.2 reste à intégrer.
+- Limites : contrôles de Codex dans le navigateur intégré, complétés par le retour de l’étudiant sur iPhone 16/Safari. Correctif mobile non encore publié ni vérifié sur cet appareil ; lecteur d’écran et API commune 0.2 non vérifiés.
 - Hors périmètre : compte utilisateur, serveur applicatif, paiement, classement en ligne, données personnelles, service d’IA et clé API. PWA et fonctionnement hors ligne restent facultatifs et non prioritaires.
 
 ## Utilisation
 
 ### Jouer en ligne
 
-Ouvrir [Code secret sur GitHub Pages](https://davaub.github.io/Mastermind/) dans un navigateur, sur ordinateur ou smartphone. Aucun terminal, Node.js ou lanceur local n’est nécessaire pour cette adresse ; une connexion Internet est requise pour charger le jeu. Le fonctionnement tactile sur smartphone réel reste à vérifier.
+Ouvrir [Code secret sur GitHub Pages](https://davaub.github.io/Mastermind/) dans un navigateur, sur ordinateur ou smartphone. Aucun terminal, Node.js ou lanceur local n’est nécessaire pour cette adresse ; une connexion Internet est requise pour charger le jeu. Le parcours tactile initial est confirmé sur iPhone 16/Safari, avec une réserve sur l’ouverture automatique des listes (voir les vérifications ci-dessous).
 
 Publication depuis la branche `main`, dossier principal du dépôt, avec HTTPS imposé. Les prochains envois sur cette branche déclencheront une nouvelle publication ; ils restent soumis à l’accord de l’étudiant. Ce choix utilise directement les fichiers statiques existants, sans ajouter de dépendance ni de procédure de compilation. La prévisualisation locale ci-dessous reste utile pour développer avant d’envoyer une modification.
 
@@ -45,6 +46,8 @@ L’adresse locale désigne uniquement cet ordinateur, pas un site public. Elle 
 Choisir une couleur à chacune des quatre positions numérotées, modifier si nécessaire, puis appuyer sur « Valider la proposition ». Consulter les bien placées et les mal placées dans l’historique pour préparer l’essai suivant. Les choix restent modifiables tant que la proposition n’est pas validée.
 
 Au clavier, utiliser Tabulation pour avancer, Maj+Tab pour revenir et Entrée pour activer une commande. Liste fermée, Bas/Droite passent à la couleur suivante et Haut/Gauche à la précédente, en boucle entre Violet et Rouge. Depuis « Choisir… », Bas/Droite commencent par Rouge, Haut/Gauche par Violet ; ces flèches ne vident pas une position. Les autres commandes du sélecteur, dont Début pour retrouver « Choisir… » dans le navigateur testé, restent disponibles.
+
+**Adaptation locale en attente de publication :** après une validation ou une nouvelle partie au clavier, la sélection active revient automatiquement à la première position (ou à la première position manquante lors d’un refus). Après un clic ou un toucher, aucun déplacement automatique vers une liste n’est demandé. Il reste possible de toucher volontairement une couleur pour la modifier.
 
 « Comment jouer ? » détaille les règles ; « Nouvelle partie » recommence le jeu. Le lien « Revenir à la proposition » est masqué au repos et apparaît lorsque Tabulation l’atteint, après les règles. Entrée place la sélection active sur la position 1 ; si la partie est terminée, le lien mène à « Nouvelle partie ». Une nouvelle Tabulation permet de poursuivre hors du jeu ; le lien se masque dès qu’il n’est plus actif. Recharger la page permet de charger une nouvelle version locale de l’interface et démarre une nouvelle partie.
 
@@ -86,8 +89,8 @@ Le tirage normal utilise `Math.random`, le générateur fourni par JavaScript. L
 
 - Contrat API 0.2 et indications du cours, attendus ultérieurement selon l’étudiant : noms et accès aux fonctions, paramètres, réponses, erreurs, démarrage et éventuel moyen officiel d’obtenir une partie reproductible pour les tests. Attendre ces sources avant toute implémentation de l’API.
 - Modèle de départ mentionné page 1 du sujet : absent du dossier ; les informations seront communiquées en temps voulu. L’organisation proposée reste provisoire jusqu’à leur réception.
-- Retours de l’étudiant reçus : prise en main claire, parcours clavier fonctionnel et adaptations approuvées, y compris le lien masqué hors sélection. Essai tactile sur smartphone réel et vérification avec un lecteur d’écran à effectuer.
-- Heure exacte des rendus à consulter sur Cyberlearn ; préparer la version J1 après l’essai mobile.
+- Retours de l’étudiant reçus : prise en main claire, parcours clavier fonctionnel et adaptations approuvées, y compris le lien masqué hors sélection. Parcours mobile confirmé sur iPhone 16/Safari ; correctif d’ouverture des listes à publier après accord puis à confirmer sur cet appareil. Lecteur d’écran à vérifier.
+- Heure exacte des rendus à consulter sur Cyberlearn ; préparer la version J1 après confirmation du correctif mobile.
 
 ## Reprise du projet et structure proposée
 
@@ -269,6 +272,37 @@ Action reproduite à 320 pixels : choisir rouge, bleu, vert et jaune. Attendu : 
 
 Aucune erreur ni alerte JavaScript observée pendant ce parcours. Les 27 tests du moteur n’ont pas été relancés pour cette publication sans changement du jeu. Victoire, défaite et répétitions restent couvertes par les essais locaux décrits plus haut ; elles n’ont pas été rejouées dans cette série publique. Smartphone tactile réel, lecteur d’écran, autres navigateurs et API 0.2 : **non effectués**.
 
+### Essai sur iPhone et correction du retour automatique
+
+**12 novembre 2026 — retour de l’étudiant sur le site public**, version publiée `6f39809` (jeu identique à `a128ef3`), iPhone 16, Safari. Versions d’iOS et de Safari non précisées. Résultats déclarés par l’étudiant, distincts des contrôles de Codex :
+
+| Comportement | Attendu | Observé selon l’étudiant et statut |
+| --- | --- | --- |
+| Accès public | Ouvrir le jeu sans lancer la prévisualisation locale. | Fonctionnement confirmé : réussi. |
+| Trois couleurs | Refus expliqué, aucun essai consommé. | Fonctionnement conforme au parcours confirmé : réussi. |
+| Quatre couleurs | Compteur à 1/10, proposition et deux indices visibles. | Fonctionnement conforme au parcours confirmé : réussi. |
+| Nouvelle partie | Choix, compteur et historique réinitialisés. | Fonctionnement conforme au parcours confirmé : réussi. |
+| Règles et lisibilité tactile | Règles accessibles, textes et commandes lisibles et utilisables, sans défilement horizontal nécessaire. | Fonctionnement confirmé sans difficulté : réussi. |
+| Après validation ou nouvelle partie | Ne pas ouvrir une liste de couleurs sans action volontaire sur celle-ci. | Ouverture automatique signalée sur les deux boutons : échec ergonomique. |
+
+**Diagnostic :** `interface.js` demandait systématiquement l’activation d’un sélecteur avec `focus()`. Avant modification, Codex a confirmé que le clic sur « Nouvelle partie » et celui sur « Valider la proposition » déplaçaient bien la sélection active vers la position 1. L’ouverture du menu propre à Safari/iPhone n’a pas été reproduite dans le navigateur de Codex ; elle est attestée par le retour de l’étudiant, et le lien avec ce déplacement reste une hypothèse à confirmer sur l’appareil.
+
+**Modification autorisée — base `6f39809`, changements locaux non commités au moment des contrôles :** mémoriser la dernière action au clavier (`keydown`) ou au pointeur (`pointerdown`, qui couvre souris et toucher), puis réserver les déplacements automatiques vers un sélecteur aux actions au clavier. Cela couvre les propositions valides, incomplètes et la nouvelle partie. Le lien volontaire de retour et le passage au bouton « Nouvelle partie » en fin de partie restent inchangés. Aucun changement du moteur, de la présentation ou de l’API. Références techniques consultées : [focus()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus), [pointerdown](https://developer.mozilla.org/en-US/docs/Web/API/Element/pointerdown_event) et [keydown](https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event), documentation MDN.
+
+Contrôles de Codex : même date, Windows, navigateur intégré, adresse locale, sans accès au secret. Syntaxe de `interface.js` vérifiée avec Node.js 24.22.1 : réussie.
+
+| Contrôle après modification | Attendu | Observé et statut |
+| --- | --- | --- |
+| Nouvelle partie au clic | Réinitialiser sans activer une liste. | Bouton « Nouvelle partie » actif, compteur à 0, historique et choix vides : réussi. |
+| Validation au clic | Enregistrer un essai sans activer une liste. | Bouton « Valider » actif, compteur à 1 et une ligne d’historique : réussi. |
+| Proposition incomplète au clic, avant et après un essai valide | Message et positions manquantes signalés, état conservé, aucune liste activée. | Bouton « Valider » actif, compteur/historique à 0 puis 1 ; message explicite et position vide marquée invalide : réussi. |
+| Même parcours au clavier | Garder les retours utiles vers les sélecteurs. | Entrée sur « Nouvelle partie » → position 1 ; proposition de trois rouges refusée → position 4 ; quatre rouges validés → position 1 avec un essai et une ligne : réussi. |
+| Alternance clavier puis souris | Suivre la dernière action, sans conserver le retour clavier après un clic. | Après emploi du clavier, clic sur chacun des deux boutons : le bouton reste actif ; la boucle Violet → Rouge et le lien volontaire de retour fonctionnent : réussi. |
+| Affichage à 390 pixels simulés | Conserver les commandes et l’absence de débordement après validation. | Compteur et historique à 1 ; aucune liste ouverte exposée par le navigateur, bouton « Valider » actif, contenu de 375 pixels égal à la largeur disponible : réussi pour cette simulation. |
+| Confirmation sur iPhone 16/Safari | Les deux boutons ne doivent plus ouvrir les listes ; choix volontaire toujours possible. | Non effectué sur le correctif ; nécessite publication après accord, puis nouvel essai de l’étudiant. |
+
+Aucune erreur ni alerte JavaScript observée. Les 27 tests du moteur n’ont pas été relancés : il est inchangé ; cette correction porte sur les interactions, contrôlées dans le navigateur. Safari iOS, le toucher réel et les aides techniques n’ont pas été testés par Codex. La correction reste locale et le site public conserve sa version précédente.
+
 Pour chaque vérification future, conserver comportement, attendu, observé, statut (réussi, échoué ou non effectué), date, version, environnement et limites. Pour une correction, garder si possible la preuve du défaut avant et le résultat du même test après. Les contrôles d’API seront ajoutés après réception du contrat officiel.
 
 ## Plan de développement proposé
@@ -294,4 +328,4 @@ L’API 0.2 fonctionnelle est obligatoire pour J2. Les remises ont lieu sur Cybe
 
 **Publication du 12 novembre :** GitHub Pages activé avec l’accord de l’étudiant, depuis `main` et le dossier principal ; première version publique `a128ef3` vérifiée ci-dessus. Seul le README est actualisé dans le dépôt pour documenter cette publication ; les fichiers du jeu et le repère `v0.1.0` sont conservés.
 
-**Prochaine étape proposée :** essayer l’adresse publique sur un smartphone réel et noter l’appareil, le navigateur et les résultats, puis préparer J1. Aucun repère `jalon-1` ou `final` n’a encore été créé.
+**Prochaine étape proposée :** après accord, sauvegarder et publier le correctif du retour automatique, puis confirmer les deux boutons sur iPhone 16/Safari avant de préparer J1. Aucun repère `jalon-1` ou `final` n’a encore été créé.
