@@ -16,14 +16,16 @@ button:disabled, select:disabled { cursor: default; opacity: .6; }
 :focus-visible { outline: 3px solid #946119; outline-offset: 4px; }
 [hidden] { display: none !important; }
 
+.lien-evitement, .retour-proposition a {
+  padding: 12px;
+  color: white;
+  background: #234e42;
+}
 .lien-evitement {
   position: absolute;
   z-index: 2;
   top: 8px;
   left: 8px;
-  padding: 12px;
-  color: white;
-  background: #234e42;
   transform: translateY(-180%);
 }
 .lien-evitement:focus { transform: translateY(0); }
@@ -101,6 +103,10 @@ button { min-height: 44px; border-radius: 9px; border: 1px solid transparent; pa
 .regles > div { padding: 0 22px 16px; color: #51634f; font-size: .85rem; }
 .regles li { margin-bottom: 9px; padding-left: 5px; }
 .regles ol { padding-left: 20px; }
+.retour-proposition { position: relative; margin: 12px 0 0; }
+.retour-proposition a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-underline-offset: 3px; }
+/* Masquer visuellement le lien au repos tout en le gardant accessible par Tabulation. */
+.retour-proposition a:not(:focus) { position: absolute; width: 1px; height: 1px; min-height: 0; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .sans-script { padding: 16px; border: 1px solid #a33a32; color: #a33a32; background: #fffefa; }
 footer { text-align: center; padding: 24px 0 0; color: #64705f; font-size: .7rem; }
 

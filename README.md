@@ -4,11 +4,12 @@ Projet individuel de cours à la HEG Genève : créer un jeu Web solo inspiré d
 
 ## État actuel
 
-Version sauvegardée `v0.1.0` : première interface jouable du 11 novembre 2026. Le correctif de lancement et le premier retour de test sont conservés dans un nouveau commit local du 12 novembre 2026, sans nouvel envoi sur GitHub.
+Version initiale sauvegardée `v0.1.0` : première interface jouable du 11 novembre 2026. Le correctif de lancement et le premier retour de test sont conservés dans le commit `641a89c` du 12 novembre 2026. Les adaptations clavier validées et vérifiées sont regroupées dans le commit « Améliorer la navigation clavier et documenter les essais », sur `main`. Le site n’est pas encore publié sur GitHub Pages.
 
 - Disponible : première interface française avec palette nommée, quatre sélecteurs, aperçus de couleurs, validation, compteur, historique, règles dépliables, messages de fin et nouvelle partie ; moteur avec les règles du jeu et 27 tests automatisés.
 - Lancement Windows : `lancer-jeu.cmd` cherche Node.js dans Windows, puis utilise le chemin local préparé pour cet ordinateur si nécessaire.
 - Retour de prise en main du 12 novembre : l’étudiant confirme le lancement, les propositions incomplètes et valides, la nouvelle partie et la clarté des informations, sans difficulté signalée.
+- Retour clavier : les deux adaptations validées sont disponibles localement : « Revenir à la proposition », masqué au repos et révélé quand Tabulation l’atteint après les règles, et défilement circulaire des six couleurs avec les flèches, lorsque la liste est fermée. Tabulation reste libre de quitter la page.
 - Prévu : publication sur GitHub Pages, essai sur smartphone réel et intégration de l’API commune de test 0.2 après réception du contrat.
 - Versions : Git initialisé sur la branche `main`, avec le repère `v0.1.0` pour cette première sauvegarde. Dépôt associé : [Davaub/Mastermind sur GitHub](https://github.com/Davaub/Mastermind).
 - Limites : contrôles dans le navigateur intégré à Codex, sans essai tactile sur appareil réel ni lecteur d’écran. Le site n’est pas encore publié sur GitHub Pages.
@@ -35,7 +36,11 @@ L’adresse locale désigne uniquement cet ordinateur, pas un site public. Elle 
 
 ### Jouer et vérifier
 
-Choisir une couleur à chacune des quatre positions numérotées, modifier si nécessaire, puis appuyer sur « Valider la proposition ». Consulter les bien placées et les mal placées dans l’historique pour préparer l’essai suivant. Les choix restent modifiables tant que la proposition n’est pas validée. Au clavier, utiliser Tabulation pour se déplacer, les flèches dans les sélecteurs et Entrée pour activer un bouton. « Comment jouer ? » détaille les règles ; « Nouvelle partie » recommence le jeu.
+Choisir une couleur à chacune des quatre positions numérotées, modifier si nécessaire, puis appuyer sur « Valider la proposition ». Consulter les bien placées et les mal placées dans l’historique pour préparer l’essai suivant. Les choix restent modifiables tant que la proposition n’est pas validée.
+
+Au clavier, utiliser Tabulation pour avancer, Maj+Tab pour revenir et Entrée pour activer une commande. Liste fermée, Bas/Droite passent à la couleur suivante et Haut/Gauche à la précédente, en boucle entre Violet et Rouge. Depuis « Choisir… », Bas/Droite commencent par Rouge, Haut/Gauche par Violet ; ces flèches ne vident pas une position. Les autres commandes du sélecteur, dont Début pour retrouver « Choisir… » dans le navigateur testé, restent disponibles.
+
+« Comment jouer ? » détaille les règles ; « Nouvelle partie » recommence le jeu. Le lien « Revenir à la proposition » est masqué au repos et apparaît lorsque Tabulation l’atteint, après les règles. Entrée place la sélection active sur la position 1 ; si la partie est terminée, le lien mène à « Nouvelle partie ». Une nouvelle Tabulation permet de poursuivre hors du jeu ; le lien se masque dès qu’il n’est plus actif. Recharger la page permet de charger une nouvelle version locale de l’interface et démarre une nouvelle partie.
 
 Pour relancer les tests du moteur dans un terminal où `node --version` fonctionne, exécuter `node --test jeu.test.mjs` depuis le dossier du projet. Commande vérifiée le 11 novembre : 27 tests réussis ; ils n’ont pas été réexécutés pour le correctif de lancement du 12 novembre, qui ne modifie pas le jeu. Node.js exécute ici JavaScript sans navigateur. Pour reprendre le développement, lire ce README, `AGENTS.md`, puis les sources utiles dans `doc/`.
 
@@ -59,7 +64,7 @@ Quatre bien placées donnent la victoire, y compris au dixième essai ; dix essa
 
 **Choix retenu :** HTML pour la structure, CSS pour l’apparence et JavaScript natif pour le comportement, sans dépendance ajoutée. Une application statique contient des fichiers servis au navigateur sans serveur applicatif ; ce choix vise un code simple et un hébergement sur GitHub Pages.
 
-L’interface utilise quatre sélecteurs standard plutôt qu’une commande personnalisée : les noms des couleurs restent visibles et le navigateur fournit les commandes clavier. Une palette unique est partagée avec le moteur. À petite largeur, les positions numérotées passent sur deux lignes ; les propositions de l’historique restent ordonnées. Les messages sont annoncés par une zone de statut ; leur lecture par un lecteur d’écran reste à vérifier.
+L’interface conserve quatre sélecteurs HTML standard avec les noms des couleurs visibles. Après le retour de l’étudiant, seules les flèches sans touche modificatrice sont personnalisées pour faire boucler les six couleurs quand la liste est fermée. Les autres touches restent gérées par le navigateur. Une palette unique est partagée avec le moteur. À petite largeur, les positions numérotées passent sur deux lignes ; les propositions de l’historique restent ordonnées. Les messages sont annoncés par une zone de statut ; leur lecture par un lecteur d’écran reste à vérifier.
 
 Séparer la logique du jeu des interactions permet de vérifier les règles indépendamment de l’affichage. L’interface et la future API utiliseront le même moteur et la même partie. Une API est ici un ensemble de fonctions permettant au professeur de piloter le jeu pour le tester ; aucun nom, paramètre ou format du contrat 0.2 n’est supposé.
 
@@ -75,7 +80,7 @@ Le tirage normal utilise `Math.random`, le générateur fourni par JavaScript. L
 
 - Contrat API 0.2 et indications du cours, attendus ultérieurement selon l’étudiant : noms et accès aux fonctions, paramètres, réponses, erreurs, démarrage et éventuel moyen officiel d’obtenir une partie reproductible pour les tests. Attendre ces sources avant toute implémentation de l’API.
 - Modèle de départ mentionné page 1 du sujet : absent du dossier ; les informations seront communiquées en temps voulu. L’organisation proposée reste provisoire jusqu’à leur réception.
-- Premier retour de l’étudiant reçu : informations jugées claires, sans commentaire supplémentaire. Essai tactile sur smartphone réel et vérification avec un lecteur d’écran à effectuer.
+- Retours de l’étudiant reçus : prise en main claire et parcours clavier fonctionnel ; les deux améliorations demandées sont mises en œuvre et restent à essayer par l’étudiant. Essai tactile sur smartphone réel et vérification avec un lecteur d’écran à effectuer.
 - Publication du site sur GitHub Pages à préparer après validation ; heure exacte des rendus à consulter sur Cyberlearn.
 
 ## Reprise du projet et structure proposée
@@ -160,6 +165,60 @@ Même version du projet et même date ; navigateur intégré à Codex sous Windo
 
 Les informations sont jugées claires et aucune difficulté supplémentaire n’est signalée. Ce retour ne valide pas les autres scénarios, le smartphone réel ou le lecteur d’écran ; aucune nouvelle exécution des 27 tests automatisés n’a été réalisée pour cette mise à jour documentaire.
 
+### Essai au clavier de l’étudiant et analyse
+
+**12 novembre 2026 — version locale `641a89c`.** L’étudiant confirme les quatre points du parcours clavier proposé. Les résultats ci-dessous proviennent de son retour ; le navigateur et le système utilisés pour cet essai ne sont pas précisés. Deux réserves de confort sont conservées, sans les présenter comme des erreurs des règles du jeu.
+
+| Comportement | Attendu | Observé selon l’étudiant | Statut |
+| --- | --- | --- | --- |
+| Navigation par Tabulation | Atteindre les commandes avec un repère visible. | Navigation appréciée, retour à la position 1 après un essai et lien d’évitement utiles. Sortir de la page après les dernières commandes est toutefois jugé gênant. | Réussi pour la navigation ; réserve ergonomique signalée. |
+| Choix des couleurs avec les flèches | Pouvoir choisir les couleurs disponibles. | Les quatre directions fonctionnent. À la dernière couleur, il faut inverser le sens pour revenir, ce qui est jugé peu pratique. | Réussi pour le choix ; réserve ergonomique signalée. |
+| Validation avec Entrée | Enregistrer une proposition et afficher son résultat. | Fonctionnement confirmé. | Réussi |
+| Nouvelle partie au clavier | Pouvoir réinitialiser la partie avec le clavier. | Fonctionnement confirmé. | Réussi |
+
+**Contrôles complémentaires de Codex, même date et même version**, dans une partie séparée du navigateur intégré sous Windows :
+
+- Depuis la position 1, Tabulation atteint la position 2 ; Maj+Tab revient à la position 1. Après « Nouvelle partie », Tabulation atteint « Comment jouer ? », puis aucun élément interactif de la page ne reste actif. La destination exacte dans les commandes extérieures du navigateur n’a pas été contrôlée.
+- Sur la dernière option Violet, les flèches Bas et Droite conservent Violet ; Haut sélectionne Orange. La lettre R sélectionne directement Rouge dans ce navigateur. Le compteur reste à zéro pendant ces changements.
+- Le lien « Aller à la proposition » atteint l’ancre `#proposition`. Une proposition de quatre rouges validée avec Entrée consomme un essai, ajoute une ligne d’historique et ramène la sélection active à la position 1.
+
+Ces contrôles, réalisés avant les adaptations, avaient reproduit les comportements et confirmé le parcours décrit. Le code ne redéfinissait alors ni Tabulation ni les flèches des listes standard. Les résultats après adaptation sont documentés dans la section suivante.
+
+**Analyse initiale et choix ensuite validés par l’étudiant :**
+
+1. Conserver la possibilité de quitter le jeu avec le clavier. Une boucle forcée de Tabulation sur toute la page compliquerait l’accès aux commandes extérieures. Le [W3C explique le principe d’absence de piège au clavier](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) : l’utilisateur doit pouvoir quitter un composant au clavier. Cela ne constitue pas un audit complet de conformité du jeu. La commande « Revenir à la proposition » après les règles a été proposée puis validée pour faciliter le retour volontaire à la position 1.
+2. L’arrêt sur Violet était le comportement de la liste standard observé pendant le contrôle, pas une erreur de calcul. Les [sélecteurs HTML sont des contrôles fournis par le navigateur](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/select). Une navigation circulaire Violet → Rouge et Rouge → Violet a été proposée puis validée comme personnalisation. Les vérifications restent nécessaires au clavier, au toucher et avec les aides techniques.
+
+Sources d’accessibilité consultées le 12 novembre 2026. Aucun test automatisé du moteur n’avait été réexécuté pour l’analyse documentaire seule. Ils ont été relancés lors du développement décrit ci-dessous.
+
+### Adaptations clavier réalisées et vérifiées
+
+**12 novembre 2026 — base locale `641a89c`, modifications non commitées au moment des vérifications, puis regroupées dans le commit « Améliorer la navigation clavier et documenter les essais ».** Après validation des deux propositions, ajout du lien après les règles, de son style et de son traitement dans `interface.js`. Les flèches bouclent entre les six couleurs, actualisent l’aperçu et ne consomment aucun essai. Les règles et le moteur du jeu sont inchangés.
+
+Environnement : Windows, navigateur intégré à Codex, prévisualisation locale. **27 tests du moteur réexécutés avec Node.js 24.22.1 : 27 réussis, 0 échec.** Syntaxe de `interface.js` contrôlée avec Node.js. Les contrôles suivants ont été effectués dans une partie de vérification séparée :
+
+| Contrôle | Attendu | Observé et statut |
+| --- | --- | --- |
+| Boucle sur les quatre positions | Depuis une position vide, Bas sélectionne Rouge ; aux limites, Bas/Droite : Violet → Rouge, Haut/Gauche : Rouge → Violet. | Six passages contrôlés sur chacune des quatre positions, aperçus correspondants ; compteur et historique à zéro : réussi. |
+| Parcours complet des couleurs | Respecter l’ordre Rouge, Bleu, Vert, Jaune, Orange, Violet et son inverse, sans passer par « Choisir… ». | Un cycle complet dans chaque sens conforme à l’ordre attendu : réussi. |
+| Autres touches | Conserver la sélection par initiale, les touches modificatrices et la navigation entre commandes. | R sélectionne Rouge ; Maj+Bas sur Violet reste sur Violet ; Tab va de la position 1 à 2 et Maj+Tab revient à 1 : réussi pour ces cas. |
+| Retour depuis les règles | Le lien est accessible après les règles et ramène à la position 1 sans changer la partie. | Tab depuis les règles atteint le lien ; clic et Entrée ramènent à la position 1, compteur inchangé : réussi. |
+| Sortie du jeu | Tabulation après le dernier lien ne doit pas être forcée vers la position 1. | Aucun élément interactif de la page ne reste actif après cette Tabulation : réussi ; destination extérieure non contrôlée. |
+| Proposition incomplète | Refus expliqué sans consommer d’essai ni ajouter d’historique. | Position vidée avec Début puis validation : refus, compteur et historique à zéro, sélection active sur la position vide : réussi. |
+| Proposition composée avec les flèches | Enregistrer une proposition valide et ses indices une seule fois. | Rouge, Violet, Rouge, Violet enregistré avec compteur à 1, historique ajouté et retour à la position 1 : réussi. |
+| Retour après la fin et nouvelle partie | Proposer une commande utilisable après la fin et permettre de recommencer. | Après dix essais incorrects : lien dirigé vers « Nouvelle partie », dix résultats conservés ; après redémarrage, compteur à zéro, historique et choix vides : réussi. |
+| Affichage étroit | Le nouveau lien et l’aide doivent rester lisibles sans débordement. | À 320 pixels : aucun débordement horizontal détecté, lien de 44 pixels de haut et retour à la position 1 fonctionnel : réussi pour cette dimension simulée. |
+
+Aucune erreur ou alerte JavaScript observée lors de ces contrôles. **Limites :** la boucle concerne les listes fermées ; lorsque le navigateur expose l’état ouvert, le code laisse le menu natif gérer ses touches. L’ouverture effective de ce menu n’a pas pu être confirmée par les commandes de l’outil de vérification et reste à essayer manuellement. Le smartphone réel, les autres navigateurs et les lecteurs d’écran restent non vérifiés. Le retour par le lien après une défaite a été testé ; après une victoire, il est prévu par le même traitement mais n’a pas été contrôlé séparément dans cette série.
+
+**Harmonisation visuelle du lien, 12 novembre 2026 :** à la demande de l’étudiant, « Revenir à la proposition » reprend l’apparence du lien du haut. Une règle CSS commune définit le fond vert foncé `#234e42`, le texte blanc et les espacements. La taille et la graisse du texte sont également identiques.
+
+Attendu : présentation cohérente, repère clavier visible et retour toujours fonctionnel. Observé dans le navigateur intégré : styles des deux liens identiques pour les couleurs, les espacements, la taille et la graisse du texte ; contour visible après Tabulation ; Entrée ramène à la position 1, compteur et historique inchangés. À 320 pixels de large, le lien mesure 48 pixels de haut et aucun débordement horizontal n’est détecté. **Statut : réussi pour ces contrôles, sur la base `641a89c` avec les adaptations locales non commitées.** Seuls le CSS et cette documentation ont été modifiés pour l’harmonisation ; aucun nouveau test du moteur n’a été exécuté à cette étape visuelle.
+
+**Visibilité à la navigation clavier, 12 novembre 2026 :** après précision de l’étudiant, le lien est masqué visuellement au repos tout en restant dans le parcours de Tabulation. Il reprend son apparence verte et blanche lorsqu’il devient actif. Le changement est limité au CSS et au README ; son action en JavaScript est inchangée.
+
+Attendu : le lien apparaît lorsque Tabulation l’atteint après « Comment jouer ? », puis disparaît quand on le quitte. Observé dans une partie séparée du navigateur intégré sous Windows : découpe visuelle et dimensions de 1 × 1 pixel au repos ; lien visible de 48 pixels de haut avec repère clavier après Tabulation. Entrée ramène à la position 1, avec compteur et historique à zéro ; le lien se masque à nouveau. Tabulation suivante quitte les commandes de la page, tandis que Maj+Tab revient aux règles, sans maintien forcé dans le jeu. Même apparition contrôlée à 320 pixels, sans débordement horizontal détecté. **Statut : réussi pour ces contrôles, base `641a89c` avec modifications locales non commitées.** Les lecteurs d’écran et un appareil tactile réel restent non vérifiés ; aucun nouveau test du moteur n’a été exécuté pour ce changement d’affichage.
+
 ### Correction documentée : lancement à la reprise du projet
 
 **12 novembre 2026 — base `v0.1.0`, correctif local non commité au moment du diagnostic.** L’étudiant signale un lien local inaccessible et une commande `node serveur.mjs` non reconnue. Attendu : pouvoir reprendre le jeu avec la procédure du README.
@@ -210,4 +269,6 @@ L’API 0.2 fonctionnelle est obligatoire pour J2. Les remises ont lieu sur Cybe
 
 **Sauvegarde du 12 novembre :** commit local « Corriger le lancement Windows et documenter les premiers essais », sur `main`, avec l’accord de l’étudiant. Il conserve `lancer-jeu.cmd`, l’exclusion de `.node-local` et le README actualisé. Le chemin local reste exclu de Git ; le repère `v0.1.0` reste attaché à la première version. Aucun nouvel envoi sur GitHub ni nouvelle publication n’est effectué à cette étape.
 
-**Prochaine étape proposée :** compléter les essais utiles, notamment le parcours au clavier, puis préparer la mise en ligne du jeu. L’envoi du nouveau commit sur GitHub et l’activation de GitHub Pages nécessiteront l’accord de l’étudiant.
+**Sauvegarde des adaptations clavier, 12 novembre :** commit « Améliorer la navigation clavier et documenter les essais », comprenant `index.html`, `interface.js`, `style.css` et ce README. La sauvegarde et l’envoi sur GitHub de ce commit et du correctif de lancement `641a89c` sont autorisés par l’étudiant. Le chemin `.node-local` reste exclu de Git ; le repère `v0.1.0` conserve sa position d’origine. Les contrôles et limites rapportés ci-dessus correspondent aux essais réalisés avant cette sauvegarde ; aucun nouveau test de jeu n’est annoncé pour la seule opération Git.
+
+**Prochaine étape proposée :** préparer l’activation de GitHub Pages avec l’accord distinct de l’étudiant, puis vérifier le jeu sur son adresse publique et sur smartphone réel.

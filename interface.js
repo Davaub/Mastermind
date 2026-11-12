@@ -12,6 +12,7 @@ const etat = document.querySelector('#etat');
 const message = document.querySelector('#message');
 const historique = document.querySelector('#historique');
 const historiqueVide = document.querySelector('#historique-vide');
+const revenirProposition = document.querySelector('#revenir-proposition');
 
 function nomCouleur(couleur) {
   return couleur[0].toUpperCase() + couleur.slice(1);
@@ -102,6 +103,33 @@ function afficherPartie() {
 }
 
 formulaire.addEventListener('change', afficherApercus);
+
+for (const selecteur of selecteurs) {
+  selecteur.addEventListener('keydown', (evenement) => {
+    const sens = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[evenement.key];
+    if (!sens || evenement.defaultPrevented || evenement.isComposing
+      || evenement.altKey || evenement.ctrlKey || evenement.metaKey || evenement.shiftKey
+      || selecteur.matches(':disabled')) return;
+
+    // Quand le menu natif est ouvert, conserver ses commandes habituelles.
+    if (CSS.supports('selector(:open)') && selecteur.matches(':open')) return;
+
+    evenement.preventDefault();
+    const position = COULEURS.indexOf(selecteur.value);
+    const suivante = position < 0
+      ? (sens === 1 ? 0 : COULEURS.length - 1)
+      : (position + sens + COULEURS.length) % COULEURS.length;
+    selecteur.value = COULEURS[suivante];
+    selecteur.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+}
+
+revenirProposition.addEventListener('click', (evenement) => {
+  evenement.preventDefault();
+  // Après la fin, la nouvelle partie est la prochaine commande utilisable.
+  if (partie.statut === 'en-cours') selecteurs[0].focus();
+  else nouvellePartie.focus();
+});
 
 formulaire.addEventListener('submit', (evenement) => {
   evenement.preventDefault();
