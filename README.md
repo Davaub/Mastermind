@@ -143,7 +143,7 @@ Le dépôt GitHub était public et la publication avait réussi. GitHub Pages ut
 
 ### Essais réalisés par l’étudiant
 
-Les observations ci-dessous proviennent des essais réalisés par l’étudiant le 12 novembre 2026. Elles sont distinguées des contrôles effectués par Codex.
+Les observations ci-dessous proviennent des essais de l’étudiant et sont distinguées des contrôles effectués par Codex. Les parcours de prise en main, au clavier et sur iPhone datent du 12 novembre 2026 ; un retour complémentaire a été reçu le 17 novembre.
 
 #### Première prise en main du jeu
 
@@ -173,6 +173,14 @@ Une gêne supplémentaire est apparue : après un toucher sur « Valider la prop
 Après la correction décrite dans « Safari ouvrait une liste après un bouton », l’étudiant a refait l’essai sur son iPhone. Il a confirmé que le problème était résolu dans Safari. Les versions exactes d’iOS et de Safari ne sont pas connues.
 
 **Repères des versions testées :** la première prise en main concernait `v0.1.0` avec le correctif de lancement ; le parcours clavier concernait `641a89c`. L’ouverture involontaire sur iPhone a été signalée sur `6f39809`, puis le fonctionnement du correctif a été confirmé sur `c43d997`.
+
+#### Lien de retour après une victoire
+
+Le 17 novembre 2026, l’étudiant a confirmé avoir testé le lien « Revenir à la proposition » après une victoire, sur le site public, depuis un ordinateur avec Firefox. Il a utilisé le clavier et la touche Tabulation pour naviguer jusqu’au lien.
+
+Le résultat attendu était de rejoindre le bouton « Nouvelle partie », puis de pouvoir recommencer à jouer. L’étudiant confirme que le lien l’a bien amené à ce bouton et qu’il a ensuite pu commencer une nouvelle partie. **Statut : réussi selon le retour de l’étudiant.**
+
+Le système de l’ordinateur, la version de Firefox et la version exacte du jeu n’ont pas été précisés. Aucun contrôle supplémentaire n’a été exécuté par Codex à cette occasion.
 
 ## Comprendre les corrections
 
@@ -218,7 +226,7 @@ Pour reprendre, lire README, AGENTS et les sources pertinentes. La méthode est 
 
 **Les appareils et les aides à la lecture.** Les essais sur téléphone concernent uniquement l’iPhone 16 avec Safari de l’étudiant. Les autres appareils mobiles n’ont pas été essayés. Le jeu n’a pas non plus été contrôlé avec un lecteur d’écran, un logiciel qui restitue oralement le contenu de la page. Aucun examen complet de son accessibilité n’a été réalisé.
 
-**Les actions qui restent à vérifier.** Dans le navigateur utilisé par Codex, l’outil de contrôle n’a pas permis de confirmer l’ouverture de la liste de couleurs affichée par le navigateur. Le lien de retour a été essayé après une défaite, mais pas séparément après une victoire. Ces points ne sont donc pas présentés comme vérifiés.
+**Le contrôle de la liste de couleurs.** Dans le navigateur utilisé par Codex, l’outil de contrôle n’a pas permis de confirmer l’ouverture de la liste de couleurs affichée par le navigateur. Cette ouverture reste donc non vérifiée avec cet outil. Le retour après une victoire est désormais documenté dans les essais de l’étudiant ci-dessus.
 
 **Les limites des essais sur le hasard.** Les tests montrent que les couleurs autorisées peuvent être tirées. Ils ne mesurent pas la fréquence de chaque combinaison sur un grand nombre de parties ; aucune étude statistique du hasard n’a été réalisée.
 
