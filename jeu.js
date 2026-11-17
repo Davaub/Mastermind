@@ -19,15 +19,20 @@ function tirerCode(aleatoire) {
 }
 
 // L’état est interne au moteur ; le secret ne devra pas être affiché au joueur.
+export function creerPartieNonDemarree() {
+  return { secret: null, essais: 0, historique: [], indices: null, statut: 'non-demarree' };
+}
+
 export function creerPartie(aleatoire = Math.random) {
-  const partie = {};
+  const partie = creerPartieNonDemarree();
   reinitialiserPartie(partie, aleatoire);
   return partie;
 }
 
-export function reinitialiserPartie(partie, aleatoire = Math.random) {
+export function reinitialiserPartie(partie, aleatoire = Math.random, secretImpose) {
   // Terminer le tirage avant de remplacer l’état existant.
-  const secret = tirerCode(aleatoire);
+  if (secretImpose !== undefined) verifierCombinaison(secretImpose);
+  const secret = secretImpose === undefined ? tirerCode(aleatoire) : [...secretImpose];
 
   partie.secret = secret;
   partie.essais = 0;
@@ -38,8 +43,12 @@ export function reinitialiserPartie(partie, aleatoire = Math.random) {
 
 // Traitement interne commun à la future interface et à son adaptateur de test.
 export function soumettreProposition(partie, proposition) {
+  if (partie.statut === 'non-demarree') {
+    throw Object.assign(new Error('Démarrez une nouvelle partie avant de proposer des couleurs.'), { code: 'game-not-started' });
+  }
+
   if (partie.statut !== 'en-cours') {
-    throw new Error('Cette partie est terminée. Lancez une nouvelle partie.');
+    throw Object.assign(new Error('Cette partie est terminée. Lancez une nouvelle partie.'), { code: 'game-finished' });
   }
 
   // Une erreur de validation doit survenir avant toute modification de la partie.
@@ -63,14 +72,25 @@ export function soumettreProposition(partie, proposition) {
   return { ...indices };
 }
 
-function verifierCombinaison(combinaison) {
-  if (!Array.isArray(combinaison) || combinaison.length !== 4) {
-    throw new TypeError('Une combinaison doit contenir exactement quatre couleurs.');
+export function verifierCombinaison(combinaison) {
+  if (!Array.isArray(combinaison)) {
+    throw Object.assign(new TypeError('Une combinaison doit être un tableau de quatre couleurs.'), { code: 'invalid-type' });
+  }
+
+  // Le contrat contrôle les éléments absents ou non textuels avant la longueur.
+  for (let position = 0; position < combinaison.length; position += 1) {
+    if (!Object.hasOwn(combinaison, position) || typeof combinaison[position] !== 'string') {
+      throw Object.assign(new TypeError('Chaque couleur doit être une chaîne de caractères présente dans le tableau.'), { code: 'invalid-type' });
+    }
+  }
+
+  if (combinaison.length !== 4) {
+    throw Object.assign(new TypeError('Une combinaison doit contenir exactement quatre couleurs.'), { code: 'invalid-length' });
   }
 
   for (const couleur of combinaison) {
     if (!COULEURS.includes(couleur)) {
-      throw new TypeError('Chaque couleur doit être rouge, bleu, vert, jaune, orange ou violet.');
+      throw Object.assign(new TypeError('Chaque couleur doit être rouge, bleu, vert, jaune, orange ou violet.'), { code: 'invalid-color' });
     }
   }
 }

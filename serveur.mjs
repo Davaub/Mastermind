@@ -8,6 +8,7 @@ const fichiers = new Map([
   ['/style.css', ['style.css', 'text/css']],
   ['/interface.js', ['interface.js', 'text/javascript']],
   ['/jeu.js', ['jeu.js', 'text/javascript']],
+  ['/api-test.js', ['api-test.js', 'text/javascript']],
 ]);
 
 const serveur = createServer(async (requete, reponse) => {

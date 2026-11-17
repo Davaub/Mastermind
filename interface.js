@@ -1,6 +1,8 @@
-import { COULEURS, creerPartie, reinitialiserPartie, soumettreProposition } from './jeu.js';
+import { COULEURS, creerPartie, creerPartieNonDemarree, reinitialiserPartie, soumettreProposition } from './jeu.js';
+import { creerApiTest } from './api-test.js';
 
-const partie = creerPartie();
+const modeTest = new URLSearchParams(window.location.search).get('test') === '1';
+const partie = modeTest ? creerPartieNonDemarree() : creerPartie();
 const formulaire = document.querySelector('#proposition');
 const champs = document.querySelector('#champs-proposition');
 const selecteurs = [...formulaire.querySelectorAll('select')];
@@ -103,13 +105,36 @@ function afficherHistorique() {
 }
 
 function afficherPartie() {
-  const terminee = partie.statut !== 'en-cours';
+  const saisieIndisponible = partie.statut !== 'en-cours';
   compteur.textContent = String(partie.essais);
-  champs.disabled = terminee;
-  valider.disabled = terminee;
-  etat.textContent = { 'en-cours': 'En cours', gagnee: 'Gagnée', perdue: 'Perdue' }[partie.statut];
+  champs.disabled = saisieIndisponible;
+  valider.disabled = saisieIndisponible;
+  etat.textContent = { 'non-demarree': 'À démarrer', 'en-cours': 'En cours', gagnee: 'Gagnée', perdue: 'Perdue' }[partie.statut];
   etat.dataset.statut = partie.statut;
   afficherHistorique();
+}
+
+// Ces actions mettent à jour la même partie et son écran, quelle que soit leur origine.
+// Les déplacements du focus restent dans les interactions du joueur.
+function demarrerPartie(secretImpose) {
+  reinitialiserPartie(partie, Math.random, secretImpose);
+  formulaire.reset();
+  afficherApercus();
+  afficherPartie();
+  afficherMessage('Nouvelle partie : à vous de trouver le code !');
+}
+
+function proposerCouleurs(proposition) {
+  const indices = soumettreProposition(partie, proposition);
+  afficherPartie();
+  if (partie.statut === 'gagnee') {
+    afficherMessage(`Bravo ! Vous avez trouvé le code en ${partie.essais} essai${partie.essais > 1 ? 's' : ''}.`, 'victoire');
+  } else if (partie.statut === 'perdue') {
+    afficherMessage('Partie perdue : les dix essais sont utilisés. Lancez une nouvelle partie pour réessayer.');
+  } else {
+    afficherMessage(`Essai ${partie.essais} enregistré. Consultez les indices et ajustez votre proposition.`);
+  }
+  return indices;
 }
 
 formulaire.addEventListener('change', afficherApercus);
@@ -141,16 +166,21 @@ revenirProposition.addEventListener('click', (evenement) => {
   else nouvellePartie.focus();
 });
 
-formulaire.addEventListener('submit', (evenement) => {
+// Les boutons et les appels externes emploient les mêmes commandes et la même erreur courante.
+const commandes = creerApiTest({
+  partie, demarrerPartie, proposerCouleurs,
+  afficherRefus: (texte) => afficherMessage(texte, 'erreur'),
+});
+
+formulaire.addEventListener('submit', async (evenement) => {
   evenement.preventDefault();
-  try {
-    soumettreProposition(partie, selecteurs.map((selecteur) => selecteur.value));
-  } catch (erreur) {
+  const resultat = await commandes.submitGuess(selecteurs.map((selecteur) => selecteur.value));
+  if (resultat.lastError) {
     const incomplets = selecteurs.filter((selecteur) => !selecteur.value);
     afficherMessage(
       incomplets.length && partie.statut === 'en-cours'
         ? 'Complétez les quatre positions avant de valider votre proposition.'
-        : erreur.message,
+        : resultat.lastError.message,
       'erreur',
     );
     for (const selecteur of incomplets) selecteur.setAttribute('aria-invalid', 'true');
@@ -158,28 +188,23 @@ formulaire.addEventListener('submit', (evenement) => {
     return;
   }
 
-  afficherPartie();
-  if (partie.statut === 'gagnee') {
-    afficherMessage(`Bravo ! Vous avez trouvé le code en ${partie.essais} essai${partie.essais > 1 ? 's' : ''}.`, 'victoire');
-    nouvellePartie.focus();
-  } else if (partie.statut === 'perdue') {
-    afficherMessage('Partie perdue : les dix essais sont utilisés. Lancez une nouvelle partie pour réessayer.');
+  if (partie.statut !== 'en-cours') {
     nouvellePartie.focus();
   } else {
-    afficherMessage(`Essai ${partie.essais} enregistré. Consultez les indices et ajustez votre proposition.`);
     focaliserAuClavier(selecteurs[0]);
   }
 });
 
-nouvellePartie.addEventListener('click', () => {
-  reinitialiserPartie(partie);
-  formulaire.reset();
-  afficherApercus();
-  afficherPartie();
-  afficherMessage('Nouvelle partie : à vous de trouver le code !');
+nouvellePartie.addEventListener('click', async () => {
+  await commandes.startGame();
   focaliserAuClavier(selecteurs[0]);
 });
 
 afficherPartie();
 nouvellePartie.disabled = false;
-afficherMessage('Composez votre première proposition.');
+afficherMessage(modeTest
+  ? 'Mode test : activez « Nouvelle partie » pour commencer.'
+  : 'Composez votre première proposition.');
+
+// Publier l’objet seulement après l’initialisation complète de la page.
+if (modeTest) window.codeSecretTest = commandes;

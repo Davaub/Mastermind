@@ -10,6 +10,8 @@ Ce projet individuel est réalisé à la HEG Genève avec l’aide de Codex pour
 
 Le jeu est publié depuis le 12 novembre 2026. L’interface est entièrement en français : elle permet de composer une proposition, de consulter les essais précédents et leurs indices, de lire les règles et de commencer une nouvelle partie.
 
+**Version consultée :** le travail de J2, dont l’API 0.2, est conservé dans la branche `codex/jalon-2`. Le lien public présente encore le jeu de J1. L’organisation des versions est expliquée dans « Conserver J1 pendant J2 ».
+
 Les couleurs portent un nom pour rester identifiables autrement que par leur apparence. Des essais ont été réalisés au clavier sur ordinateur, puis par l’étudiant sur un iPhone 16 avec Safari. Ces vérifications et leurs limites sont présentées plus bas.
 
 Le jeu ne demande aucun compte et ne collecte aucune donnée personnelle. Il n’intègre ni paiement, ni classement en ligne, ni service d’intelligence artificielle, ni clé API. Le fonctionnement hors ligne, l’installation comme application Web et les mises à jour automatiques restent facultatifs et ne sont pas prioritaires.
@@ -63,6 +65,7 @@ Le joueur gagne avec quatre couleurs bien placées, y compris au dixième essai.
 Les documents de référence sont conservés dans `doc/` :
 
 - [Sujet officiel, édition 2.1](<doc/Projet — Code secret en couleurs, inspiré du Mastermind.pdf>) : l’annexe `code-couleurs-1.0`, page 4, fait foi pour les règles. La page 2 présente les jalons.
+- [Contrat de l’API commune 0.2, édition Google 1.5](<doc/API commune de test — Code secret en couleurs.pdf>) : ce document précise les fonctions de test obligatoires pour J2. Il est disponible dans le projet depuis le 17 novembre 2026 ; sa dernière mise à jour indiquée est le 28 octobre 2026.
 - [Guide README, version 1.0](<doc/Rédiger un bon README.md — Guide général.pdf>).
 - [Guide AGENTS, version 1.0](<doc/Créer un bon fichier AGENTS.md — Guide général.pdf>).
 
@@ -72,9 +75,27 @@ HTML structure la page, CSS définit son apparence et JavaScript gère son compo
 
 Le **moteur du jeu** est la partie du programme qui choisit le secret, conserve les propositions, compte les essais et calcule les indices. L’**interface** correspond à ce que le joueur voit et utilise : les quatre emplacements, les boutons et les résultats affichés. Séparer ces deux rôles permet de vérifier les règles sans devoir cliquer dans la page.
 
-L’API commune 0.2 sera un moyen pour le professeur de démarrer une partie, d’envoyer des propositions et de consulter les résultats depuis des fonctions de test. Ces fonctions devront agir sur la partie utilisée par l’interface, avec le même secret, le même compteur et le même historique. Le professeur pourra ainsi tester le jeu réellement utilisé à l’écran.
+L’API commune 0.2 permet au professeur de démarrer une partie, d’envoyer des propositions et de consulter les résultats depuis des fonctions de test. Ces fonctions agissent sur la partie utilisée par l’interface, avec le même secret, le même compteur et le même historique. Le professeur peut ainsi tester le jeu réellement utilisé à l’écran.
 
-Cette API n’est pas encore développée. Le contrat officiel, qui précisera les fonctions à fournir et leur utilisation, reste attendu.
+L’API est maintenant intégrée dans la version locale ; elle n’a pas encore été publiée. Elle fournit `getConfig()` pour lire les règles fixes, `startGame()` pour démarrer ou recommencer, `submitGuess()` pour proposer des couleurs et `getState()` pour consulter la partie. Ces fonctions sont accessibles dans `window.codeSecretTest` uniquement avec le paramètre `test=1`.
+
+Le fichier `api-test.js` relie ces fonctions aux actions du jeu et traduit leurs résultats dans le format du cours. Les boutons utilisent les mêmes commandes : une action à l’écran est donc aussi visible depuis l’API. Le calcul des indices reste dans `jeu.js`.
+
+### Accéder à l’API locale
+
+Après avoir lancé la prévisualisation, ouvrir [le mode test local](http://127.0.0.1:8000/?test=1). La partie affiche « À démarrer ». Les appels suivants peuvent être effectués dans la console JavaScript du navigateur, l’outil qui permet d’envoyer des instructions à la page :
+
+```js
+const api = window.codeSecretTest;
+api.getConfig();
+await api.startGame({ secret: ['rouge', 'rouge', 'bleu', 'vert'] });
+await api.submitGuess(['rouge', 'rouge', 'rouge', 'rouge']);
+api.getState();
+```
+
+Cet exemple a été vérifié : il produit un essai, deux couleurs bien placées et aucune mal placée, avec le même résultat dans l’historique à l’écran. `await` attend la fin du démarrage ou de la proposition avant de poursuivre. `startGame()` sans secret choisit une combinaison au hasard. Le secret imposé est réservé au mode de test et n’est jamais ajouté aux résultats renvoyés.
+
+Un refus de proposition est décrit dans `lastError`, sans consommer d’essai. Un démarrage invalide signale une erreur et conserve entièrement la partie et son affichage. Les codes et les formats détaillés restent définis dans le contrat officiel.
 
 Deux remarques de l’étudiant ont conduit à améliorer l’utilisation du jeu au clavier.
 
@@ -88,7 +109,7 @@ Le retour automatique vers le premier emplacement facilite la préparation de l�
 
 ## Consulter les vérifications
 
-Les résultats suivants proviennent des tests et des essais déjà réalisés. La présente réécriture ne constitue pas une nouvelle exécution du jeu.
+Les résultats suivants proviennent des tests et des essais déjà réalisés. Les dates, les versions et les limites permettent de distinguer les vérifications successives.
 
 ### Tests des règles du jeu
 
@@ -119,6 +140,34 @@ Le fichier contient aussi des tests complémentaires. Ils vérifient notamment q
 
 Pour contrôler certains cas, les tests remplacent le tirage au hasard par une fonction dont le résultat est connu à l’avance. Un test lui fait produire une valeur impossible. Il vérifie alors que la nouvelle partie est refusée et que l’ancienne reste entièrement intacte. Cela évite qu’un problème de tirage efface seulement une partie des données.
 
+### Préparation des actions communes et du mode test
+
+Le 17 novembre 2026, les actions « démarrer une partie » et « proposer des couleurs » ont été regroupées dans `interface.js`. Elles mettent à jour la partie et son affichage ; les déplacements au clavier restent gérés séparément. La future API pourra ainsi réutiliser ces actions sans déclencher un clic ni déplacer automatiquement la sélection du joueur.
+
+Lors de cette première préparation locale, ajouter `?test=1` à l’adresse laissait la partie « À démarrer », avec zéro essai, aucun secret et un historique vide. Le bouton « Nouvelle partie » permettait alors de commencer. Sans ce paramètre, le jeu démarrait immédiatement comme auparavant. Les fonctions officielles de l’API n’étaient pas encore exposées ; leur intégration ultérieure est vérifiée ci-dessous.
+
+**Version vérifiée :** fichiers locaux du 17 novembre, à partir de `f8600ed`. Ces premiers contrôles ont précédé l’intégration complète de l’API et sa sauvegarde dans Git.
+
+- **Tests du moteur, sous Windows avec Node.js 24.22.3 : réussis, 29 sur 29, sans échec.** Les 27 tests précédents ont été relancés. Deux nouveaux cas vérifient qu’une proposition avant démarrage laisse la partie intacte et qu’une partie en attente peut ensuite être démarrée et gagnée normalement.
+- **Parcours locaux dans le navigateur intégré de Codex, sous Windows : réussis.** Une proposition incomplète a laissé le compteur et l’historique à zéro ; une proposition complète a ajouté exactement un essai. Dix propositions incorrectes ont donné une défaite, conservé les dix résultats et désactivé la validation. Le lien de retour a rejoint « Nouvelle partie ». Les réinitialisations, le retour automatique au clavier, le maintien sur le bouton après un clic et la boucle Violet–Rouge ont fonctionné.
+- **Préparation du mode test : réussie pour les comportements essayés.** Avec `test=1`, y compris accompagné d’un autre paramètre, la saisie attendait le démarrage. Une nouvelle partie puis une proposition ont fonctionné. Le rechargement a rétabli l’attente avec zéro essai et un historique vide. Avec `test=0`, le jeu a démarré normalement. Aucun avertissement ou message d’erreur du jeu n’a été relevé pendant ce parcours.
+
+Ces contrôles portent sur la version locale. La victoire dans le navigateur et l’utilisation sur iPhone n’ont pas été réessayées à cette étape. La conformité complète à l’API reste non vérifiée, et cette préparation n’a pas été publiée.
+
+### Vérifications de l’API 0.2
+
+Le 17 novembre 2026, **47 tests automatiques ont réussi, sans échec**, sous Windows avec Node.js 24.22.3 : les 29 tests du moteur et 18 tests de l’API. Pour les relancer depuis la racine du projet : `node --test --test-reporter=spec jeu.test.mjs api-test.test.mjs`. La commande a été exécutée avec le Node.js fourni par Codex.
+
+Les tests de [api-test.test.mjs](api-test.test.mjs) vérifient les neuf exemples officiels T01 à T09, les codes de refus et leur priorité, la conservation des données après un refus et la victoire au dixième essai. Ils vérifient aussi la défaite, les redémarrages, l’absence de secret dans l’état renvoyé et la protection du jeu lorsqu’un tableau fourni ou un résultat retourné est modifié. Tous les résultats obtenus correspondaient aux résultats attendus.
+
+**Dans le navigateur intégré de Codex, 17 contrôles locaux ont également réussi.** Une page de vérification distincte du jeu a chargé les fichiers du projet sous le chemin `/Mastermind/`, pour contrôler les liens relatifs nécessaires à GitHub Pages. Elle a comparé les réponses de l’API avec le compteur, les propositions, les indices, l’état affiché et la disponibilité du bouton de validation.
+
+Les neuf exemples officiels ont donné les résultats attendus dans l’API et à l’écran. Le refus au neuvième essai a laissé possible la victoire au dixième. La défaite, les refus après la fin et les redémarrages ont conservé la cohérence entre les deux. Un démarrage invalide a laissé l’état, l’erreur précédente et l’écran identiques. Les actions effectuées par les commandes de l’interface ont été retrouvées dans `getState()`. Le rechargement du mode test a redonné une partie non démarrée ; l’API était absente sans `test=1`, y compris avec `test=0`.
+
+Un parcours complémentaire dans le jeu local a confirmé le refus d’une proposition incomplète, l’ajout d’un essai valide, la réinitialisation, le retour au premier emplacement au clavier, la boucle Violet–Rouge et le maintien sur « Nouvelle partie » après un clic. Aucun message d’erreur ou d’avertissement du jeu n’a été relevé pendant ces parcours.
+
+**Version et limites :** fichiers locaux du 17 novembre, à partir de `f8600ed`, vérifiés avant leur sauvegarde dans la branche `codex/jalon-2`. Les contrôles dans le navigateur sont ceux du projet, pas l’outil de l’enseignant. Ils ne remplacent pas la vérification sur GitHub Pages après publication. L’iPhone et Firefox n’ont pas été réessayés à cette étape.
+
 ### Essais dans le navigateur et contrôle de la publication
 
 Sur la première version, le 11 novembre, Codex a contrôlé les propositions invalides et valides, la modification d’un choix avant validation, la victoire au dixième essai, la défaite, le blocage des commandes et les réinitialisations. Ces essais ont réussi dans le navigateur intégré sous Windows. Le secret avait été déduit des indices pour préparer la victoire, sans accès interne à la combinaison cachée.
@@ -143,7 +192,7 @@ Le dépôt GitHub était public et la publication avait réussi. GitHub Pages ut
 
 ### Essais réalisés par l’étudiant
 
-Les observations ci-dessous proviennent des essais de l’étudiant et sont distinguées des contrôles effectués par Codex. Les parcours de prise en main, au clavier et sur iPhone datent du 12 novembre 2026 ; un retour complémentaire a été reçu le 17 novembre.
+Les observations ci-dessous proviennent des essais de l’étudiant et sont distinguées des contrôles effectués par Codex. Les parcours de prise en main, au clavier et sur iPhone datent du 12 novembre 2026 ; les retours sur le lien après victoire et sur l’API ont été reçus le 17 novembre.
 
 #### Première prise en main du jeu
 
@@ -182,6 +231,16 @@ Le résultat attendu était de rejoindre le bouton « Nouvelle partie », puis d
 
 Le système de l’ordinateur, la version de Firefox et la version exacte du jeu n’ont pas été précisés. Aucun contrôle supplémentaire n’a été exécuté par Codex à cette occasion.
 
+#### Première utilisation de l’API par l’étudiant
+
+Le 17 novembre 2026, l’étudiant a confirmé que les huit étapes du parcours proposé avaient fonctionné, sans erreur ni différence observée. Le parcours commençait par l’ouverture du mode test et de la console du navigateur, puis portait sur les quatre fonctions de l’API.
+
+Les résultats attendus étaient les suivants : la configuration indiquait une combinaison de quatre couleurs, dix essais et les répétitions autorisées ; le démarrage avec le secret rouge, rouge, bleu, vert remettait la partie à zéro. Une proposition de quatre rouges donnait deux bien placées et aucune mal placée, avec un seul essai affiché et conservé dans l’historique. Une proposition de trois couleurs était ensuite refusée avec `invalid-length`, sans ajouter d’essai. La proposition exacte donnait une victoire au deuxième essai. Enfin, le bouton « Nouvelle partie » remettait aussi l’état lu par `getState()` à zéro.
+
+**Résultat observé :** l’étudiant confirme le fonctionnement de toutes ces étapes et la correspondance avec les résultats annoncés. **Statut : réussi selon son retour.**
+
+**Conditions confirmées :** ordinateur sous Windows, avec Firefox, à l’adresse `http://127.0.0.1:8000/?test=1`. La version exacte de Windows et celle de Firefox ne sont pas précisées. L’essai concerne la version locale intégrant l’API, à partir de `f8600ed`, avant sa sauvegarde dans la branche `codex/jalon-2`. Il ne vérifie pas l’API sur GitHub Pages. Aucun nouveau test n’a été exécuté par Codex lors de la consignation de ce retour.
+
 ## Comprendre les corrections
 
 ### Le jeu ne redémarrait pas dans Windows
@@ -214,15 +273,30 @@ Les fichiers restent séparés selon leur rôle :
 
 - `index.html` structure la page et `style.css` définit son apparence.
 - `jeu.js` contient les règles et l’état de la partie. `interface.js` gère les interactions et l’affichage.
-- `jeu.test.mjs` conserve les tests du moteur.
+- `api-test.js` fournit les quatre fonctions du contrat 0.2 en réutilisant les actions de la même partie.
+- `jeu.test.mjs` conserve les tests du moteur ; `api-test.test.mjs` vérifie le contrat avec le moteur réel.
 - `serveur.mjs` et `lancer-jeu.cmd` servent uniquement à la prévisualisation locale. Celle-ci limite les fichiers accessibles ; le refus du README avec une réponse 404 a été vérifié, ainsi que les requêtes HEAD, qui demandent les informations du fichier sans son contenu.
-- `AGENTS.md` contient les consignes de travail. `doc/` conserve les trois sources. `.gitignore` exclut notamment `.node-local` et les fichiers privés.
+- `AGENTS.md` contient les consignes de travail. `doc/` conserve les quatre documents de référence. `.gitignore` exclut notamment `.node-local` et les fichiers privés.
 
 Pour reprendre, lire README, AGENTS et les sources pertinentes. La méthode est **Cadrer → Confier → Examiner → Vérifier → Documenter**. L’accord de l’étudiant est nécessaire avant toute sauvegarde Git, création de tag, envoi ou publication. Les versions sauvegardées sont dans l’[historique Git](https://github.com/Davaub/Mastermind/commits/main/).
 
+### Conserver J1 pendant J2
+
+Le 17 novembre 2026, l’étudiant a choisi de conserver le jeu de J1 sur le site public pendant le développement de J2. Une **branche Git** permet de poursuivre le travail séparément dans le même projet.
+
+| Repère | Rôle |
+| --- | --- |
+| `jalon-1` | Le tag conserve exactement les fichiers retenus pour J1. |
+| `main` | Cette branche conserve la version actuellement publiée du jeu de J1. |
+| `codex/jalon-2` | Cette branche contient le travail de J2, dont l’API et ses tests. Elle sert aux essais locaux. |
+
+Les quatre fichiers du jeu public ont été comparés à ceux du tag `jalon-1` : leurs contenus étaient identiques. Le dernier déploiement GitHub Pages réussi provenait de `main`, sur `f8600ed`. Cette version comprend une mise à jour du README après le tag ; le code du jeu est identique.
+
+La préparation de cette organisation conserve `main` et le tag existant. L’envoi éventuel de la branche J2 sur GitHub demandera l’accord de l’étudiant. La publication de J2 demandera ensuite une décision explicite avant de réunir les changements avec `main` ou de modifier le réglage de GitHub Pages. Conserver ainsi le site de J1 est un choix de l’étudiant ; l’énoncé demande les liens du dépôt et de l’application ainsi que le tag, sans imposer explicitement cette organisation.
+
 ### Limites et informations attendues
 
-**Les documents manquants du cours.** Le contrat API 0.2, les indications associées et le modèle de départ ne sont pas encore disponibles. Le contrat devra préciser les fonctions attendues, les informations à leur transmettre, les résultats qu’elles doivent renvoyer et le traitement des erreurs. Il reste aussi à préciser s’il prévoit un moyen de refaire plusieurs fois un essai avec un secret connu. Aucun format n’est supposé avant réception de ce document.
+**L’API reste à vérifier sur le site publié.** Son intégration et les contrôles locaux sont réalisés. Sa présence sur GitHub Pages et les parcours sur cette version restent à contrôler après une publication autorisée. Aucun modèle de départ ni outil de test enseignant n’a été fourni à ce stade.
 
 **Les appareils et les aides à la lecture.** Les essais sur téléphone concernent uniquement l’iPhone 16 avec Safari de l’étudiant. Les autres appareils mobiles n’ont pas été essayés. Le jeu n’a pas non plus été contrôlé avec un lecteur d’écran, un logiciel qui restitue oralement le contenu de la page. Aucun examen complet de son accessibilité n’a été réalisé.
 
@@ -230,7 +304,13 @@ Pour reprendre, lire README, AGENTS et les sources pertinentes. La méthode est 
 
 **Les limites des essais sur le hasard.** Les tests montrent que les couleurs autorisées peuvent être tirées. Ils ne mesurent pas la fréquence de chaque combinaison sur un grand nombre de parties ; aucune étude statistique du hasard n’a été réalisée.
 
-**Les essais avec un secret connu.** Pour vérifier certains résultats précis, les tests utilisent une combinaison secrète choisie à l’avance. Ils comparent ainsi les indices calculés avec ceux attendus. Ces essais sont réalisés directement sur les fonctions du moteur, sans passer par les boutons de la page.
+**Les essais avec un secret connu.** Pour vérifier certains résultats précis, les tests utilisent une combinaison secrète choisie à l’avance. Ils comparent ainsi les indices calculés avec ceux attendus. Ces essais passent désormais par le moteur, l’API et les contrôles locaux de l’affichage décrits plus haut.
+
+### Préparer l’API pour J2
+
+Les actions communes, les quatre fonctions officielles et les vérifications locales sont réalisés. Le détail des résultats et de leurs limites figure dans « Vérifications de l’API 0.2 ».
+
+L’étudiant a confirmé le fonctionnement du premier parcours de l’API ; son retour est consigné dans les essais ci-dessus. Le travail se poursuit dans `codex/jalon-2` en conservant le jeu public de J1. L’envoi de cette branche et la publication de J2 seront soumis à son accord. Les contrôles seront refaits sur GitHub Pages après cette future publication avant de conclure à la conformité de l’API sur le site remis pour J2.
 
 ### Prochaines échéances
 
@@ -238,4 +318,4 @@ Pour reprendre, lire README, AGENTS et les sources pertinentes. La méthode est 
 
 **J2 est prévu le 18 décembre 2026 au soir.** Il faudra intégrer et vérifier l’API 0.2 obligatoire sur le même jeu publié, actualiser la documentation, essayer le jeu d’un camarade et en faire un bref retour. Le tag `final` sera préparé après accord. Une capsule de quatre à cinq minutes montrera l’écran avec les explications orales de l’étudiant ; elle sera déposée sur Cyberlearn, jamais dans GitHub public. Les conversations et les données confidentielles restent hors du dépôt.
 
-L’heure exacte et les modalités de remise sur Cyberlearn n’ont pas été vérifiées ici. Le repère `jalon-1` conserve la documentation validée et le code du jeu déjà publié sous `c43d997`. Seul le README a été modifié pour cette sauvegarde ; aucun test supplémentaire du jeu n’a été exécuté à cette occasion. Le repère `final` reste à créer après validation pour J2.
+L’heure exacte et les modalités de remise sur Cyberlearn n’ont pas été vérifiées ici. Le repère `jalon-1` conserve la documentation validée et le code du jeu déjà publié sous `c43d997`. Lors de la création de ce repère, seul le README avait été modifié et aucun test supplémentaire du jeu n’avait été exécuté. Le repère `final` reste à créer après validation pour J2.

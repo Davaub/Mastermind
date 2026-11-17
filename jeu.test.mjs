@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   calculerIndices,
   creerPartie,
+  creerPartieNonDemarree,
   reinitialiserPartie,
   soumettreProposition,
 } from './jeu.js';
@@ -12,6 +13,31 @@ function creerPartieDeReference() {
   let position = 0;
   return creerPartie(() => tirages[position++]);
 }
+
+test('Avant le démarrage, aucun secret ni essai ne sont créés et toute proposition est sans effet', () => {
+  const partie = creerPartieNonDemarree();
+  const avant = structuredClone(partie);
+  assert.deepEqual(partie, {
+    secret: null, essais: 0, historique: [], indices: null, statut: 'non-demarree',
+  });
+
+  for (const proposition of [['rouge', 'rouge', 'bleu', 'vert'], null]) {
+    assert.throws(() => soumettreProposition(partie, proposition), /Démarrez une nouvelle partie/);
+    assert.deepEqual(partie, avant);
+  }
+});
+
+test('Une partie en attente peut être démarrée, puis jouée normalement', () => {
+  const partie = creerPartieNonDemarree();
+  reinitialiserPartie(partie, () => 0);
+  assert.equal(partie.statut, 'en-cours');
+  assert.deepEqual(partie.secret, ['rouge', 'rouge', 'rouge', 'rouge']);
+  assert.deepEqual(soumettreProposition(partie, ['rouge', 'rouge', 'rouge', 'rouge']), {
+    bienPlacees: 4, malPlacees: 0,
+  });
+  assert.equal(partie.statut, 'gagnee');
+  assert.equal(partie.essais, 1);
+});
 
 test('Une proposition de trois couleurs est refusée sans modifier la partie', () => {
   const partie = creerPartieDeReference();
