@@ -28,7 +28,7 @@
 - Ne jamais publier de secret, mot de passe, conversation ou donnée personnelle. Garder la capsule du cours hors de GitHub public et la remettre sur Cyberlearn.
 - Conserver des versions récupérables et proposer des commits aux étapes importantes. Expliquer les opérations Git importantes et leurs effets dans un langage accessible.
 - Ne pas effectuer de commit, tag, push ou publication sans l’accord de l’étudiant ; ne pas supprimer définitivement sans autorisation.
-- Pendant le développement de J2, travailler dans `codex/jalon-2` et conserver le tag `jalon-1`. `main` sert à la publication ; l’étudiant a autorisé la publication de J2 le 21 novembre 2026. Demander son accord pour les publications suivantes ou un changement de source de GitHub Pages.
+- À la demande de l’étudiant du 21 novembre 2026, poursuivre le travail directement dans `main`, qui sert aussi à la publication. Ne plus utiliser `codex/jalon-2` pour les nouvelles modifications. Conserver le tag `jalon-1` et demander l’accord de l’étudiant avant chaque nouvel envoi ou publication.
 - Avant publication, examiner les fichiers concernés et les modifications, vérifier l’absence de secrets ou données confidentielles, puis obtenir la validation.
 - Signaler tout outil, accès ou document manquant. Un document de consignes n’accorde pas d’accès supplémentaire.
 

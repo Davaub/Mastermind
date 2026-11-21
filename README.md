@@ -10,7 +10,7 @@ Ce projet individuel est réalisé à la HEG Genève avec l’aide de Codex pour
 
 Le jeu est publié depuis le 12 novembre 2026. L’interface est entièrement en français : elle permet de composer une proposition, de consulter les essais précédents et leurs indices, de lire les règles et de commencer une nouvelle partie.
 
-**Versions :** le site public propose J2 avec l’API depuis le 21 novembre 2026, après autorisation de l’étudiant. Le développement se poursuit dans `codex/jalon-2` et `main` fournit le site publié. Le tag `jalon-1` conserve les fichiers remis pour J1. L’organisation est expliquée dans « Conserver J1 et publier J2 ».
+**Versions :** le site public propose J2 avec l’API depuis le 21 novembre 2026, après autorisation de l’étudiant. À sa demande, le travail se poursuit désormais directement dans `main`, qui fournit aussi le site publié. Le tag `jalon-1` conserve les fichiers remis pour J1. L’organisation est expliquée dans « Conserver J1 et publier J2 ».
 
 Les couleurs portent un nom pour rester identifiables autrement que par leur apparence. Des essais ont été réalisés au clavier sur ordinateur, puis par l’étudiant sur un iPhone 16 avec Safari. Ces vérifications et leurs limites sont présentées plus bas.
 
@@ -77,7 +77,7 @@ Le **moteur du jeu** est la partie du programme qui choisit le secret, conserve 
 
 L’API commune 0.2 permet au professeur de démarrer une partie, d’envoyer des propositions et de consulter les résultats depuis des fonctions de test. Ces fonctions agissent sur la partie utilisée par l’interface, avec le même secret, le même compteur et le même historique. Le professeur peut ainsi tester le jeu réellement utilisé à l’écran.
 
-L’API est intégrée au jeu. Elle fournit `getConfig()` pour lire les règles fixes, `startGame()` pour démarrer ou recommencer, `submitGuess()` pour proposer des couleurs et `getState()` pour consulter la partie. Ces fonctions sont accessibles dans `window.codeSecretTest` uniquement avec le paramètre `test=1`. Les résultats locaux et le contrôle du chargement de la version publiée sont documentés ci-dessous ; les appels de l’API dans le navigateur public restent à confirmer.
+L’API est intégrée au jeu. Elle fournit `getConfig()` pour lire les règles fixes, `startGame()` pour démarrer ou recommencer, `submitGuess()` pour proposer des couleurs et `getState()` pour consulter la partie. Ces fonctions sont accessibles dans `window.codeSecretTest` uniquement avec le paramètre `test=1`. Les vérifications locales et les parcours publics confirmés par l’étudiant sont documentés ci-dessous, avec leurs limites.
 
 Le fichier `api-test.js` relie ces fonctions aux actions du jeu et traduit leurs résultats dans le format du cours. Les boutons utilisent les mêmes commandes : une action à l’écran est donc aussi visible depuis l’API. Le calcul des indices reste dans `jeu.js`.
 
@@ -174,7 +174,7 @@ Un parcours complémentaire dans le jeu local a confirmé le refus d’une propo
 
 Le déploiement GitHub Pages de `cdb1b49` depuis `main` a réussi. Les cinq fichiers nécessaires au jeu (`index.html`, `style.css`, `jeu.js`, `interface.js` et `api-test.js`) ont chacun répondu HTTP 200 avec un type de contenu adapté. Leurs contenus étaient identiques aux fichiers envoyés, dont le code est inchangé depuis les vérifications locales.
 
-**Statut : chargement des fichiers publics réussi.** Le contrôle de Firefox a été bloqué par l’outil de navigation, qui ne prenait pas en charge la vérification des adresses dans ce navigateur Windows. Aucun parcours fonctionnel ni appel de l’API n’a donc été exécuté dans le navigateur public à cette occasion. Ces essais restent à réaliser, ainsi que le contrôle de J2 sur iPhone. Ce blocage de l’outil n’est pas un échec constaté du jeu.
+**Statut : chargement des fichiers publics réussi.** Le contrôle de Firefox a été bloqué par l’outil de navigation, qui ne prenait pas en charge la vérification des adresses dans ce navigateur Windows. Aucun parcours fonctionnel ni appel de l’API n’a donc été exécuté par Codex dans le navigateur public à cette occasion. L’étudiant a ensuite confirmé l’interface sur iPhone et les sept étapes de l’API publique sous Windows avec Firefox, décrites ci-dessous. Ce blocage de l’outil n’est pas un échec constaté du jeu.
 
 ### Essais dans le navigateur et contrôle de la publication
 
@@ -200,7 +200,7 @@ Le dépôt GitHub était public et la publication avait réussi. GitHub Pages ut
 
 ### Essais réalisés par l’étudiant
 
-Les observations ci-dessous proviennent des essais de l’étudiant et sont distinguées des contrôles effectués par Codex. Les parcours de prise en main, au clavier et sur iPhone datent du 12 novembre 2026 ; les retours complémentaires sur le lien après victoire et sur l’API ont été reçus les 17 et 21 novembre.
+Les observations ci-dessous proviennent des essais de l’étudiant et sont distinguées des contrôles effectués par Codex. Les premiers parcours datent du 12 novembre 2026 ; les retours complémentaires ont été reçus les 17 et 21 novembre, dont le nouvel essai de J2 sur iPhone.
 
 #### Première prise en main du jeu
 
@@ -263,6 +263,40 @@ Le 21 novembre 2026, l’étudiant a effectué les cinq étapes du parcours comp
 
 **Observé et statut :** l’étudiant confirme que toutes les étapes ont fonctionné comme prévu. **Réussi selon son retour.** Les versions exactes de Windows et Firefox ne sont pas précisées. Cet essai complète les vérifications locales ; il ne vérifie pas le site public ni l’iPhone. Aucun nouveau test du jeu n’a été exécuté par Codex lors de sa consignation.
 
+#### Essai de J2 publié sur iPhone
+
+Le 21 novembre 2026, l’étudiant a confirmé la réussite des cinq étapes sur un **iPhone 16 avec Safari**, à l’adresse publique `https://davaub.github.io/Mastermind/`, sans difficulté rencontrée. La version publiée de référence est `fe19d1e`.
+
+Le parcours vérifiait l’ouverture du jeu, la lisibilité des noms des couleurs et l’accès aux règles. Une proposition de trois couleurs devait être refusée avec une explication, sans essai consommé ni historique ajouté. Après modification d’un choix et validation de quatre couleurs, la proposition et ses indices devaient apparaître, avec le compteur augmenté de un. Les essais précédents devaient rester consultables. Enfin, « Nouvelle partie » devait effacer les choix et l’historique et remettre le compteur à zéro. Les validations et les nouvelles parties ne devaient pas ouvrir automatiquement une liste de couleurs.
+
+**Observé et statut :** tous les résultats attendus ont été confirmés par l’étudiant. **Réussi selon son retour.** Les versions exactes d’iOS et de Safari ne sont pas précisées. Ce parcours vérifie l’interface tactile publiée ; il ne comprend pas d’appels directs à l’API, ni une victoire au dixième essai ou une défaite. Aucun nouveau test n’a été exécuté par Codex lors de cette consignation.
+
+#### API sur le site public avec Firefox
+
+Le 21 novembre 2026, l’étudiant a effectué les sept étapes du parcours public sur Windows avec Firefox, d’abord sur `https://davaub.github.io/Mastermind/`, puis avec `?test=1`. La version publiée de référence est `fe19d1e`.
+
+| Action | Résultat attendu |
+| --- | --- |
+| Lire `typeof window.codeSecretTest` sans mode test. | `"undefined"` : l’API n’est pas exposée. |
+| Ouvrir le mode test et lire version, configuration et état. | Version `0.2`, quatre couleurs parmi les six, répétitions autorisées, dix essais et état initial `not-started`, sans historique ni erreur. |
+| Imposer le secret rouge, rouge, bleu, vert. | Partie `playing`, zéro essai et historique vide, avec les commandes utilisables et le secret masqué à l’écran. |
+| Proposer rouge, bleu, rouge, vert par l’API. | Deux bien placées et deux mal placées, un essai et une entrée d’historique, à l’écran et dans l’API. |
+| Proposer seulement rouge, bleu, vert par l’API. | `invalid-length`, explication affichée, compteur et historique conservés à un essai. |
+| Proposer le secret exact, puis envoyer `null` après la victoire. | Victoire au deuxième essai et validation désactivée ; le nouvel appel donne `game-finished` sans changer la victoire ni les deux essais. |
+| Cliquer sur « Nouvelle partie », puis saisir et valider quatre couleurs dans l’interface. | L’API retrouve d’abord la partie remise à zéro, puis une proposition avec les mêmes couleurs et indices qu’à l’écran. |
+
+**Observé et statut :** l’étudiant confirme que les sept étapes ont fonctionné comme prévu, sans différence constatée. **Réussi selon son retour.** Les versions exactes de Windows et Firefox ne sont pas précisées. Ce premier parcours ne couvrait pas tout le contrat ; les fins de partie ont ensuite fait l’objet du complément ci-dessous. Aucun nouveau test n’a été exécuté par Codex lors de cette consignation.
+
+#### Victoire au dixième essai et défaite sur le site public
+
+Le 21 novembre 2026, l’étudiant a confirmé les huit étapes complémentaires sur le site public avec `?test=1`, sous Windows avec Firefox. La version publiée de référence est `fe19d1e`.
+
+Avec un secret imposé de quatre rouges, neuf propositions de quatre bleus devaient laisser la partie en cours à neuf essais. Une proposition réduite à un rouge devait donner `invalid-length` sans consommer le dernier essai. Quatre rouges devaient ensuite donner la victoire au dixième essai, avec dix propositions conservées et la validation désactivée.
+
+Après redémarrage avec le même secret, dix propositions de quatre bleus devaient donner une défaite, dix entrées d’historique et des indices de zéro bien placée et zéro mal placée. Proposer ensuite le bon code devait donner `game-finished`, en conservant la défaite et les dix essais. Enfin, le bouton « Nouvelle partie » devait rétablir `playing`, zéro essai, un historique vide et `lastError: null`.
+
+**Observé et statut :** les huit étapes ont fonctionné comme prévu, sans différence constatée, selon l’étudiant. **Réussi selon son retour.** Les versions exactes de Windows et Firefox ne sont pas précisées. Ces scénarios ont été vérifiés avec l’API et l’affichage public ; ils n’ont pas été rejoués sur iPhone. Aucun nouveau test n’a été exécuté par Codex lors de cette consignation.
+
 ## Comprendre les corrections
 
 ### Le jeu ne redémarrait pas dans Windows
@@ -311,16 +345,18 @@ Le 17 novembre 2026, l’étudiant a choisi de conserver temporairement le jeu d
 | Repère | Rôle |
 | --- | --- |
 | `jalon-1` | Le tag conserve exactement les fichiers retenus pour J1. |
-| `main` | Cette branche fournit les fichiers du site public et reçoit la publication de J2 autorisée le 21 novembre. |
-| `codex/jalon-2` | Cette branche contient le travail de J2, dont l’API et ses tests. Le développement y continue après publication. |
+| `main` | Cette branche fournit les fichiers du site public et accueille désormais directement le travail de J2, à la demande de l’étudiant. |
+| `codex/jalon-2` | Ancienne branche de travail de J2, conservée mais plus utilisée pour les nouvelles modifications. |
 
 Avant la publication de J2, les quatre fichiers du jeu public avaient été comparés à ceux du tag `jalon-1` : leurs contenus étaient identiques. Le déploiement de J1 provenait de `main`, sur `f8600ed`, avec une mise à jour du README après le tag.
 
 Le travail J2 a été envoyé sur GitHub dans `codex/jalon-2`, au commit `e0a9b55`. La publication autorisée réunit ensuite les changements avec `main`, sans déplacer le tag `jalon-1`. L’accord du 21 novembre concerne cette publication ; les publications ultérieures demanderont de nouveau l’accord de l’étudiant.
 
+Après les essais publics, l’étudiant a demandé de sauvegarder leurs résultats directement dans `main` et de ne plus utiliser `codex/jalon-2`. La suite du travail se fait donc dans `main`, avec son accord avant les prochains envois. L’ancienne branche est conservée et le tag `jalon-1` reste inchangé.
+
 ### Limites et informations attendues
 
-**Les appels de l’API restent à vérifier sur le site publié.** L’intégration, les contrôles locaux et le chargement des fichiers publics sont vérifiés. Le parcours dans le navigateur public et le nouvel essai sur iPhone restent à faire. Le modèle de départ du cours reste indisponible. Aucun outil de test enseignant n’est destiné à être fourni aux étudiants ; les vérifications du projet restent nécessaires.
+**Portée des contrôles publics.** L’étudiant a confirmé les cinq étapes de l’interface sur iPhone, les sept étapes de l’API publique et les huit étapes complémentaires de fin de partie sous Windows avec Firefox. Les résultats valent pour les scénarios et les environnements décrits ; ils ne prouvent pas l’absence de tout défaut. Le modèle de départ du cours reste indisponible. Aucun outil de test enseignant n’est destiné à être fourni aux étudiants ; les vérifications du projet restent nécessaires.
 
 **Les appareils et les aides à la lecture.** Les essais sur téléphone concernent uniquement l’iPhone 16 avec Safari de l’étudiant. Les autres appareils mobiles n’ont pas été essayés. Le jeu n’a pas non plus été contrôlé avec un lecteur d’écran, un logiciel qui restitue oralement le contenu de la page. Aucun examen complet de son accessibilité n’a été réalisé.
 
@@ -334,7 +370,7 @@ Le travail J2 a été envoyé sur GitHub dans `codex/jalon-2`, au commit `e0a9b5
 
 Les actions communes, les quatre fonctions officielles et les vérifications locales sont réalisés. Le détail des résultats et de leurs limites figure dans « Vérifications de l’API 0.2 ».
 
-L’étudiant a confirmé le fonctionnement des deux parcours locaux de l’API ; ses retours sont consignés ci-dessus. J2 est publié pour permettre les essais en ligne et sur iPhone. Le développement se poursuit dans `codex/jalon-2`. L’essai du jeu d’un camarade et la révision générale du README sont réservés à la fin du développement, avant la remise de J2.
+L’étudiant a confirmé les parcours locaux de l’API, les sept étapes de l’API publique, les huit étapes complémentaires de fin de partie et l’essai de J2 sur iPhone ; ses retours sont consignés ci-dessus. Le travail se poursuit désormais dans `main`. L’essai du jeu d’un camarade et la révision générale du README sont réservés à la fin du développement, avant la remise de J2.
 
 ### Prochaines échéances
 
