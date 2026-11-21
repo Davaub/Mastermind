@@ -10,7 +10,7 @@ Ce projet individuel est réalisé à la HEG Genève avec l’aide de Codex pour
 
 Le jeu est publié depuis le 12 novembre 2026. L’interface est entièrement en français : elle permet de composer une proposition, de consulter les essais précédents et leurs indices, de lire les règles et de commencer une nouvelle partie.
 
-**Versions :** le développement de J2, dont l’API 0.2, se poursuit dans `codex/jalon-2`. L’étudiant a autorisé sa publication depuis `main` le 21 novembre 2026. Le tag `jalon-1` conserve les fichiers remis pour J1. L’organisation est expliquée dans « Conserver J1 et publier J2 ».
+**Versions :** le site public propose J2 avec l’API depuis le 21 novembre 2026, après autorisation de l’étudiant. Le développement se poursuit dans `codex/jalon-2` et `main` fournit le site publié. Le tag `jalon-1` conserve les fichiers remis pour J1. L’organisation est expliquée dans « Conserver J1 et publier J2 ».
 
 Les couleurs portent un nom pour rester identifiables autrement que par leur apparence. Des essais ont été réalisés au clavier sur ordinateur, puis par l’étudiant sur un iPhone 16 avec Safari. Ces vérifications et leurs limites sont présentées plus bas.
 
@@ -77,7 +77,7 @@ Le **moteur du jeu** est la partie du programme qui choisit le secret, conserve 
 
 L’API commune 0.2 permet au professeur de démarrer une partie, d’envoyer des propositions et de consulter les résultats depuis des fonctions de test. Ces fonctions agissent sur la partie utilisée par l’interface, avec le même secret, le même compteur et le même historique. Le professeur peut ainsi tester le jeu réellement utilisé à l’écran.
 
-L’API est intégrée au jeu. Elle fournit `getConfig()` pour lire les règles fixes, `startGame()` pour démarrer ou recommencer, `submitGuess()` pour proposer des couleurs et `getState()` pour consulter la partie. Ces fonctions sont accessibles dans `window.codeSecretTest` uniquement avec le paramètre `test=1`. Les résultats locaux sont documentés ci-dessous ; les contrôles de la publication du 21 novembre restent à consigner après le déploiement.
+L’API est intégrée au jeu. Elle fournit `getConfig()` pour lire les règles fixes, `startGame()` pour démarrer ou recommencer, `submitGuess()` pour proposer des couleurs et `getState()` pour consulter la partie. Ces fonctions sont accessibles dans `window.codeSecretTest` uniquement avec le paramètre `test=1`. Les résultats locaux et le contrôle du chargement de la version publiée sont documentés ci-dessous ; les appels de l’API dans le navigateur public restent à confirmer.
 
 Le fichier `api-test.js` relie ces fonctions aux actions du jeu et traduit leurs résultats dans le format du cours. Les boutons utilisent les mêmes commandes : une action à l’écran est donc aussi visible depuis l’API. Le calcul des indices reste dans `jeu.js`.
 
@@ -85,7 +85,7 @@ Le fichier `api-test.js` relie ces fonctions aux actions du jeu et traduit leurs
 
 Après avoir lancé la prévisualisation, ouvrir [le mode test local](http://127.0.0.1:8000/?test=1). La partie affiche « À démarrer ». Les appels suivants peuvent être effectués dans la console JavaScript du navigateur, l’outil qui permet d’envoyer des instructions à la page :
 
-Après déploiement de J2, le [mode test public](https://davaub.github.io/Mastermind/?test=1) permettra les mêmes appels sans lancer la prévisualisation.
+Le [mode test public](https://davaub.github.io/Mastermind/?test=1) utilise les mêmes fichiers et permet de préparer les essais en ligne, sans lancer la prévisualisation.
 
 ```js
 const api = window.codeSecretTest;
@@ -169,6 +169,12 @@ Les neuf exemples officiels ont donné les résultats attendus dans l’API et �
 Un parcours complémentaire dans le jeu local a confirmé le refus d’une proposition incomplète, l’ajout d’un essai valide, la réinitialisation, le retour au premier emplacement au clavier, la boucle Violet–Rouge et le maintien sur « Nouvelle partie » après un clic. Aucun message d’erreur ou d’avertissement du jeu n’a été relevé pendant ces parcours.
 
 **Version et limites :** fichiers locaux du 17 novembre, à partir de `f8600ed`, vérifiés avant leur sauvegarde dans la branche `codex/jalon-2`. Les contrôles dans le navigateur sont ceux du projet, pas l’outil de l’enseignant. Ils ne remplacent pas la vérification sur GitHub Pages après publication. L’iPhone et Firefox n’ont pas été réessayés à cette étape.
+
+### Publication de J2 le 21 novembre
+
+Le déploiement GitHub Pages de `cdb1b49` depuis `main` a réussi. Les cinq fichiers nécessaires au jeu (`index.html`, `style.css`, `jeu.js`, `interface.js` et `api-test.js`) ont chacun répondu HTTP 200 avec un type de contenu adapté. Leurs contenus étaient identiques aux fichiers envoyés, dont le code est inchangé depuis les vérifications locales.
+
+**Statut : chargement des fichiers publics réussi.** Le contrôle de Firefox a été bloqué par l’outil de navigation, qui ne prenait pas en charge la vérification des adresses dans ce navigateur Windows. Aucun parcours fonctionnel ni appel de l’API n’a donc été exécuté dans le navigateur public à cette occasion. Ces essais restent à réaliser, ainsi que le contrôle de J2 sur iPhone. Ce blocage de l’outil n’est pas un échec constaté du jeu.
 
 ### Essais dans le navigateur et contrôle de la publication
 
@@ -314,7 +320,7 @@ Le travail J2 a été envoyé sur GitHub dans `codex/jalon-2`, au commit `e0a9b5
 
 ### Limites et informations attendues
 
-**L’API reste à vérifier sur le site publié.** Son intégration et les contrôles locaux sont réalisés. La publication a été autorisée le 21 novembre ; les résultats en ligne seront consignés après son déploiement. Le modèle de départ du cours reste indisponible. Aucun outil de test enseignant n’est destiné à être fourni aux étudiants ; les vérifications du projet restent nécessaires.
+**Les appels de l’API restent à vérifier sur le site publié.** L’intégration, les contrôles locaux et le chargement des fichiers publics sont vérifiés. Le parcours dans le navigateur public et le nouvel essai sur iPhone restent à faire. Le modèle de départ du cours reste indisponible. Aucun outil de test enseignant n’est destiné à être fourni aux étudiants ; les vérifications du projet restent nécessaires.
 
 **Les appareils et les aides à la lecture.** Les essais sur téléphone concernent uniquement l’iPhone 16 avec Safari de l’étudiant. Les autres appareils mobiles n’ont pas été essayés. Le jeu n’a pas non plus été contrôlé avec un lecteur d’écran, un logiciel qui restitue oralement le contenu de la page. Aucun examen complet de son accessibilité n’a été réalisé.
 
@@ -328,7 +334,7 @@ Le travail J2 a été envoyé sur GitHub dans `codex/jalon-2`, au commit `e0a9b5
 
 Les actions communes, les quatre fonctions officielles et les vérifications locales sont réalisés. Le détail des résultats et de leurs limites figure dans « Vérifications de l’API 0.2 ».
 
-L’étudiant a confirmé le fonctionnement des deux parcours locaux de l’API ; ses retours sont consignés ci-dessus. La publication de J2 est autorisée pour permettre les essais en ligne et sur iPhone. Le développement se poursuit dans `codex/jalon-2`. L’essai du jeu d’un camarade et la révision générale du README sont réservés à la fin du développement, avant la remise de J2.
+L’étudiant a confirmé le fonctionnement des deux parcours locaux de l’API ; ses retours sont consignés ci-dessus. J2 est publié pour permettre les essais en ligne et sur iPhone. Le développement se poursuit dans `codex/jalon-2`. L’essai du jeu d’un camarade et la révision générale du README sont réservés à la fin du développement, avant la remise de J2.
 
 ### Prochaines échéances
 
