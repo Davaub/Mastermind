@@ -10,7 +10,7 @@ Ce projet individuel est réalisé à la HEG Genève avec l’aide de Codex pour
 
 Le jeu est publié depuis le 12 novembre 2026. L’interface est entièrement en français : elle permet de composer une proposition, de consulter les essais précédents et leurs indices, de lire les règles et de commencer une nouvelle partie.
 
-**Version consultée :** le travail de J2, dont l’API 0.2, est conservé dans la branche `codex/jalon-2`. Le lien public présente encore le jeu de J1. L’organisation des versions est expliquée dans « Conserver J1 pendant J2 ».
+**Versions :** le développement de J2, dont l’API 0.2, se poursuit dans `codex/jalon-2`. L’étudiant a autorisé sa publication depuis `main` le 21 novembre 2026. Le tag `jalon-1` conserve les fichiers remis pour J1. L’organisation est expliquée dans « Conserver J1 et publier J2 ».
 
 Les couleurs portent un nom pour rester identifiables autrement que par leur apparence. Des essais ont été réalisés au clavier sur ordinateur, puis par l’étudiant sur un iPhone 16 avec Safari. Ces vérifications et leurs limites sont présentées plus bas.
 
@@ -77,13 +77,15 @@ Le **moteur du jeu** est la partie du programme qui choisit le secret, conserve 
 
 L’API commune 0.2 permet au professeur de démarrer une partie, d’envoyer des propositions et de consulter les résultats depuis des fonctions de test. Ces fonctions agissent sur la partie utilisée par l’interface, avec le même secret, le même compteur et le même historique. Le professeur peut ainsi tester le jeu réellement utilisé à l’écran.
 
-L’API est maintenant intégrée dans la version locale ; elle n’a pas encore été publiée. Elle fournit `getConfig()` pour lire les règles fixes, `startGame()` pour démarrer ou recommencer, `submitGuess()` pour proposer des couleurs et `getState()` pour consulter la partie. Ces fonctions sont accessibles dans `window.codeSecretTest` uniquement avec le paramètre `test=1`.
+L’API est intégrée au jeu. Elle fournit `getConfig()` pour lire les règles fixes, `startGame()` pour démarrer ou recommencer, `submitGuess()` pour proposer des couleurs et `getState()` pour consulter la partie. Ces fonctions sont accessibles dans `window.codeSecretTest` uniquement avec le paramètre `test=1`. Les résultats locaux sont documentés ci-dessous ; les contrôles de la publication du 21 novembre restent à consigner après le déploiement.
 
 Le fichier `api-test.js` relie ces fonctions aux actions du jeu et traduit leurs résultats dans le format du cours. Les boutons utilisent les mêmes commandes : une action à l’écran est donc aussi visible depuis l’API. Le calcul des indices reste dans `jeu.js`.
 
-### Accéder à l’API locale
+### Accéder à l’API
 
 Après avoir lancé la prévisualisation, ouvrir [le mode test local](http://127.0.0.1:8000/?test=1). La partie affiche « À démarrer ». Les appels suivants peuvent être effectués dans la console JavaScript du navigateur, l’outil qui permet d’envoyer des instructions à la page :
+
+Après déploiement de J2, le [mode test public](https://davaub.github.io/Mastermind/?test=1) permettra les mêmes appels sans lancer la prévisualisation.
 
 ```js
 const api = window.codeSecretTest;
@@ -192,7 +194,7 @@ Le dépôt GitHub était public et la publication avait réussi. GitHub Pages ut
 
 ### Essais réalisés par l’étudiant
 
-Les observations ci-dessous proviennent des essais de l’étudiant et sont distinguées des contrôles effectués par Codex. Les parcours de prise en main, au clavier et sur iPhone datent du 12 novembre 2026 ; les retours sur le lien après victoire et sur l’API ont été reçus le 17 novembre.
+Les observations ci-dessous proviennent des essais de l’étudiant et sont distinguées des contrôles effectués par Codex. Les parcours de prise en main, au clavier et sur iPhone datent du 12 novembre 2026 ; les retours complémentaires sur le lien après victoire et sur l’API ont été reçus les 17 et 21 novembre.
 
 #### Première prise en main du jeu
 
@@ -241,6 +243,20 @@ Les résultats attendus étaient les suivants : la configuration indiquait une c
 
 **Conditions confirmées :** ordinateur sous Windows, avec Firefox, à l’adresse `http://127.0.0.1:8000/?test=1`. La version exacte de Windows et celle de Firefox ne sont pas précisées. L’essai concerne la version locale intégrant l’API, à partir de `f8600ed`, avant sa sauvegarde dans la branche `codex/jalon-2`. Il ne vérifie pas l’API sur GitHub Pages. Aucun nouveau test n’a été exécuté par Codex lors de la consignation de ce retour.
 
+#### Boutons du jeu et lecture de l’API
+
+Le 21 novembre 2026, l’étudiant a effectué les cinq étapes du parcours complémentaire, en local sous Windows avec Firefox, sur `http://127.0.0.1:8000/?test=1`. Le code du jeu correspondait à `e0a9b55`, dans `codex/jalon-2`. Après un démarrage par l’API avec le secret rouge, rouge, bleu, vert, les propositions ont été saisies avec les listes et les boutons du jeu, puis contrôlées avec `getState()`.
+
+| Action | Résultat attendu |
+| --- | --- |
+| Démarrer avec le secret connu. | Partie en cours, zéro essai et historique vide. |
+| Valider seulement trois couleurs dans l’interface. | Refus expliqué, zéro essai, historique vide et `lastError` renseigné. |
+| Valider quatre rouges dans l’interface. | Un essai, deux bien placées et aucune mal placée, à l’écran et dans l’API. |
+| Valider rouge, rouge, bleu, vert dans l’interface. | Victoire au deuxième essai, deux propositions conservées, validation désactivée et `lastError: null`. |
+| Cliquer sur « Nouvelle partie ». | L’API retrouve `playing`, zéro essai, un historique vide et `lastError: null`. |
+
+**Observé et statut :** l’étudiant confirme que toutes les étapes ont fonctionné comme prévu. **Réussi selon son retour.** Les versions exactes de Windows et Firefox ne sont pas précisées. Cet essai complète les vérifications locales ; il ne vérifie pas le site public ni l’iPhone. Aucun nouveau test du jeu n’a été exécuté par Codex lors de sa consignation.
+
 ## Comprendre les corrections
 
 ### Le jeu ne redémarrait pas dans Windows
@@ -250,6 +266,8 @@ Les résultats attendus étaient les suivants : la configuration indiquait une c
 **Modification réalisée.** Le fichier `lancer-jeu.cmd` a été ajouté pour trouver Node.js dans Windows ou grâce au chemin local exclu de Git.
 
 **Résultat.** Le lancement a réussi depuis un autre dossier avec le chemin de recherche habituel de Windows ; les quatre fichiers du jeu se chargeaient. Un second lancement sur le port occupé a affiché « port 8000 déjà utilisé » et s’est terminé avec le code 1, sans arrêter le premier. L’étudiant a confirmé la reprise. Le double-clic n’a pas été vérifié isolément, ni le lancement sur un autre ordinateur. Le correctif est conservé dans `641a89c`, après `v0.1.0`.
+
+**Reprise du 21 novembre.** Le lanceur ne trouvait à nouveau plus Node.js : le chemin de `.node-local` désignait une ancienne version de Codex devenue absente. Ce fichier local, exclu de Git, a été actualisé. Node.js 24.22.3 a répondu, le lanceur a démarré le serveur et les cinq ressources du jeu ont répondu HTTP 200. L’étudiant a ensuite confirmé le redémarrage et la réussite du parcours complémentaire de l’API ci-dessus.
 
 ### Les aperçus des couleurs restaient gris
 
@@ -280,23 +298,23 @@ Les fichiers restent séparés selon leur rôle :
 
 Pour reprendre, lire README, AGENTS et les sources pertinentes. La méthode est **Cadrer → Confier → Examiner → Vérifier → Documenter**. L’accord de l’étudiant est nécessaire avant toute sauvegarde Git, création de tag, envoi ou publication. Les versions sauvegardées sont dans l’[historique Git](https://github.com/Davaub/Mastermind/commits/main/).
 
-### Conserver J1 pendant J2
+### Conserver J1 et publier J2
 
-Le 17 novembre 2026, l’étudiant a choisi de conserver le jeu de J1 sur le site public pendant le développement de J2. Une **branche Git** permet de poursuivre le travail séparément dans le même projet.
+Le 17 novembre 2026, l’étudiant a choisi de conserver temporairement le jeu de J1 sur le site public. Le 21 novembre, il a autorisé la publication de J2 pour poursuivre les essais en ligne et sur téléphone. Une **branche Git** permet de développer séparément ; un **tag** conserve une version précise même lorsque le site évolue.
 
 | Repère | Rôle |
 | --- | --- |
 | `jalon-1` | Le tag conserve exactement les fichiers retenus pour J1. |
-| `main` | Cette branche conserve la version actuellement publiée du jeu de J1. |
-| `codex/jalon-2` | Cette branche contient le travail de J2, dont l’API et ses tests. Elle sert aux essais locaux. |
+| `main` | Cette branche fournit les fichiers du site public et reçoit la publication de J2 autorisée le 21 novembre. |
+| `codex/jalon-2` | Cette branche contient le travail de J2, dont l’API et ses tests. Le développement y continue après publication. |
 
-Les quatre fichiers du jeu public ont été comparés à ceux du tag `jalon-1` : leurs contenus étaient identiques. Le dernier déploiement GitHub Pages réussi provenait de `main`, sur `f8600ed`. Cette version comprend une mise à jour du README après le tag ; le code du jeu est identique.
+Avant la publication de J2, les quatre fichiers du jeu public avaient été comparés à ceux du tag `jalon-1` : leurs contenus étaient identiques. Le déploiement de J1 provenait de `main`, sur `f8600ed`, avec une mise à jour du README après le tag.
 
-La préparation de cette organisation conserve `main` et le tag existant. L’envoi éventuel de la branche J2 sur GitHub demandera l’accord de l’étudiant. La publication de J2 demandera ensuite une décision explicite avant de réunir les changements avec `main` ou de modifier le réglage de GitHub Pages. Conserver ainsi le site de J1 est un choix de l’étudiant ; l’énoncé demande les liens du dépôt et de l’application ainsi que le tag, sans imposer explicitement cette organisation.
+Le travail J2 a été envoyé sur GitHub dans `codex/jalon-2`, au commit `e0a9b55`. La publication autorisée réunit ensuite les changements avec `main`, sans déplacer le tag `jalon-1`. L’accord du 21 novembre concerne cette publication ; les publications ultérieures demanderont de nouveau l’accord de l’étudiant.
 
 ### Limites et informations attendues
 
-**L’API reste à vérifier sur le site publié.** Son intégration et les contrôles locaux sont réalisés. Sa présence sur GitHub Pages et les parcours sur cette version restent à contrôler après une publication autorisée. Aucun modèle de départ ni outil de test enseignant n’a été fourni à ce stade.
+**L’API reste à vérifier sur le site publié.** Son intégration et les contrôles locaux sont réalisés. La publication a été autorisée le 21 novembre ; les résultats en ligne seront consignés après son déploiement. Le modèle de départ du cours reste indisponible. Aucun outil de test enseignant n’est destiné à être fourni aux étudiants ; les vérifications du projet restent nécessaires.
 
 **Les appareils et les aides à la lecture.** Les essais sur téléphone concernent uniquement l’iPhone 16 avec Safari de l’étudiant. Les autres appareils mobiles n’ont pas été essayés. Le jeu n’a pas non plus été contrôlé avec un lecteur d’écran, un logiciel qui restitue oralement le contenu de la page. Aucun examen complet de son accessibilité n’a été réalisé.
 
@@ -310,7 +328,7 @@ La préparation de cette organisation conserve `main` et le tag existant. L’en
 
 Les actions communes, les quatre fonctions officielles et les vérifications locales sont réalisés. Le détail des résultats et de leurs limites figure dans « Vérifications de l’API 0.2 ».
 
-L’étudiant a confirmé le fonctionnement du premier parcours de l’API ; son retour est consigné dans les essais ci-dessus. Le travail se poursuit dans `codex/jalon-2` en conservant le jeu public de J1. L’envoi de cette branche et la publication de J2 seront soumis à son accord. Les contrôles seront refaits sur GitHub Pages après cette future publication avant de conclure à la conformité de l’API sur le site remis pour J2.
+L’étudiant a confirmé le fonctionnement des deux parcours locaux de l’API ; ses retours sont consignés ci-dessus. La publication de J2 est autorisée pour permettre les essais en ligne et sur iPhone. Le développement se poursuit dans `codex/jalon-2`. L’essai du jeu d’un camarade et la révision générale du README sont réservés à la fin du développement, avant la remise de J2.
 
 ### Prochaines échéances
 
