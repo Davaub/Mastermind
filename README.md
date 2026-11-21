@@ -346,13 +346,13 @@ Le 17 novembre 2026, l’étudiant a choisi de conserver temporairement le jeu d
 | --- | --- |
 | `jalon-1` | Le tag conserve exactement les fichiers retenus pour J1. |
 | `main` | Cette branche fournit les fichiers du site public et accueille désormais directement le travail de J2, à la demande de l’étudiant. |
-| `codex/jalon-2` | Ancienne branche de travail de J2, conservée mais plus utilisée pour les nouvelles modifications. |
+| `codex/jalon-2` | Ancienne branche de travail de J2, supprimée en local et sur GitHub le 21 novembre, après vérification de son intégration dans `main`. |
 
 Avant la publication de J2, les quatre fichiers du jeu public avaient été comparés à ceux du tag `jalon-1` : leurs contenus étaient identiques. Le déploiement de J1 provenait de `main`, sur `f8600ed`, avec une mise à jour du README après le tag.
 
 Le travail J2 a été envoyé sur GitHub dans `codex/jalon-2`, au commit `e0a9b55`. La publication autorisée réunit ensuite les changements avec `main`, sans déplacer le tag `jalon-1`. L’accord du 21 novembre concerne cette publication ; les publications ultérieures demanderont de nouveau l’accord de l’étudiant.
 
-Après les essais publics, l’étudiant a demandé de sauvegarder leurs résultats directement dans `main` et de ne plus utiliser `codex/jalon-2`. La suite du travail se fait donc dans `main`, avec son accord avant les prochains envois. L’ancienne branche est conservée et le tag `jalon-1` reste inchangé.
+Après les essais publics, l’étudiant a demandé de sauvegarder leurs résultats directement dans `main` et de ne plus utiliser `codex/jalon-2`. La suite du travail se fait donc dans `main`, avec son accord avant les prochains envois. À sa demande, l’ancienne branche a ensuite été supprimée en local et sur GitHub, après vérification que tout son contenu était conservé dans `main`. Le tag `jalon-1` reste inchangé.
 
 ### Limites et informations attendues
 
