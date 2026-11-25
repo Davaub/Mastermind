@@ -38,6 +38,7 @@ button:disabled, select:disabled { cursor: default; opacity: .6; }
 h1 { margin: 13px 0 8px; font: 500 clamp(3rem, 6vw, 4.3rem)/1.05 Georgia, serif; letter-spacing: -.045em; }
 h1 > span { color: #b77831; }
 .entete > p { color: #57675e; margin: 14px 0 0; font-size: 1rem; }
+.lien-installation { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: #234e42; font-size: .85rem; text-underline-offset: 3px; }
 .plateau { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 24px; align-items: start; }
 .panneau { background: #fffefa; border: 1px solid #dfdfd4; border-radius: 20px; padding: 28px; box-shadow: 0 6px 22px #283d3405; }
 .titre-panneau { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
@@ -103,6 +104,14 @@ button { min-height: 44px; border-radius: 9px; border: 1px solid transparent; pa
 .regles > div { padding: 0 22px 16px; color: #51634f; font-size: .85rem; }
 .regles li { margin-bottom: 9px; padding-left: 5px; }
 .regles ol { padding-left: 20px; }
+.installation { scroll-margin-top: 16px; }
+.guide-installation { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: start; gap: 24px; }
+.guide-installation h2 { font: 700 1rem/1.4 system-ui, sans-serif; letter-spacing: normal; margin-top: 20px; }
+.guide-installation a { color: #234e42; overflow-wrap: anywhere; text-underline-offset: 3px; }
+.partage-qr { margin: 20px 0 0; text-align: center; }
+.partage-qr img { display: block; width: 100%; max-width: 240px; height: auto; margin: 0 auto 12px; image-rendering: pixelated; }
+.partage-qr figcaption { font-size: .8rem; }
+.partage-qr a { display: inline-flex; align-items: center; min-height: 44px; }
 .retour-proposition { position: relative; margin: 12px 0 0; }
 .retour-proposition a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-underline-offset: 3px; }
 /* Masquer visuellement le lien au repos tout en le gardant accessible par Tabulation. */
@@ -113,6 +122,7 @@ footer { text-align: center; padding: 24px 0 0; color: #64705f; font-size: .7rem
 @media (max-width: 850px) {
   .plateau { grid-template-columns: minmax(0, 1fr); }
   .historique-vide { padding: 22px 16px; }
+  .guide-installation { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
 
 @media (max-width: 480px) {

@@ -4,13 +4,15 @@ Code secret est un jeu de déduction pour une personne, inspiré du Mastermind. 
 
 **[Jouer en ligne](https://davaub.github.io/Mastermind/)** · **[Consulter le dépôt GitHub](https://github.com/Davaub/Mastermind)**
 
-## État actuel — 21 novembre 2026
+## État actuel — 25 novembre 2026
 
 Le jeu est publié sur GitHub Pages. Il comprend la saisie des propositions, les indices, l’historique, les règles et la nouvelle partie. L’API commune 0.2, qui permet de tester le jeu avec des instructions JavaScript, est intégrée à la même partie que l’interface visible.
 
 Les parcours décrits ci-dessous ont réussi en local et sur le site public, notamment sur iPhone 16 avec Safari et sur Windows avec Firefox. **L’essai de Code secret par un camarade sera organisé plus tard**, avant la remise de J2 ; aucun résultat de cet essai n’est encore disponible.
 
-Le jeu fonctionne sans compte, serveur applicatif ni collecte de données personnelles. Il n’intègre aucun paiement, classement en ligne, service d’IA ou clé API. L’installation comme application Web, le fonctionnement hors ligne et les mises à jour automatiques ne sont pas développés et restent facultatifs.
+Le jeu fonctionne sans compte, serveur applicatif ni collecte de données personnelles. Il n’intègre aucun paiement, classement en ligne, service d’IA ou clé API.
+
+**Installation comme application Web (PWA) :** les fichiers du projet comprennent le nom « Code secret », une icône personnalisée, un guide et un QR code. Les contrôles locaux sont décrits plus bas ; l’installation réelle sur les appareils reste à vérifier sur le site publié. Le fonctionnement hors ligne et la gestion des mises à jour en arrière-plan ne sont pas développés.
 
 ## Jouer
 
@@ -34,6 +36,18 @@ Après une validation au clavier, la sélection revient au premier emplacement s
 
 Les liens « Aller à la proposition » en haut et « Revenir à la proposition » après les règles apparaissent lorsqu’ils sont atteints au clavier. Le retour rejoint la saisie ou, après la fin, le bouton « Nouvelle partie ». "Tab" reste libre de quitter la page.
 
+## Installer le jeu et le partager
+
+Une PWA est une application Web que les navigateurs compatibles peuvent ajouter à l’écran d’accueil ou aux applications de l’ordinateur. Elle garde ici le nom **Code secret**, avec une icône de quatre pastilles colorées sur fond vert foncé, validée par l’étudiant.
+
+Le lien « Installer le jeu sur mon appareil », en haut de la page, ouvre les instructions. Sur iPhone, elles indiquent d’utiliser Safari, puis **Partager → Sur l’écran d’accueil → Ajouter**, avec « Ouvrir comme app web » activé si cette option apparaît. Sur ordinateur ou Android, utiliser Chrome ou Edge et leur commande d’installation. Safari récent sur Mac propose « Ajouter au Dock ».
+
+Un bouton « Installer Code secret » apparaît lorsque le navigateur fournit une invitation d’installation. Sa présence dépend du navigateur, de ses conditions d’utilisation et d’une éventuelle installation déjà réalisée. Les instructions restent accessibles quand ce bouton n’apparaît pas. Le jeu conserve son accès habituel dans le navigateur.
+
+Le [QR code en PNG](images/qr-code.png) et sa [version SVG pour l’impression](images/qr-code.svg) pointent vers **[le jeu public et son guide d’installation](https://davaub.github.io/Mastermind/#installer)**. Scanner le code avec l’appareil photo du téléphone, puis ouvrir le lien proposé. Pour examiner le guide en local, lancer les fichiers du projet et suivre le lien d’installation.
+
+Une connexion Internet reste nécessaire pour ouvrir l’application publiée. Les parties ne sont pas sauvegardées entre deux ouvertures ou rechargements. L’installation ne donne pas accès à l’API de test par défaut : celle-ci reste réservée à `?test=1`.
+
 ## Lancer les fichiers sur son ordinateur
 
 Pour simplement jouer, le lien public suffit. Le lancement local sert à essayer les fichiers du projet avant leur publication.
@@ -55,6 +69,8 @@ Sur l’ordinateur de l’étudiant, le lanceur peut utiliser Node.js fourni ave
 **Une seule partie pour l’interface et l’API.** Le calcul des indices reste dans `jeu.js`. Le fichier `api-test.js` adapte les actions communes au format imposé par le cours ; les boutons passent par les mêmes commandes. Un essai envoyé par l’API apparaît donc à l’écran, et une action à l’écran se retrouve dans l’état lu par l’API.
 
 **Des adaptations guidées par les essais de l’étudiant.** Avec le clavier, lors du choix des couleurs, il fallait initialement inverser les flèches après la dernière couleur ; le parcours forme désormais une boucle. Pour faciliter le retour après l’historique et les règles, un lien de retour a été ajouté, visible au clavier. La possibilité de quitter le jeu avec "Tab" est conservée pour éviter d’y bloquer le joueur. Enfin, le retour automatique vers une couleur est réservé au clavier : le toucher pour valdider une proposition avait provoqué l’ouverture involontaire d’une liste sur iPhone, comme expliqué dans les corrections.
+
+**Une installation simple, sans gestion du hors-ligne.** Le fichier `manifest.webmanifest` décrit le nom, les icônes et l’ouverture dans une fenêtre d’application. Ses chemins relatifs conservent le sous-dossier `/Mastermind/` sur GitHub Pages. Le module `installation.js` gère uniquement le guide et l’invitation fournie par le navigateur ; il ne lit ni ne modifie la partie. Aucun gestionnaire de cache (« service worker ») n’est ajouté, car il n’est pas nécessaire à cette installation et le hors-ligne reste facultatif. Le QR code et les icônes sont des fichiers du projet, sans service externe appelé par le jeu.
 
 ## Utiliser l’API commune 0.2
 
@@ -81,7 +97,24 @@ Un refus de proposition renseigne `lastError` sans consommer d’essai. Un déma
 
 ## Vérifications et preuves
 
-Les résultats ci-dessous distinguent les tests de Codex des retours de l’étudiant. Les identifiants courts comme `e0a9b55` permettent de retrouver une version dans Git. Le code du jeu et les deux fichiers de tests sont inchangés depuis cette version ; les sauvegardes suivantes concernent la documentation. La référence des essais publics du 21 novembre est `fe19d1e`. Dans les tableaux, « 2/0 » signifie deux couleurs bien placées et aucune mal placée.
+Les résultats ci-dessous distinguent les tests de Codex des retours de l’étudiant. Les identifiants courts comme `e0a9b55` permettent de retrouver une version dans Git. Les fichiers de logique `jeu.js`, `interface.js`, `api-test.js` et leurs deux fichiers de tests sont inchangés depuis cette version. L’ajout local de l’installation modifie la page, ses styles et le serveur de prévisualisation, avec des fichiers supplémentaires. La référence des essais publics du 21 novembre reste `fe19d1e`. Dans les tableaux, « 2/0 » signifie deux couleurs bien placées et aucune mal placée.
+
+### Préparation de l’installation — 25 novembre 2026
+
+**Version :** fichiers locaux modifiés à partir de `1881dff`, avant sauvegarde et publication. **Environnement :** Windows, Node.js 24.22.3 et Edge 158.0.4370.33 sans interface visible, avec un profil de test séparé.
+
+Le site public a répondu HTTP 200 mais ne liait encore ni manifeste ni icône dédiée. Les ajouts locaux ont ensuite fait l’objet de **14 contrôles dans Edge**, tous réussis. Les **47 tests automatiques du moteur et de l’API ont aussi été relancés et ont réussi, sans échec**.
+
+| Contrôle | Attendu | Observé et statut |
+| --- | --- | --- |
+| Manifeste, icônes et chemins de lancement. | Nom et dimensions corrects, ouverture en mode application, chemins compatibles avec `/Mastermind/`. | Manifeste lu sans erreur et aucun obstacle à l’installation signalé par Edge en local. Icônes PNG de 192, 512 et 180 pixels vérifiées. **Réussi pour ces contrôles techniques.** |
+| Invitation d’installation et guide. | Confirmation, annulation ou erreur expliquées ; le guide et la partie restent utilisables. | Les événements simulés ont donné les messages attendus sans modifier la partie. Guide ouvert par le lien et par `#installer`, également consultable sans JavaScript. **Réussi ; aucune installation système effectuée.** |
+| Affichage et clavier. | Guide lisible sans débordement horizontal ; flèches et lien de retour conservés. | Contrôles réussis à 320, 390 et 1280 pixels ; captures du guide examinées. **Réussi sur ordinateur, pas sur téléphone réel à cette étape.** |
+| QR code. | Ouvrir l’adresse publique avec `#installer`. | Décodage correct du PNG à trois tailles et du QR affiché dans les captures à 390 et 1280 pixels. **Réussi par décodage logiciel ; appareil photo du téléphone non essayé.** |
+| Jeu, API et serveur local. | Refus sans essai, proposition valide cohérente avec l’API, nouveaux fichiers servis et fichiers privés refusés. | Trois couleurs refusées ; quatre rouges contre rouge, rouge, bleu, vert donnent 2 bien placées et 0 mal placée au premier essai. Les treize fichiers publics et la page racine se chargent ; les fichiers privés restent inaccessibles. **Réussi.** |
+| Installation réelle sur les appareils. | Scanner, installer, retrouver le nom et l’icône puis jouer depuis l’application. | **Non effectué** sur iPhone, Android ou ordinateur. Les contrôles techniques ci-dessus ne remplacent pas cet essai réel. |
+
+**Après publication :** sur iPhone 16 avec Safari, scanner le QR code, suivre le guide, vérifier le nom et l’icône, ouvrir l’application et essayer une proposition incomplète, une valide et une nouvelle partie. Sur ordinateur, vérifier les mêmes points après installation avec Edge ou Chrome. Noter les versions des navigateurs, les résultats et les éventuelles différences avant de conclure sur l’installation réelle.
 
 ### Tests automatiques et contrôles de Codex
 
@@ -207,6 +240,7 @@ Les résultats valent pour les scénarios et environnements décrits. Ils ne con
 | `index.html`, `style.css` | Contenu et apparence de la page. |
 | `jeu.js` | Règles, état de la partie et calcul des indices. |
 | `interface.js`, `api-test.js` | Interactions et affichage ; adaptation au contrat de test commun. |
+| `manifest.webmanifest`, `installation.js`, `images/` | Description de l’application installable, guide et bouton d’installation, icônes et QR code. |
 | `jeu.test.mjs`, `api-test.test.mjs` | Tests automatiques des règles et de l’API avec le moteur réel. |
 | `serveur.mjs`, `lancer-jeu.cmd` | Prévisualisation locale ; seuls les fichiers du jeu sont servis. |
 | `AGENTS.md`, `doc/`, `.gitignore` | Consignes, sources et exclusions des fichiers privés ou propres à la machine. |
@@ -232,3 +266,4 @@ L’heure exacte de remise est à vérifier sur Cyberlearn. Le modèle de dépar
 - [API commune de test 0.2, édition Google 1.5](<doc/API commune de test — Code secret en couleurs.pdf>) : contrat des fonctions et des résultats, disponible dans le projet depuis le 17 novembre.
 - [Guide README, version 1.0](<doc/Rédiger un bon README.md — Guide général.pdf>).
 - [Guide AGENTS, version 1.0](<doc/Créer un bon fichier AGENTS.md — Guide général.pdf>).
+- Pour l’installation, références techniques consultées le 25 novembre 2026 : [critères de Chrome (web.dev)](https://web.dev/articles/install-criteria), [guide PWA de MDN](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable) et [ajout à l’écran d’accueil sur iPhone (Apple)](https://support.apple.com/guide/iphone/bookmark-a-website-iph42ab2f3a7/ios).

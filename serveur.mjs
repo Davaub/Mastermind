@@ -9,6 +9,14 @@ const fichiers = new Map([
   ['/interface.js', ['interface.js', 'text/javascript']],
   ['/jeu.js', ['jeu.js', 'text/javascript']],
   ['/api-test.js', ['api-test.js', 'text/javascript']],
+  ['/installation.js', ['installation.js', 'text/javascript']],
+  ['/manifest.webmanifest', ['manifest.webmanifest', 'application/manifest+json']],
+  ['/images/code-secret.svg', ['images/code-secret.svg', 'image/svg+xml']],
+  ['/images/code-secret-192.png', ['images/code-secret-192.png', 'image/png']],
+  ['/images/code-secret-512.png', ['images/code-secret-512.png', 'image/png']],
+  ['/images/apple-touch-icon.png', ['images/apple-touch-icon.png', 'image/png']],
+  ['/images/qr-code.png', ['images/qr-code.png', 'image/png']],
+  ['/images/qr-code.svg', ['images/qr-code.svg', 'image/svg+xml']],
 ]);
 
 const serveur = createServer(async (requete, reponse) => {
@@ -23,7 +31,7 @@ const serveur = createServer(async (requete, reponse) => {
   try {
     const contenu = await readFile(new URL(fichier[0], import.meta.url));
     reponse.writeHead(200, {
-      'Content-Type': `${fichier[1]}; charset=utf-8`,
+      'Content-Type': fichier[1] === 'image/png' ? fichier[1] : `${fichier[1]}; charset=utf-8`,
       'Cache-Control': 'no-store',
     });
     reponse.end(requete.method === 'HEAD' ? undefined : contenu);

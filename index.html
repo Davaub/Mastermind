@@ -6,9 +6,13 @@
     <meta name="theme-color" content="#234e42">
     <meta name="description" content="Retrouvez un code secret de quatre couleurs en dix essais. Un jeu solo de déduction, inspiré du Mastermind.">
     <title>Code secret — Le jeu de déduction</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" type="image/svg+xml" href="./images/code-secret.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="Code secret">
+    <link rel="manifest" href="./manifest.webmanifest">
     <link rel="stylesheet" href="./style.css">
     <script type="module" src="./interface.js"></script>
+    <script type="module" src="./installation.js"></script>
   </head>
   <body>
     <a class="lien-evitement" href="#proposition">Aller à la proposition</a>
@@ -20,6 +24,7 @@
         </div>
         <h1>Code secret<span aria-hidden="true">.</span></h1>
         <p>Quatre couleurs à retrouver.<br>Dix essais pour percer le secret.</p>
+        <a class="lien-installation" href="#installer">Installer le jeu sur mon appareil</a>
       </header>
 
       <main>
@@ -109,6 +114,35 @@
               <li>Vous gagnez avec quatre couleurs bien placées, même au dixième essai. Après dix propositions incorrectes, la partie est perdue.</li>
             </ol>
             <p>Après la fin, vos essais restent consultables. « Nouvelle partie » tire un code et efface essais, historique et indices.</p>
+          </div>
+        </details>
+        <details class="regles installation" id="installer">
+          <summary>Installer Code secret <span aria-hidden="true">+</span></summary>
+          <div>
+            <p>Retrouvez le jeu avec son icône sur votre écran d’accueil ou dans vos applications. L’installation est facultative ; vous pouvez continuer à jouer dans le navigateur. Une connexion Internet reste nécessaire pour ouvrir le jeu.</p>
+            <button class="bouton-principal" id="installer-application" type="button" hidden>Installer Code secret</button>
+            <p id="etat-installation" role="status" aria-live="polite" hidden></p>
+            <div class="guide-installation">
+              <div>
+                <h2>Sur iPhone ou iPad</h2>
+                <ol>
+                  <li>Ouvrez cette page dans <strong>Safari</strong>.</li>
+                  <li>Ouvrez le menu <strong>Partager</strong> (au besoin, passez par le menu de la page).</li>
+                  <li>Choisissez <strong>Sur l’écran d’accueil</strong>. Si l’option « Ouvrir comme app web » apparaît, activez-la.</li>
+                  <li>Vérifiez le nom <strong>Code secret</strong>, puis touchez <strong>Ajouter</strong>.</li>
+                </ol>
+                <h2>Sur Android ou ordinateur</h2>
+                <p>Dans <strong>Chrome ou Edge</strong>, utilisez le bouton d’installation ci-dessus s’il apparaît, ou cherchez « Installer » dans le menu du navigateur ou dans la barre d’adresse. Le nom de l’option varie selon la version.</p>
+                <p>Sur Mac avec Safari récent, utilisez <strong>Fichier → Ajouter au Dock</strong>. Si votre navigateur ne propose pas l’installation, ouvrez le jeu dans Chrome, Edge ou Safari sur un appareil compatible.</p>
+                <p>Après l’installation, ouvrez <strong>Code secret</strong> depuis sa nouvelle icône. Une nouvelle ouverture ou un rechargement démarre une nouvelle partie.</p>
+              </div>
+              <figure class="partage-qr">
+                <img src="./images/qr-code.png" width="240" height="240" alt="QR code vers le jeu public et son guide d’installation">
+                <figcaption>Scannez avec l’appareil photo de votre téléphone, puis ouvrez le lien proposé.</figcaption>
+                <p><a href="https://davaub.github.io/Mastermind/#installer">Ouvrir le jeu et son guide</a></p>
+                <a href="./images/qr-code.png" download="code-secret-qr.png">Télécharger le QR code</a>
+              </figure>
+            </div>
           </div>
         </details>
         <p class="retour-proposition"><a id="revenir-proposition" href="#proposition">Revenir à la proposition <span aria-hidden="true">↑</span></a></p>
